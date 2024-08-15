@@ -1,8 +1,8 @@
-import './styles/index.scss'
+import '@/styles/index.scss'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { App } from './views'
 import { BrowserRouter } from 'react-router-dom'
+import { App } from '@/views'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
