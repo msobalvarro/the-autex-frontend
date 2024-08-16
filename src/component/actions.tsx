@@ -11,7 +11,7 @@ export const ActionsComponent = ({ title, subtitle, onClickButton, textButton }:
 
       <div className='flex flex-row gap-4'>
         <InputSearch placeholder='search' />
-        <button className='py-3 px-6 outline-none bg-gray-600 text-white rounded-lg' onClick={onClickButton}>{textButton}</button>
+        <button className='py-3 px-6 outline-none bg-gray-800 text-white rounded-lg' onClick={onClickButton}>{textButton}</button>
       </div>
     </div>
   )

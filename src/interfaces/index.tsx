@@ -31,19 +31,20 @@ export interface Client {
   email: string
   documentId: string
   vehicules: Vehicule[]
+  createdAt?: Date
 }
 
 export interface Vehicule {
-  _id: string
+  _id?: string
   model?: VehiculeModel
   brand?: VehiculeBrands
   type: 'auto' | 'pickup' | 'ban' | 'truck' | 'motorcycle'
-  color: string
-  plate: string
-  motorNumber: string
-  chasisNumber: string
-  km: number
-  year: number
+  color?: string
+  plate?: string
+  motorNumber?: string
+  chasisNumber?: string
+  km?: number
+  year?: number
 }
 
 export interface EstimatePropierties {
@@ -58,4 +59,18 @@ export interface EstimatePropierties {
   inputCost?: number
   createdAt?: Date
   total?: number
+}
+
+export interface SelectionProps {
+  label: string
+  value: string | number
+}
+
+export interface SelectorComponentProps {
+  isDisabled?: boolean
+  isLoading?: boolean
+  isClearable?: boolean
+  isRtl?: boolean
+  isSearchable?: boolean
+  data: SelectionProps[]
 }
