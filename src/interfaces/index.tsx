@@ -1,3 +1,5 @@
+import { SingleValue } from 'react-select'
+
 export interface ActionsComponentProps {
   title: string
   subtitle: string
@@ -67,10 +69,24 @@ export interface SelectionProps {
 }
 
 export interface SelectorComponentProps {
+  placeholder?: string
+  className?: string
   isDisabled?: boolean
   isLoading?: boolean
   isClearable?: boolean
   isRtl?: boolean
   isSearchable?: boolean
+  onChange?: (value: SingleValue<SelectionProps>) => void
   data: SelectionProps[]
+}
+
+export interface ModalProps {
+  isOpen: boolean
+  setOpen: (value: boolean) => void
+  children: React.ReactElement,
+  iconComponent?: JSX.Element
+  title: string
+  subTitle: string
+  textSubmit?: string
+  containerClassesNames?: string
 }

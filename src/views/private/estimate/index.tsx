@@ -48,7 +48,7 @@ export const EstimateServiceView = () => {
         <TableComponent data={dataFiltered} />
       </div>
 
-      <NewEstimation isOpen={isOpenModal} setOpen={setOpen} />
+      {isOpenModal && <NewEstimation setOpen={setOpen} />}
     </LayoutComponent>
   )
 }

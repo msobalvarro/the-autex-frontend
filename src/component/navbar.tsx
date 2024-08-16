@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom'
 import { routes } from '../router'
 import { useState } from 'react'
+import clsx from 'clsx'
+
+const itemClassName = 'rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
 
 export const NavbarComponent = () => {
   const [isOpenMenu, setOpenMenu] = useState<boolean>(false)
+
+  const isActive = (route: string): boolean => `${window.location.pathname}`.search(route) > -1
 
   return (
     <nav className='bg-gray-800'>
@@ -15,11 +20,11 @@ export const NavbarComponent = () => {
             </div>
             <div className='hidden sm:ml-6 sm:block'>
               <div className='flex space-x-4'>
-                <Link to={routes.DIAGNOSTIC} className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>Diagnóstico</Link>
-                <Link to={routes.ESTIMATE_SERVICE} className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>Presupuesto</Link>
-                <Link to={routes.ORDER_SERVICE} className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>Orden de Servicio</Link>
-                <Link to={routes.CLIENTS} className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>Clientes</Link>
-                <Link to={routes.VEHICULES} className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>Vehiculos</Link>
+                <Link to={routes.DIAGNOSTIC} className={`${itemClassName}  ${clsx({ 'bg-gray-700': isActive(routes.DIAGNOSTIC) })}`}>Diagnóstico</Link>
+                <Link to={routes.ESTIMATE_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ESTIMATE_SERVICE) })}`}>Presupuesto</Link>
+                <Link to={routes.ORDER_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ORDER_SERVICE) })}`}>Orden de Servicio</Link>
+                <Link to={routes.CLIENTS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.CLIENTS) })}`}>Clientes</Link>
+                <Link to={routes.VEHICULES} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.VEHICULES) })}`}>Vehiculos</Link>
               </div>
             </div>
           </div>
