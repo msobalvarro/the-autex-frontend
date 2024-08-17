@@ -89,6 +89,7 @@ export interface ModalProps {
   subTitle: string
   textSubmit?: string
   containerClassesNames?: string
+  navButtonsOptions: NavButtonProps
 }
 
 export interface ActivityWithCostToDoItemEstimate {
