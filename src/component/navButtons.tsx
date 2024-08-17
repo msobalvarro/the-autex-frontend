@@ -9,7 +9,8 @@ export const NavButtons = ({
   onNextClick,
   onBackClick,
   onSuccess,
-  backText
+  backText,
+  renderNext
 }: NavButtonProps) => (
   <div className='bg-gray-100 px-4 py-3 sm:flex justify-end sm:px-6 gap-2 mt-6'>
     {renderBack && (
@@ -18,7 +19,7 @@ export const NavButtons = ({
       </button>
     )}
 
-    {!isFinally && (
+    {(!isFinally && renderNext) && (
       <button
         onClick={onNextClick}
         disabled={nextDisabled}
@@ -31,7 +32,7 @@ export const NavButtons = ({
       </button>
     )}
 
-    {isFinally && (
+    {(isFinally || renderNext) && (
       <button
         disabled={nextDisabled}
         onClick={onSuccess}

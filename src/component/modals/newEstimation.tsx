@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ActivityWithCostToDoItemEstimate, Client, SelectionProps } from '@/interfaces'
+import { ActivityWithCostToDoItemEstimate, Client, SelectionProps, Vehicule } from '@/interfaces'
 import { CustomModal, ModalMinimalProps } from '@/component/modals/layout'
 import { InputsGroupAddNewData } from '@/component/estimate/inputsGorupEstimate'
 import { TableRepresentation } from '@/component/estimate/tableRepresentation'
@@ -61,7 +61,16 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
       const indexFinded = [...dataClients].findIndex((c: Client) => c._id === clientSelected)
 
       if (indexFinded > -1) {
-        setCarsList(dataClients[indexFinded]?.['vehicules'])
+        const vehicules: SelectionProps[] = []
+        if (Array.isArray((dataClients[indexFinded]?.['vehicules']))) {
+          [...(dataClients[indexFinded]?.['vehicules'])].map((vehicule: Vehicule) => {
+            vehicules.push({
+              label: `${vehicule.brand?.description} ${vehicule.brand?.description} ${vehicule.plate}`,
+              value: String(vehicule._id)
+            })
+          })
+        }
+        setCarsList(vehicules)
       }
     }
   }, [clientSelected])

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { IoMdMore } from 'react-icons/io'
 
 interface MenuProps {
-  options: TableSubMenuProps[]
+  options?: TableSubMenuProps[]
   item: object
 }
 

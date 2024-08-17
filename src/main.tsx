@@ -12,6 +12,6 @@ createRoot(document.getElementById('root')!).render(
       <App />
     </BrowserRouter>
 
-    <ToastContainer />
+    <ToastContainer hideProgressBar  />
   </StrictMode>
 )

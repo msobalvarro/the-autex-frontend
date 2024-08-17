@@ -1,7 +1,7 @@
 import { TableProps } from '@/interfaces'
 import { MenuOptions } from './option'
 
-export const TableComponent = ({ data, renderEnum, renderOptions }: TableProps) => {
+export const TableComponent = ({ data, renderEnum, renderOptions, options }: TableProps) => {
   if (!Array.isArray(data)) return null
   const firtRow = Array.isArray(data) ? data?.[0] : {}
 
@@ -11,7 +11,7 @@ export const TableComponent = ({ data, renderEnum, renderOptions }: TableProps) 
         <thead>
           <tr>
             {renderEnum && (<th />)}
-            {Object.keys(firtRow).map((key) => (
+            {Object.keys(firtRow).map((key) => key !== '__item' && (
               <th
                 key={key}
                 className='py-4 px-6 text-left uppercase tracking-wider text-xs font-semibold'>
@@ -28,22 +28,19 @@ export const TableComponent = ({ data, renderEnum, renderOptions }: TableProps) 
               key={crypto.randomUUID()}
               className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-gray-100 transition-colors duration-300`}>
               {renderEnum && (<td className='text-right text-gray-700 text-sm font-bold'>{index + 1}</td>)}
-              {Object.values(item).map((value) => (
+
+              {Object.keys(item).map((key) => key !== '__item' && (
                 <td
                   key={crypto.randomUUID()}
                   className='py-4 px-6 text-gray-700 text-sm'>
-                  {String(value)}
+                  {`${item?.[key]}`}
                 </td>
               ))}
+
               {renderOptions && (
                 <MenuOptions
-                  item={item}
-                  options={[
-                    {
-                      label: 'Eliminar',
-                      onClick: (e) => console.log(e)
-                    }
-                  ]} />
+                  item={item['__item']}
+                  options={options} />
               )}
             </tr>
           ))}

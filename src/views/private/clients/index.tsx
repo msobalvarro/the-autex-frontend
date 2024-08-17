@@ -1,14 +1,17 @@
 import { ActionsComponent } from '@/component/actions'
 import { LayoutComponent } from '@/component/layout'
 import { TableComponent } from '@/component/table'
-import { Client } from '@/interfaces'
+import { Client, Vehicule } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+import { AssignVehiculeToClient } from '@/component/modals/assignVehiculeToClient'
 
 
 export const ClientView = () => {
+  const [isOpenModal, setOpenModal] = useState<boolean>(false)
+  const [clientSelected, setClient] = useState<Client | null>(null)
   const [filter, setFilter] = useState<string>('')
   const [dataFiltered, setData] = useState<object[]>()
   const { data } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
@@ -28,8 +31,8 @@ export const ClientView = () => {
         'Correo Electrónico': item.email,
         'Numero Telefónico': item.phoneNumber,
         'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),
-      }))
-      )
+        '__item': item
+      })))
     }
   }, [filter, data])
 
@@ -43,8 +46,23 @@ export const ClientView = () => {
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1 bg-white'>
-        <TableComponent data={dataFiltered} />
+        <TableComponent
+          renderEnum
+          renderOptions
+          options={[
+            {
+              label: 'Asignar vehículo',
+              onClick: (e: Client) => {
+                setClient(e)
+                setOpenModal(true)
+              }
+            }
+          ]}
+          data={dataFiltered} />
       </div>
+
+      {(isOpenModal && clientSelected) && <AssignVehiculeToClient client={clientSelected} setOpen={setOpenModal} />}
+
     </LayoutComponent>
   )
 }

@@ -11,4 +11,5 @@ export const Endpoints = {
   GET_ALL_VEHICULE: 'vehicule/getAll',
   GET_ALL_CLIENTS: 'clients/getAll',
   GET_ALL_CLIENTS_WITH_CARS: 'clients/getAllWithCars',
+  ASSIGN_VEHICULE_TO_CLIENT: 'vehicule/assignVehiculeToClient'
 }

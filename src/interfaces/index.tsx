@@ -96,6 +96,7 @@ export interface NavButtonProps {
   backText?: string
   nextDisabled?: boolean
   renderBack?: boolean
+  renderNext?: boolean
   isFinally?: boolean
   createText?: string
   onNextClick?: () => void
@@ -107,7 +108,7 @@ export interface TableProps {
   data?: Object[] | null
   renderEnum?: boolean
   renderOptions?: boolean
-  options?: () => void
+  options?: TableSubMenuProps[]
 }
 
 export interface TableSubMenuProps {
