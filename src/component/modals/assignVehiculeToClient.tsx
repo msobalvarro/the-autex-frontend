@@ -12,7 +12,7 @@ interface Props extends ModalMinimalProps {
   client: Client
 }
 
-export const AssignVehiculeToClient = ({ setOpen, client }: Props) => {
+export const AssignVehiculeToClient = ({ setOpen, client, onUpdate }: Props) => {
   const [isLoading, setLoading] = useState<boolean>(false)
   const { data: allVehicules, loading } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
 
@@ -29,6 +29,7 @@ export const AssignVehiculeToClient = ({ setOpen, client }: Props) => {
         throw new Error('Lo siento, algo ha salido mal')
       }
 
+      onUpdate?.()
       toast.info(`Vehiculo asignado a ${client.name}`)
       setOpen(false)
     } catch (error) {

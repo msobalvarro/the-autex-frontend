@@ -38,6 +38,15 @@ export interface Client {
   createdAt?: Date
 }
 
+export interface NewClientProps {
+  lastName: string
+  name: string
+  type: string
+  phoneNumber: string
+  email: string
+  documentId: string
+}
+
 export interface Vehicule {
   _id?: string
   model?: VehiculeModel

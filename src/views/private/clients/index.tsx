@@ -1,20 +1,22 @@
 import { ActionsComponent } from '@/component/actions'
 import { LayoutComponent } from '@/component/layout'
 import { TableComponent } from '@/component/table'
-import { Client, Vehicule } from '@/interfaces'
+import { Client } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
 import { AssignVehiculeToClient } from '@/component/modals/assignVehiculeToClient'
-
+import { Loader } from '@/component/loading'
+import { NewClient } from '@/component/modals/newClient'
+import dayjs from 'dayjs'
 
 export const ClientView = () => {
-  const [isOpenModal, setOpenModal] = useState<boolean>(false)
+  const [isOpenModalNewClient, setOpenModalCient] = useState<boolean>(false)
+  const [isOpenModalAssignVehicule, setOpenModalVehicule] = useState<boolean>(false)
   const [clientSelected, setClient] = useState<Client | null>(null)
   const [filter, setFilter] = useState<string>('')
   const [dataFiltered, setData] = useState<object[]>()
-  const { data } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
+  const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
 
   useEffect(() => {
     if (data) {
@@ -31,6 +33,7 @@ export const ClientView = () => {
         'Correo Electrónico': item.email,
         'Numero Telefónico': item.phoneNumber,
         'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),
+        'Vehiculos': item.vehicules.length,
         '__item': item
       })))
     }
@@ -39,10 +42,10 @@ export const ClientView = () => {
   return (
     <LayoutComponent>
       <ActionsComponent
-        textButton='Crear Presupuesto'
-        title='Presupuesto'
-        subtitle='Visualiza y gestiona todos los presupuestos registrados'
-        onClickButton={() => { }}
+        textButton='Crear Cliente'
+        title='Clientes'
+        subtitle='Visualiza y gestiona todos clientes registrados'
+        onClickButton={() => setOpenModalCient(true)}
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1 bg-white'>
@@ -54,14 +57,23 @@ export const ClientView = () => {
               label: 'Asignar vehículo',
               onClick: (e: Client) => {
                 setClient(e)
-                setOpenModal(true)
+                setOpenModalVehicule(true)
               }
             }
           ]}
           data={dataFiltered} />
       </div>
 
-      {(isOpenModal && clientSelected) && <AssignVehiculeToClient client={clientSelected} setOpen={setOpenModal} />}
+      {(isOpenModalAssignVehicule && clientSelected) && (
+        <AssignVehiculeToClient
+          onUpdate={refetch}
+          client={clientSelected}
+          setOpen={setOpenModalVehicule} />
+      )}
+
+      {isOpenModalNewClient && <NewClient onUpdate={refetch} setOpen={setOpenModalCient} />}
+
+      <Loader active={loading} />
 
     </LayoutComponent>
   )

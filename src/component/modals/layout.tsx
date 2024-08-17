@@ -4,7 +4,7 @@ import { NavButtons } from '@/component/navButtons'
 import { MdOutlineClose } from 'react-icons/md'
 
 export interface ModalMinimalProps {
-  onUpdate: () => void
+  onUpdate?: () => void
   isOpen?: boolean
   setOpen: (value: boolean) => void
 }
@@ -28,7 +28,7 @@ export const CustomModal = ({
           <div className='flex flex-col gap-8'>
             <div className='flex gap-2'>
               {(iconComponent) && (
-                <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 sm:mx-0 sm:h-10 sm:w-10'>
+                <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200  text-gray-800 sm:mx-0 sm:h-10 sm:w-10'>
                   {iconComponent}
                 </div>
               )}

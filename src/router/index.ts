@@ -13,4 +13,5 @@ export const Endpoints = {
   GET_ALL_CLIENTS_WITH_CARS: 'clients/getAllWithCars',
   ASSIGN_VEHICULE_TO_CLIENT: 'vehicule/assignVehiculeToClient',
   CREATE_ESTIMATION: '/estimate/create',
+  CREATE_CLIENT: 'clients/create',
 }

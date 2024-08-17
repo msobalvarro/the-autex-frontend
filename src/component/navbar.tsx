@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
 import { routes } from '../router'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import clsx from 'clsx'
 
 const itemClassName = 'rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
 
 export const NavbarComponent = () => {
   const [isOpenMenu, setOpenMenu] = useState<boolean>(false)
-
-  const isActive = (route: string): boolean => `${window.location.pathname}`.search(route) > -1
+  const location = useLocation()
+  const isActive = (route: string): boolean => `${location.pathname}`.search(route) > -1
 
   return (
     <nav className='bg-gray-800'>
