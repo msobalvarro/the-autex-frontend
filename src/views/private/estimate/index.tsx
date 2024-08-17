@@ -3,6 +3,7 @@ import { ActionsComponent } from '@/component/actions'
 import { LayoutComponent } from '@/component/layout'
 import { TableComponent } from '@/component/table'
 import { EstimatePropierties } from '@/interfaces'
+import { Loader } from '@/component/loading'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
@@ -13,7 +14,7 @@ export const EstimateServiceView = () => {
   const [isOpenModal, setOpen] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const [dataFiltered, setData] = useState<object[]>()
-  const { data } = useAxios({ endpoint: Endpoints.GET_ALL_ESTIMATIONS })
+  const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_ESTIMATIONS })
 
   useEffect(() => {
     if (data) {
@@ -48,7 +49,9 @@ export const EstimateServiceView = () => {
         <TableComponent renderEnum data={dataFiltered} />
       </div>
 
-      {isOpenModal && <NewEstimation setOpen={setOpen} />}
+      <Loader active={loading} />
+
+      {isOpenModal && <NewEstimation onUpdate={refetch} setOpen={setOpen} />}
     </LayoutComponent>
   )
 }

@@ -9,6 +9,8 @@ import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { RiCalculatorFill } from 'react-icons/ri'
 import { IoCheckmarkSharp } from 'react-icons/io5'
+import { toast } from 'react-toastify'
+import { axiosInstance } from '@/utils/http'
 
 
 interface ListRepresentationProps {
@@ -30,10 +32,11 @@ const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentation
 
 const Icon = <RiCalculatorFill className='text-gray-600 text-xl' />
 
-export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
+export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
+  const [isLoading, setLoading] = useState<boolean>(false)
   const [currentSteps, setSteps] = useState<number>(1)
   const [clientSelected, setClient] = useState<string | null>(null)
-  const [carSelected, setCar] = useState<string | null>(null)
+  const [vehiculeSelected, setVehicule] = useState<string | null>(null)
   const [clientList, setClientList] = useState<SelectionProps[]>([])
   const [carsList, setCarsList] = useState<SelectionProps[]>([])
   const [acitivities, setAcitivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
@@ -69,6 +72,39 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
     ))
   }
 
+  const onCreateEstimation = async () => {
+    setLoading(true)
+
+    try {
+      const data = {
+        "clientId": clientSelected,
+        "vehiculeId": vehiculeSelected,
+        "laborCost": sums.ACTIVITY,
+        "partsCost": sums.PARTS,
+        "inputCost": sums.OTHER,
+        "total": _.sum(Object.values(sums)),
+        "activitiesToDo": acitivities,
+        "requiredParts": partsRequired,
+        "otherRequirements": otherRequirements
+      }
+
+      const response = await axiosInstance.post(Endpoints.CREATE_ESTIMATION, data)
+
+      if (response.status !== 200) {
+        throw new Error(`Ha ocurido un error ${String(response.data)}`)
+      }
+
+      toast.success('Presupuesto creado')
+
+      setOpen(false)
+      onUpdate()
+    } catch (error) {
+      toast.error(String(error))
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     if (dataClients && Array.isArray(dataClients)) {
       setClientList([...dataClients]?.map((item: Client) => ({
@@ -101,7 +137,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
   const disabledValidationFirstStep = (
     currentSteps === 1 && (
       acitivities.length === 0
-      || carSelected === null
+      || vehiculeSelected === null
       || clientSelected === null
     )
   )
@@ -132,6 +168,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
         createText: 'Crear Presupuesto',
         isFinally: currentSteps === 4,
         renderNext: true,
+        onSuccess: onCreateEstimation,
         onNextClick: () => setSteps(step => step + 1),
         onBackClick: () => setSteps(step => step - 1),
         nextDisabled: (disabledValidationFirstStep),
@@ -153,7 +190,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                 <CustomSelectOption
                   isDisabled={!clientSelected}
                   placeholder='Vehículo'
-                  onChange={(e) => setCar(String(e?.value))}
+                  onChange={(e) => setVehicule(String(e?.value))}
                   className='flex-1'
                   data={carsList} />
               </div>
@@ -173,7 +210,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
 
         {currentSteps === 2 && (
           <ListRepresentation
-            title='Partes Principaes Requeridas'
+            title='Partes Principales Requeridas'
             list={partsRequired}
             onRemove={removeParts}
             onAdd={addParts} />
@@ -189,7 +226,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
 
         {currentSteps === 4 && (
           <>
-            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-4 px-20'>
               <p className='text-lg text-gray-600 uppercase'>Resumen Total</p>
 
               <div className='flex'>

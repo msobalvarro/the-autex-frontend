@@ -4,6 +4,7 @@ import { NavButtons } from '@/component/navButtons'
 import { MdOutlineClose } from 'react-icons/md'
 
 export interface ModalMinimalProps {
+  onUpdate: () => void
   isOpen?: boolean
   setOpen: (value: boolean) => void
 }
