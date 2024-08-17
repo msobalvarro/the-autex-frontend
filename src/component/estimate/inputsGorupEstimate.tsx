@@ -16,20 +16,26 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
   const [dataForm, setDataForm] = useState<ActivityWithCostToDoItemEstimate>({
     description: '',
     unitCost: 0,
+    quantity: 0,
     total: 0
   })
 
   const handledClick = () => {
-    if (dataForm.description?.length > 6) {
+    if (String(dataForm.description)?.length > 6) {
       const uuid= crypto.randomUUID()
       
       // add data
-      onAdd({...dataForm, uuid})
+      onAdd({
+        ...dataForm,
+        total: Number(dataForm.unitCost) * Number(dataForm.quantity),
+        uuid
+      })
 
       // clear all fields
       setDataForm({
         description: '',
         unitCost: 0,
+        quantity: 0,
         total: 0,
         uuid
       })
@@ -75,12 +81,12 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
               setDataForm(
                 v => ({
                   ...v,
-                  total: Number(currentTarget.value)
+                  quantity: Number(currentTarget.value)
                 })
               )}
-          value={String(dataForm.total)}
+          value={String(dataForm.quantity)}
           placeholder='Total' />
-        <span className='ml-2 text-gray-500'>Total</span>
+        <span className='ml-2 text-gray-500'>Cantidad</span>
       </label>
 
       <button className='p-4 text-lg bg-gray-200 hover:bg-gray-400 rounded' onClick={handledClick}>

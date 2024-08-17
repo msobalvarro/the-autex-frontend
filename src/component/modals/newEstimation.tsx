@@ -77,15 +77,15 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
     try {
       const data = {
-        "clientId": clientSelected,
-        "vehiculeId": vehiculeSelected,
-        "laborCost": sums.ACTIVITY,
-        "partsCost": sums.PARTS,
-        "inputCost": sums.OTHER,
-        "total": _.sum(Object.values(sums)),
-        "activitiesToDo": acitivities,
-        "requiredParts": partsRequired,
-        "otherRequirements": otherRequirements
+        'clientId': clientSelected,
+        'vehiculeId': vehiculeSelected,
+        'laborCost': sums.ACTIVITY,
+        'partsCost': sums.PARTS,
+        'inputCost': sums.OTHER,
+        'total': _.sum(Object.values(sums)),
+        'activitiesToDo': acitivities,
+        'requiredParts': partsRequired,
+        'otherRequirements': otherRequirements
       }
 
       const response = await axiosInstance.post(Endpoints.CREATE_ESTIMATION, data)
@@ -95,7 +95,6 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       }
 
       toast.success('Presupuesto creado')
-
       setOpen(false)
       onUpdate()
     } catch (error) {
@@ -171,7 +170,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
         onSuccess: onCreateEstimation,
         onNextClick: () => setSteps(step => step + 1),
         onBackClick: () => setSteps(step => step - 1),
-        nextDisabled: (disabledValidationFirstStep),
+        nextDisabled: (disabledValidationFirstStep || isLoading),
         renderBack: currentSteps > 1,
       }}
       iconComponent={Icon}>

@@ -10,8 +10,9 @@ export interface ActionsComponentProps {
 
 export interface ActivityWithCostToDoItemEstimate {
   uuid?: string
-  description: string
+  description?: string
   unitCost?: number
+  quantity?: number
   total?: number
 }
 
