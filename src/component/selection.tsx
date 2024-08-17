@@ -17,8 +17,10 @@ export const CustomSelectOption = ({
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
-          borderWidth: 1.5,
-          borderColor: state.isFocused ? '#1f2937' : '#CCC',
+          borderWidth: 1,
+          paddingTop: 6,
+          paddingBottom: 6,
+          borderColor: state.isFocused ? '#1f2937' : '#e5e7eb',
           boxShadow: 'none',
           borderRadius: 5,
         }),

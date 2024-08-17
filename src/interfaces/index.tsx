@@ -90,3 +90,20 @@ export interface ModalProps {
   textSubmit?: string
   containerClassesNames?: string
 }
+
+export interface ActivityWithCostToDoItemEstimate {
+  description?: string
+  unitCost?: number
+  total?: number
+}
+
+export interface NavButtonProps {
+  backText?: string
+  nextDisabled?: boolean
+  renderBack?: boolean
+  isFinally?: boolean
+  createText?: string
+  onNextClick?: () => void
+  onBackClick?: () => void
+  onSuccess?: () => void
+}

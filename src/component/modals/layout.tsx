@@ -1,5 +1,6 @@
 import { ModalProps } from '@/interfaces'
 import { createPortal } from 'react-dom'
+import { NavButtons } from '../navButtons'
 
 export interface ModalMinimalProps {
   isOpen?: boolean
@@ -9,12 +10,10 @@ export interface ModalMinimalProps {
 
 export const CustomModal = ({
   isOpen,
-  setOpen,
   children,
   iconComponent,
   title,
   subTitle,
-  textSubmit,
   containerClassesNames
 }: ModalProps) => {
   if (!isOpen) return null
@@ -43,10 +42,7 @@ export const CustomModal = ({
           </div>
         </div>
 
-        <div className='bg-gray-100 px-4 py-3 sm:flex justify-end sm:px-6 gap-2 mt-6'>
-          <button type='button' className='inline-flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-white sm:w-auto' onClick={() => setOpen(false)}>Cancelar</button>
-          <button type='button' className='inline-flex w-full justify-center rounded-md bg-gray-800 px-3 py-2 text-white sm:w-auto'>{textSubmit || 'Enviar'}</button>
-        </div>
+        <NavButtons />
       </div>
     </div>
   ), document.body)
