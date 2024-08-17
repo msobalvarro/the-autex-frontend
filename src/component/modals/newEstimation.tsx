@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { ActivityWithCostToDoItemEstimate, Client, SelectionProps, Vehicule } from '@/interfaces'
 import { CustomModal, ModalMinimalProps } from '@/component/modals/layout'
@@ -7,17 +8,22 @@ import { CustomSelectOption } from '@/component/selection'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { RiCalculatorFill } from 'react-icons/ri'
+import { IoCheckmarkSharp } from 'react-icons/io5'
+
 
 interface ListRepresentationProps {
   onAdd: (e: ActivityWithCostToDoItemEstimate) => void
+  onRemove: (e: ActivityWithCostToDoItemEstimate) => void
   list: ActivityWithCostToDoItemEstimate[]
   title: string
 }
 
-const ListRepresentation = ({ list, onAdd, title }: ListRepresentationProps) => (
+const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentationProps) => (
   <div className='flex flex-col gap-4'>
     <p className='text-lg text-gray-600 uppercase'>{title}</p>
-    {list.length > 0 && <TableRepresentation list={list} />}
+    {list.length > 0 && (
+      <TableRepresentation onRemoveItems={onRemove} list={list} />
+    )}
     <InputsGroupAddNewData onAdd={onAdd} />
   </div>
 )
@@ -39,12 +45,28 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
     setAcitivities([...acitivities, activity])
   }
 
+  const removeActivity = (activity: ActivityWithCostToDoItemEstimate) => {
+    setAcitivities(_.remove(acitivities, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid))
+  }
+
   const addParts = (activity: ActivityWithCostToDoItemEstimate) => {
-    setPartRequires([...acitivities, activity])
+    setPartRequires([...partsRequired, activity])
+  }
+
+  const removeParts = (activity: ActivityWithCostToDoItemEstimate) => {
+    setPartRequires(_.remove(partsRequired,
+      ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid
+    ))
   }
 
   const addOtherRequirements = (activity: ActivityWithCostToDoItemEstimate) => {
-    setOtherRequirements([...acitivities, activity])
+    setOtherRequirements([...otherRequirements, activity])
+  }
+
+  const removeRequirements = (activity: ActivityWithCostToDoItemEstimate) => {
+    setOtherRequirements(_.remove(otherRequirements,
+      ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid
+    ))
   }
 
   useEffect(() => {
@@ -93,6 +115,12 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
     }
   }
 
+  const sums = {
+    ACTIVITY: _.sumBy(partsRequired, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
+    PARTS: _.sumBy(partsRequired, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
+    OTHER: _.sumBy(otherRequirements, (e: ActivityWithCostToDoItemEstimate) => Number(e.total))
+  }
+
   return (
     <CustomModal
       isOpen={true}
@@ -103,6 +131,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
       navButtonsOptions={{
         createText: 'Crear Presupuesto',
         isFinally: currentSteps === 4,
+        renderNext: true,
         onNextClick: () => setSteps(step => step + 1),
         onBackClick: () => setSteps(step => step - 1),
         nextDisabled: (disabledValidationFirstStep),
@@ -134,16 +163,68 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
               )}
             </div>
 
-            <ListRepresentation title='Actividades Previstas a Realizar' list={acitivities} onAdd={addActivity} />
+            <ListRepresentation
+              title='Actividades Previstas a Realizar'
+              list={acitivities}
+              onRemove={removeActivity}
+              onAdd={addActivity} />
           </>
         )}
 
         {currentSteps === 2 && (
-          <ListRepresentation title='Partes Principaes Requeridas' list={partsRequired} onAdd={addParts} />
+          <ListRepresentation
+            title='Partes Principaes Requeridas'
+            list={partsRequired}
+            onRemove={removeParts}
+            onAdd={addParts} />
         )}
 
         {currentSteps === 3 && (
-          <ListRepresentation title='Resultado de Comprobaciones Realizadas' list={otherRequirements} onAdd={addOtherRequirements} />
+          <ListRepresentation
+            title='Otros Requerimientos'
+            list={otherRequirements}
+            onRemove={removeRequirements}
+            onAdd={addOtherRequirements} />
+        )}
+
+        {currentSteps === 4 && (
+          <>
+            <div className='flex flex-col gap-4'>
+              <p className='text-lg text-gray-600 uppercase'>Resumen Total</p>
+
+              <div className='flex'>
+                <div className='flex flex-col gap-4'>
+                  <div className='flex gap-2'>
+                    <IoCheckmarkSharp />
+                    <p>
+                      Precio total Por Mano de obra ({acitivities.length}) [total: {sums.ACTIVITY}]
+                    </p>
+                  </div>
+
+                  <div className='flex gap-2'>
+                    <IoCheckmarkSharp />
+                    <p>
+                      Precio por repuestos ({partsRequired.length}) [total: {sums.ACTIVITY}]
+                    </p>
+                  </div>
+
+                  <div className='flex gap-2'>
+                    <IoCheckmarkSharp />
+                    <p>
+                      Insumos ({otherRequirements.length}) [total: {sums.OTHER}]
+                    </p>
+                  </div>
+                </div>
+
+                <div className='text-center flex-1'>
+                  <p className='text-6xl text-gray-800'>
+                    C$ {_.sum(Object.values(sums))}
+                  </p>
+                  <p className='text-xl font-bold text-gray-400'>Precio total</p>
+                </div>
+              </div>
+            </div>
+          </>
         )}
       </>
     </CustomModal>

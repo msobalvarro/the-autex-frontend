@@ -25,14 +25,14 @@ export const NavButtons = ({
         disabled={nextDisabled}
         type='button'
         className={`inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-white sm:w-auto ${clsx({
-          'bg-gray-400': nextDisabled,
+          'bg-gray-300': nextDisabled,
           'bg-gray-600': !nextDisabled,
         })}`}>
         Continuar
       </button>
     )}
 
-    {(isFinally || renderNext) && (
+    {(isFinally) && (
       <button
         disabled={nextDisabled}
         onClick={onSuccess}

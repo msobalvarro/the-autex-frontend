@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 
 interface TableProps {
   list: ActivityWithCostToDoItemEstimate[]
+  onRemoveItems: (item: ActivityWithCostToDoItemEstimate) => void
 }
 
-export const TableRepresentation = ({ list }: TableProps) => {
+export const TableRepresentation = ({ list, onRemoveItems }: TableProps) => {
   const [dataFormated, setData] = useState<object[]>([])
 
   useEffect(() => {
@@ -15,6 +16,7 @@ export const TableRepresentation = ({ list }: TableProps) => {
         'Descripción': item.description,
         'Costo unitario': item.unitCost,
         'Total': item.total,
+        '__item': item,
       })))
     }
   }, [list])
@@ -22,7 +24,16 @@ export const TableRepresentation = ({ list }: TableProps) => {
 
   if (dataFormated.length) {
     return (
-      <TableComponent renderEnum renderOptions data={dataFormated} />
+      <TableComponent
+        renderEnum
+        renderOptions
+        options={[
+          {
+            label: 'Eliminar',
+            onClick: (e: ActivityWithCostToDoItemEstimate) => onRemoveItems(e)
+          }
+        ]}
+        data={dataFormated} />
     )
   }
 

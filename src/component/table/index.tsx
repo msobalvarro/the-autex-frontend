@@ -7,7 +7,7 @@ export const TableComponent = ({ data, renderEnum, renderOptions, options }: Tab
 
   return (
     <div className='overflow-visible'>
-      <table className='min-w-full bg-white border-collapse rounded-lg shadow-lg'>
+      <table className='min-w-full bg-white border-collapse rounded-lg'>
         <thead>
           <tr>
             {renderEnum && (<th />)}

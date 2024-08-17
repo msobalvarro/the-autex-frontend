@@ -16,22 +16,25 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
   const [dataForm, setDataForm] = useState<ActivityWithCostToDoItemEstimate>({
     description: '',
     unitCost: 0,
-    total: 0,
+    total: 0
   })
 
   const handledClick = () => {
-    if (dataForm.description?.length > 10) {
+    if (dataForm.description?.length > 6) {
+      const uuid= crypto.randomUUID()
+      
       // add data
-      onAdd(dataForm)
+      onAdd({...dataForm, uuid})
 
       // clear all fields
       setDataForm({
         description: '',
         unitCost: 0,
         total: 0,
+        uuid
       })
     } else {
-      toast.warning('Ingrese una descripción')
+      toast.warning('Ingrese una descripción (Minimo 6 caracteres)')
     }
   }
 
@@ -46,7 +49,7 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
               description: currentTarget.value
             }))
           } />
-        <span className='ml-2 text-gray-500'>Descripción</span>
+        <span className='ml-2 text-gray-500'>Descripción *</span>
       </label>
 
       <label className='flex flex-col w-1/5'>
