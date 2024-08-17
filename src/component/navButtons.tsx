@@ -32,8 +32,12 @@ export const NavButtons = ({
     )}
 
     {isFinally && (
-      <button disabled={nextDisabled} onClick={onSuccess} type='button' className='inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-white sm:w-auto'>
-        {createText || 'Cear'}
+      <button
+        disabled={nextDisabled}
+        onClick={onSuccess}
+        type='button'
+        className='inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-white sm:w-auto'>
+        {createText || 'Guardar'}
       </button>
     )}
   </div>

@@ -5,7 +5,7 @@ export const useValidation = () => {
   const validatePhoneNumber = (value: string) =>
     (verifyRegex(REGEX_NUM, value) && value.length <= 10)
 
-  const validatNumber = (value: string) => verifyRegex(REGEX_NUM, value)
+  const validateNumber = (value: string) => verifyRegex(REGEX_NUM, value)
 
   const validatePhoneNumberLength = (value: string) => value.length === 10
 
@@ -18,6 +18,6 @@ export const useValidation = () => {
     validateName,
     validateEmail,
     validatePhoneNumberLength,
-    validatNumber
+    validateNumber
   }
 }

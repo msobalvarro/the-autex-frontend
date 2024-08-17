@@ -9,7 +9,7 @@ export interface ActionsComponentProps {
 }
 
 export interface ActivityWithCostToDoItemEstimate {
-  description?: string
+  description: string
   unitCost?: number
   total?: number
 }
@@ -92,12 +92,6 @@ export interface ModalProps {
   navButtonsOptions: NavButtonProps
 }
 
-export interface ActivityWithCostToDoItemEstimate {
-  description?: string
-  unitCost?: number
-  total?: number
-}
-
 export interface NavButtonProps {
   backText?: string
   nextDisabled?: boolean
@@ -108,3 +102,15 @@ export interface NavButtonProps {
   onBackClick?: () => void
   onSuccess?: () => void
 }
+
+export interface TableProps {
+  data?: Object[] | null
+  renderEnum?: boolean
+  renderOptions?: boolean
+  options?: () => void
+}
+
+export interface TableSubMenuProps {
+  label: string
+  onClick?: (e:any) => void
+} 

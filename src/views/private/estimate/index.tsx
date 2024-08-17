@@ -45,7 +45,7 @@ export const EstimateServiceView = () => {
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1 bg-white'>
-        <TableComponent data={dataFiltered} />
+        <TableComponent renderEnum renderOptions data={dataFiltered} />
       </div>
 
       {isOpenModal && <NewEstimation setOpen={setOpen} />}

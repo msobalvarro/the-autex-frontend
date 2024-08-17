@@ -15,11 +15,10 @@ interface ListRepresentationProps {
 }
 
 const ListRepresentation = ({ list, onAdd, title }: ListRepresentationProps) => (
-  <div className='flex flex-col gap-1'>
-    <p className='text-lg text-gray-400 uppercase'>{title}</p>
-    <InputsGroupAddNewData onAdd={onAdd} />
-
+  <div className='flex flex-col gap-4'>
+    <p className='text-lg text-gray-600 uppercase'>{title}</p>
     {list.length > 0 && <TableRepresentation list={list} />}
+    <InputsGroupAddNewData onAdd={onAdd} />
   </div>
 )
 
@@ -71,14 +70,14 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
   const disabledValidationFirstStep = (
     currentSteps === 1 && (
       acitivities.length === 0
-      // || carSelected === null
+      || carSelected === null
       || clientSelected === null
     )
   )
 
   const renderSubtitle = (): string => {
     switch (currentSteps) {
-      case 1: return 'Selecciona el cliente y la unidad'
+      case 1: return 'Selecciona el cliente, vehículo e ingresa todas las actividades'
       case 2: return 'Ingresa las partes principales requiridas'
       case 3: return 'Ingresa otros requerimientos'
       default: return 'Resumen del Presupuesto'

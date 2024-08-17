@@ -1,10 +1,9 @@
 import clsx from 'clsx'
-import React, { HTMLProps, InputHTMLAttributes, useState } from 'react'
+import { useState, InputHTMLAttributes } from 'react'
 import { IoIosSearch } from 'react-icons/io'
 
-export const InputSearch = ({ placeholder }: HTMLInputElement) => {
+export const InputSearch = ({ placeholder }: InputHTMLAttributes<HTMLInputElement>) => {
   const [isFocus, setFocus] = useState<boolean>(false)
-
   return (
     <div className='relative flex-grow'>
       <input
@@ -21,14 +20,17 @@ export const InputSearch = ({ placeholder }: HTMLInputElement) => {
   )
 }
 
-export const InputField = (props: React.InputHTMLAttributes<HTMLInputElement>) => {
+export const InputField = (props: InputHTMLAttributes<HTMLInputElement>) => {
   const [isFocus, setFocus] = useState<boolean>(false)
   return (
     <input
       {...props}
       onBlur={() => setFocus(false)}
       onFocus={() => setFocus(true)}
-      className={`outline-none p-3 bg-white text-gray-900 transition rounded-lg border ${clsx({ 'shadow': isFocus })} ${props.className || ''}`}
+      className={`outline-none p-3 bg-white text-gray-900 transition rounded-lg border ${clsx({
+        'shadow': isFocus,
+        'border-gray-500': isFocus,
+      })} ${props.className || ''}`}
     />
   )
 }

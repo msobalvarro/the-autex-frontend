@@ -22,7 +22,7 @@ export const TableRepresentation = ({ list }: TableProps) => {
 
   if (dataFormated.length) {
     return (
-      <TableComponent data={dataFormated} />
+      <TableComponent renderEnum renderOptions data={dataFormated} />
     )
   }
 
