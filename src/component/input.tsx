@@ -28,8 +28,8 @@ export const InputField = (props: InputHTMLAttributes<HTMLInputElement>) => {
       onBlur={() => setFocus(false)}
       onFocus={() => setFocus(true)}
       className={`outline-none p-3 bg-white text-gray-900 transition rounded-lg border ${clsx({
-        'shadow': isFocus,
-        'border-gray-500': isFocus,
+        'shadow-md': isFocus,
+        'border-gray-400': isFocus,
       })} ${props.className || ''}`}
     />
   )

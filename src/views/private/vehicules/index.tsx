@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react'
 import { NewVehicule } from '@/component/modals/newVehicule'
 import { Loader } from '@/component/loading'
 
-
 export const VehiculesView = () => {
   const [isOpenModal, setOpen] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
@@ -45,13 +44,13 @@ export const VehiculesView = () => {
         title='Vehiculo'
         secondaryButtons={[
           {
+            label: 'Crear Marca',
+            onClick: () => console.log('Crear marca')
+          },
+          {
             label: 'Crear modelo',
             onClick: () => console.log('Crear model')
           },
-          {
-            label: 'Crear Marca',
-            onClick: () => console.log('Crear marca')
-          }
         ]}
         subtitle='Visualiza y gestiona todos los vehiculos registrados'
         onClickButton={() => setOpen(true)}

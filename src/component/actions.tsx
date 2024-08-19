@@ -11,7 +11,7 @@ export const ActionsComponent = ({
 }: ActionsComponentProps) => {
   return (
     <div className='flex flex-row flex-1 items-center'>
-      <div className='flex flex-col flex-1 gap-2'>
+      <div className='flex flex-col flex-1 gap-1'>
         <p className='text-2xl'>{title}</p>
         <p className='text-md text-gray-500 font-[300]'>{subtitle}</p>
 

@@ -7,12 +7,14 @@ import { Loader } from '../loading'
 import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { useState } from 'react'
+import { InputField } from '../input'
 
 interface Props extends ModalMinimalProps {
   client: Client
 }
 
 export const AssignVehiculeToClient = ({ setOpen, client, onUpdate }: Props) => {
+  const [filter, setFilter] = useState<string>('')
   const [isLoading, setLoading] = useState<boolean>(false)
   const { data: allVehicules, loading } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
 
@@ -45,7 +47,7 @@ export const AssignVehiculeToClient = ({ setOpen, client, onUpdate }: Props) => 
       setOpen={setOpen}
       title={`Asigna un vehiculo`}
       subTitle='Selecciona un vehiculo para asiganar al cliente'
-      containerClassesNames='flex flex-col gap-8'
+      containerClassesNames='flex flex-col gap-2'
       navButtonsOptions={{
         isFinally: false,
         onBackClick: () => setOpen(false),
@@ -54,19 +56,32 @@ export const AssignVehiculeToClient = ({ setOpen, client, onUpdate }: Props) => 
         backText: 'Cerrar'
       }}
       iconComponent={<IoCarSportSharp />}>
-      <div>
-        {Array.isArray(allVehicules) && [...allVehicules].map((vehicule: Vehicule) => (
-          <div className='flex space-between justify-between p-2 hover:bg-gray-200 transition rounded' key={crypto.randomUUID()}>
-            <p className='text-xl text-gray-700'>
-              {vehicule.brand?.description} {vehicule.model?.description} [{vehicule.plate}]
-            </p>
+      <>
+        <InputField
+          placeholder='Filtrar'
+          value={filter}
+          onChange={
+            ({ currentTarget }) => setFilter(currentTarget.value)
+          } />
 
-            <button onClick={() => assignVehicule(String(vehicule._id))} className='rounded p-2 bg-gray-100'>Seleccionar</button>
-          </div>
-        ))}
+        {Array.isArray(allVehicules) &&
+          [...allVehicules].map((vehicule: Vehicule) => {
+            const text = (`${vehicule.brand?.description} ${vehicule.model?.description} ${vehicule.plate}`).toLocaleLowerCase()
+            if (text.search(filter.toLocaleLowerCase()) !== -1) {
+              return (
+                <div className='flex space-between items-center justify-between p-2 hover:bg-gray-200 transition rounded-md' key={crypto.randomUUID()}>
+                  <p className='text-xl text-gray-700'>
+                    {vehicule.brand?.description} {vehicule.model?.description} [{vehicule.plate}]
+                  </p>
+
+                  <button onClick={() => assignVehicule(String(vehicule._id))} className='rounded p-2 bg-gray-100 hover:bg-gray-300'>Seleccionar</button>
+                </div>
+              )
+            }
+          })}
 
         <Loader active={loading || isLoading} />
-      </div>
+      </>
     </CustomModal>
   )
 }
