@@ -60,6 +60,12 @@ export interface Vehicule {
   year?: number
 }
 
+export interface NewVehiculeProps extends Vehicule {
+  _id?: string
+  modelId: string | null
+  brandId?: string | null
+}
+
 export interface EstimatePropierties {
   _id?: string
   vehicule?: Vehicule
@@ -124,5 +130,5 @@ export interface TableProps {
 
 export interface TableSubMenuProps {
   label: string
-  onClick?: (e:any) => void
+  onClick?: (e: any) => void
 } 

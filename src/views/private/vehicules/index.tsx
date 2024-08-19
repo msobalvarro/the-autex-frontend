@@ -5,12 +5,14 @@ import { Vehicule } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
+import { NewVehicule } from '@/component/modals/newVehicule'
 
 
 export const VehiculesView = () => {
+  const [isOpenModal, setOpen] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const [dataFiltered, setData] = useState<object[]>()
-  const { data } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
+  const { data, refetch } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
 
   useEffect(() => {
     if (data) {
@@ -41,12 +43,15 @@ export const VehiculesView = () => {
         textButton='Crear Vehiculo'
         title='Vehiculo'
         subtitle='Visualiza y gestiona todos los vehiculos registrados'
-        onClickButton={() => { }}
+        onClickButton={() => setOpen(true)}
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1 bg-white'>
         <TableComponent data={dataFiltered} />
       </div>
+
+      {isOpenModal && <NewVehicule setOpen={setOpen} onUpdate={refetch} />}
+
     </LayoutComponent>
   )
 }
