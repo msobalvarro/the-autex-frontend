@@ -6,13 +6,14 @@ import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
 import { NewVehicule } from '@/component/modals/newVehicule'
+import { Loader } from '@/component/loading'
 
 
 export const VehiculesView = () => {
   const [isOpenModal, setOpen] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const [dataFiltered, setData] = useState<object[]>()
-  const { data, refetch } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
+  const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
 
   useEffect(() => {
     if (data) {
@@ -42,6 +43,16 @@ export const VehiculesView = () => {
       <ActionsComponent
         textButton='Crear Vehiculo'
         title='Vehiculo'
+        secondaryButtons={[
+          {
+            label: 'Crear modelo',
+            onClick: () => console.log('Crear model')
+          },
+          {
+            label: 'Crear Marca',
+            onClick: () => console.log('Crear marca')
+          }
+        ]}
         subtitle='Visualiza y gestiona todos los vehiculos registrados'
         onClickButton={() => setOpen(true)}
         onChangeFilterValue={setFilter} />
@@ -52,6 +63,7 @@ export const VehiculesView = () => {
 
       {isOpenModal && <NewVehicule setOpen={setOpen} onUpdate={refetch} />}
 
+      <Loader active={loading} />
     </LayoutComponent>
   )
 }

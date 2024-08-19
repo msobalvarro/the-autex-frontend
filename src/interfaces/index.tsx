@@ -6,6 +6,12 @@ export interface ActionsComponentProps {
   textButton: string
   onClickButton: () => void
   onChangeFilterValue: (value: string) => void
+  secondaryButtons?: SecondaryButtons[]
+}
+
+export interface SecondaryButtons {
+  label: string
+  onClick: () => void
 }
 
 export interface ActivityWithCostToDoItemEstimate {
@@ -51,7 +57,7 @@ export interface Vehicule {
   _id?: string
   model?: VehiculeModel
   brand?: VehiculeBrands
-  type: 'auto' | 'pickup' | 'ban' | 'truck' | 'motorcycle'
+  type?: 'auto' | 'pickup' | 'ban' | 'truck' | 'motorcycle'
   color?: string
   plate?: string
   motorNumber?: string
@@ -64,6 +70,7 @@ export interface NewVehiculeProps extends Vehicule {
   _id?: string
   modelId: string | null
   brandId?: string | null
+  typeSelections?: string
 }
 
 export interface EstimatePropierties {

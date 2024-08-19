@@ -23,7 +23,7 @@ export const CustomModal = ({
 
   return createPortal((
     <div className='fixed inset-0 z-10 w-full bg-[rgba(0,0,0,0.5)] justify-center items-center flex'>
-      <div className='md:w-3/6 sm:w-5/6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:my-8 w-100'>
+      <div className='md:w-3/6 sm:w-5/6 transform overflow-auto rounded-lg bg-white shadow-xl transition-all sm:my-8 w-100'>
         <div className='px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
           <div className='flex flex-col gap-8'>
             <div className='flex gap-2'>

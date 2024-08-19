@@ -1,16 +1,37 @@
 import { ActionsComponentProps } from '@/interfaces';
 import { InputSearch } from '@/component/input';
 
-export const ActionsComponent = ({ title, subtitle, onClickButton, textButton }: ActionsComponentProps) => {
+export const ActionsComponent = ({
+  title,
+  subtitle,
+  onClickButton,
+  textButton,
+  onChangeFilterValue,
+  secondaryButtons
+}: ActionsComponentProps) => {
   return (
     <div className='flex flex-row flex-1 items-center'>
-      <div className='flex flex-col flex-1'>
+      <div className='flex flex-col flex-1 gap-2'>
         <p className='text-2xl'>{title}</p>
         <p className='text-md text-gray-500 font-[300]'>{subtitle}</p>
+
+        {secondaryButtons && (
+          <div className='flex gap-4'>
+            {secondaryButtons.map(secondaryButton => (
+              <button className='p-2 rounded text-cyan-800 hover:bg-gray-200 transition' key={crypto.randomUUID()} onClick={secondaryButton.onClick}>
+                {secondaryButton.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className='flex flex-row gap-4'>
-        <InputSearch placeholder='search' />
+        <InputSearch
+          placeholder='search'
+          onChange={
+            ({ currentTarget }) => onChangeFilterValue(currentTarget.value)
+          } />
         <button className='py-3 px-6 outline-none bg-gray-800 text-white rounded-lg' onClick={onClickButton}>{textButton}</button>
       </div>
     </div>

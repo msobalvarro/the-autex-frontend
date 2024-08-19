@@ -12,7 +12,7 @@ export const NavButtons = ({
   backText,
   renderNext
 }: NavButtonProps) => (
-  <div className='bg-gray-100 px-4 py-3 sm:flex justify-end sm:px-6 gap-2 mt-6'>
+  <div className='bg-gray-100 px-4 py-3 sm:flex justify-end sm:px-6 gap-2'>
     {renderBack && (
       <button onClick={onBackClick} type='button' className='inline-flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-white sm:w-auto'>
         {backText || 'Atrás'}

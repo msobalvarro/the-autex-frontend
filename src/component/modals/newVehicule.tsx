@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { createPortal } from 'react-dom'
 import { CustomModal, ModalMinimalProps } from './layout'
 import { FaCar } from 'react-icons/fa'
@@ -5,30 +6,84 @@ import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 import { InputField } from '../input'
-import { useState } from 'react'
-import { NewVehiculeProps } from '@/interfaces'
+import { useEffect, useState } from 'react'
+import { NewVehiculeProps, SelectionProps, VehiculeBrands } from '@/interfaces'
+import { useValidation } from '@/hooks/validations'
+import { CustomSelectOption } from '../selection'
+import { useAxios } from '@/hooks/fetch'
+import { Loader } from '../loading'
 
-export const NewVehicule = ({ setOpen }: ModalMinimalProps) => {
+export const typeRegister = {
+  VEHICULE: 'auto',
+  PICKUP: 'pickup',
+  BAN: 'ban',
+  TRUCK: 'truck',
+  MOTORCYCLE: 'motorcycle',
+}
+
+export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
+  const [modelList, setModelList] = useState<SelectionProps[]>([])
+  const [brandList, setBrandList] = useState<SelectionProps[]>([])
+  const { validateNumber } = useValidation()
+  const { data: dataBrands, loading } = useAxios({ endpoint: Endpoints.GET_ALL_BRAND_MODEL })
   const [data, setData] = useState<NewVehiculeProps>({
     brandId: null,
     modelId: null,
     color: '',
-    type: 'auto',
     motorNumber: '',
     chasisNumber: '',
     km: 0,
+    typeSelections: typeRegister.VEHICULE,
     plate: '',
-    year: 0,
+    year: new Date().getFullYear(),
   })
-  
+
+  useEffect(() => {
+    setData(e => ({ ...e, modelId: null }))
+
+    if (Array.isArray(dataBrands)) {
+      const arr: VehiculeBrands[] = [...dataBrands]
+      const indexFinded = arr.findIndex((i: VehiculeBrands) => i._id === data.brandId)
+
+      if (indexFinded > -1) {
+        setModelList(arr[indexFinded].models.map(
+          model => ({
+            label: model.description,
+            value: model._id
+          })
+        ))
+      }
+    }
+  }, [data.brandId])
+
+  useEffect(() => {
+    if (Array.isArray(dataBrands)) {
+      const arr: VehiculeBrands[] = [...dataBrands]
+
+      setBrandList(arr.map(
+        vehicule => ({
+          label: vehicule.description,
+          value: vehicule._id
+        })
+      ))
+    }
+  }, [data])
+
   const onSubmit = async () => {
     try {
-      const respone = await axiosInstance.post(Endpoints.CREATE_VEHICULE)
+      const respone = await axiosInstance.post(Endpoints.CREATE_VEHICULE, {
+        ...data,
+        type: data.typeSelections
+      })
 
       if (respone.status !== 200) {
         throw new Error(String(respone.data))
       }
 
+      toast.success(`Vehículo agregado`)
+
+      setOpen(false)
+      onUpdate?.()
     } catch (error) {
       toast.error(String(error))
     }
@@ -41,7 +96,7 @@ export const NewVehicule = ({ setOpen }: ModalMinimalProps) => {
         setOpen={setOpen}
         title='Agrega un nuevo Vehículo'
         subTitle='Agrega un nuevo vehiculo para asignarlo a un cliente y generar ordenes'
-        containerClassesNames='flex flex-col gap-8'
+        containerClassesNames='flex flex-col gap-4'
         navButtonsOptions={{
           onBackClick: () => setOpen(false),
           onSuccess: onSubmit,
@@ -52,6 +107,35 @@ export const NewVehicule = ({ setOpen }: ModalMinimalProps) => {
         iconComponent={<FaCar />}>
         <>
           <div className='flex gap-4'>
+            <label className='flex flex-col w-1/2'>
+              <CustomSelectOption
+                onChange={(e) => setData(x => ({ ...x, brandId: String(e?.value) }))}
+                placeholder='Cliente'
+                isLoading={loading}
+                className='flex-1'
+                data={brandList} />
+              {
+                <div className='flex ml-2 gap-2 items-center'>
+                  <span className=' text-gray-500'>Marcas</span>
+                  {data.brandId && modelList.length == 0 && (
+                    <span className='text-red-500 text-sm'>(Esta marca no contiene modelos)</span>
+                  )}
+                </div>
+              }
+            </label>
+
+            <label className='flex flex-col w-1/2'>
+              <CustomSelectOption
+                onChange={(e) => setData(x => ({ ...x, modelId: String(e?.value) }))}
+                placeholder='Cliente'
+                className='flex-1'
+                isLoading={loading}
+                data={modelList} />
+              <span className='ml-2 text-gray-500'>Modelo</span>
+            </label>
+          </div>
+
+          <div className='flex gap-4'>
             <label className='flex flex-col flex-1'>
               <InputField
                 value={String(data.motorNumber)}
@@ -59,10 +143,10 @@ export const NewVehicule = ({ setOpen }: ModalMinimalProps) => {
                   ({ currentTarget }) => setData(
                     v => ({
                       ...v,
-                      name: String(currentTarget.value)
+                      motorNumber: String(currentTarget.value)
                     })
                   )} />
-              <span className='ml-2 text-gray-500 font-[300]'>Número de motor</span>
+              <span className='ml-2 text-gray-500'>Número de motor</span>
             </label>
 
             <label className='flex flex-col flex-1'>
@@ -72,12 +156,106 @@ export const NewVehicule = ({ setOpen }: ModalMinimalProps) => {
                   ({ currentTarget }) => setData(
                     v => ({
                       ...v,
-                      lastName: String(currentTarget.value)
+                      chasisNumber: String(currentTarget.value)
                     })
                   )} />
-              <span className='ml-2 text-gray-500 font-[300]'>Número de chasís</span>
+              <span className='ml-2 text-gray-500'>Número de chasís</span>
             </label>
           </div>
+
+          <div className='flex gap-4'>
+            <label className='flex flex-col flex-1'>
+              <InputField
+                value={String(data.plate)}
+                onChange={
+                  ({ currentTarget }) => setData(
+                    v => ({
+                      ...v,
+                      plate: String(currentTarget.value)
+                    })
+                  )} />
+              <span className='ml-2 text-gray-500'>Placa</span>
+            </label>
+
+            <label className='flex flex-col flex-1'>
+              <InputField
+                value={String(data.color)}
+                onChange={
+                  ({ currentTarget }) => setData(
+                    v => ({
+                      ...v,
+                      color: String(currentTarget.value)
+                    })
+                  )} />
+              <span className='ml-2 text-gray-500'>Color</span>
+            </label>
+          </div>
+
+          <div className='flex gap-4'>
+            <label className='flex flex-col flex-1'>
+              <InputField
+                value={String(data.km)}
+                onChange={
+                  ({ currentTarget }) =>
+                    validateNumber(currentTarget.value) && setData(
+                      v => ({
+                        ...v,
+                        km: Number(currentTarget.value)
+                      })
+                    )} />
+              <span className='ml-2 text-gray-500'>Kilometros recorridos</span>
+            </label>
+
+            <label className='flex flex-col flex-1 '>
+              <InputField
+                value={String(data.year)}
+                onChange={
+                  ({ currentTarget }) =>
+                    validateNumber(currentTarget.value) && setData(
+                      v => ({
+                        ...v,
+                        year: Number(currentTarget.value)
+                      })
+                    )} />
+              <span className='ml-2 text-gray-500'>
+                Año
+              </span>
+            </label>
+          </div>
+
+          <div className='flex gap-4'>
+            <label className='flex flex-col w-1/2'>
+              <CustomSelectOption
+                onChange={(e) => setData(x => ({ ...x, typeSelections: String(e?.value) }))}
+                placeholder='Cliente'
+                className='flex-1'
+                data={[
+                  {
+                    label: 'Vehiculo',
+                    value: typeRegister.VEHICULE
+                  },
+                  {
+                    label: 'Motocicleta',
+                    value: typeRegister.MOTORCYCLE
+                  },
+                  {
+                    label: 'Pickup',
+                    value: typeRegister.PICKUP
+                  },
+                  {
+                    label: 'Ban',
+                    value: typeRegister.BAN
+                  },
+                  {
+                    label: 'Camión',
+                    value: typeRegister.TRUCK
+                  },
+                ]} />
+              <span className='ml-2 text-gray-500'>Tipo de Unidad</span>
+            </label>
+          </div>
+
+          <Loader active={loading} />
         </>
       </CustomModal>
     ),
