@@ -25,10 +25,8 @@ export const LoginView = () => {
         throw new Error('Error en iniciar sesión')
       }
 
-      await setSession(data)
-
+      await setSession(data)      
       toast.info('Session iniciada', { autoClose: 3000 })
-
     } catch (error) {
       toast.error(String(error))
     } finally {

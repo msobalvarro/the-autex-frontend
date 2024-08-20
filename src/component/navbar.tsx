@@ -1,12 +1,21 @@
-import { Link } from 'react-router-dom'
-import { routes } from '../router'
+import { Link, useNavigate } from 'react-router-dom'
+import { routes } from '@/router'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import clsx from 'clsx'
+import { removeSession } from '@/utils/auth'
 
 const itemClassName = 'rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
 
 export const NavbarComponent = () => {
+  const navigate = useNavigate()
+
+  const logout = async () => {
+    await removeSession()
+    navigate(routes.MAIN)
+    window.location.reload()
+  }
+
   const [isOpenMenu, setOpenMenu] = useState<boolean>(false)
   const location = useLocation()
   const isActive = (route: string): boolean => `${location.pathname}`.search(route) > -1
@@ -40,7 +49,7 @@ export const NavbarComponent = () => {
               {isOpenMenu && (
                 <div className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none' role='menu' aria-orientation='vertical' aria-labelledby='user-menu-button'>
                   <a href='#' className='block px-4 py-2 text-sm text-gray-400' role='menuitem' id='user-menu-item-0'>Perfil</a>
-                  <a href='#' className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200' role='menuitem' id='user-menu-item-2'>Cerrar Sesión</a>
+                  <a onClick={logout} href='#' className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200' role='menuitem' id='user-menu-item-2'>Cerrar Sesión</a>
                 </div>
               )}
             </div>

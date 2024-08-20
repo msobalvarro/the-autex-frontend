@@ -6,17 +6,26 @@ import { EstimateServiceView } from './private/estimate'
 import { VehiculesView } from './private/vehicules'
 import { ClientView } from './private/clients'
 import { LoginView } from './public/login'
+import { useAuth } from '@/hooks/auth'
+import { WelcomeScreen } from './private/welcome'
 
 export const App = () => {
+  const { auth } = useAuth()
+
   return (
     <>
-      <NavbarComponent />
+      {auth?.token && <NavbarComponent />}
+
       <Routes>
-        <Route>LoginView
-          <Route path={routes.ESTIMATE_SERVICE} element={<EstimateServiceView />} />
-          <Route path={routes.VEHICULES} element={<VehiculesView />} />
-          <Route path={routes.CLIENTS} element={<ClientView />} />
-          <Route path={routes.LOGIN} element={<LoginView />} />
+        <Route path={routes.MAIN}>
+          {auth?.token && (<>
+            <Route path={routes.MAIN} element={<WelcomeScreen />} />
+            <Route path={routes.ESTIMATE_SERVICE} element={<EstimateServiceView />} />
+            <Route path={routes.VEHICULES} element={<VehiculesView />} />
+            <Route path={routes.CLIENTS} element={<ClientView />} />
+          </>)}
+
+          {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}
           <Route path='*' element={<NotFoundView />} />
         </Route>
       </Routes>

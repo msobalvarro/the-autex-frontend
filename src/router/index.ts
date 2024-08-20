@@ -5,6 +5,7 @@ export const routes = {
   VEHICULES: '/vehicules',
   CLIENTS: '/clients',
   LOGIN: '/login',
+  MAIN: '/',
 }
 
 export const Endpoints = {

@@ -5,16 +5,27 @@ import store from '@/redux'
 export const LOCAL_KEY = 'session'
 
 export const getSession = async (): Promise<ResponseAuth | null> => {
-  const auth = await localStorage.getItem(LOCAL_KEY)
+  const auth = localStorage.getItem(LOCAL_KEY)
+  
   if (!auth) {
     return null
   }
 
-  const response: ResponseAuth = JSON.parse(auth)
+  const response: ResponseAuth = JSON.parse(auth)  
   return response
 }
 
 export const setSession = async (data: ResponseAuth): Promise<void> => {
-  store.dispatch(sessionSlice.actions.setSessionReducer(data))
   await localStorage.setItem(LOCAL_KEY, JSON.stringify(data))
+  store.dispatch(sessionSlice.actions.setSessionReducer(data))
+}
+
+export const removeSession = async (): Promise<void> => {
+  await localStorage.removeItem(LOCAL_KEY)
+  store.dispatch(sessionSlice.actions.clearSessionReducer())
+}
+
+export const getToken = async (): Promise<string | null> => {
+  const response = await getSession()
+  return response?.token || null
 }
