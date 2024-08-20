@@ -143,7 +143,7 @@ export interface TableSubMenuProps {
 } 
 
 export interface ResponseAuth {
-  _id: string
-  email: string
-  token: string
+  _id: string | null
+  email: string | null
+  token: string | null
 }
