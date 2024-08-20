@@ -141,3 +141,9 @@ export interface TableSubMenuProps {
   label: string
   onClick?: (e: any) => void
 } 
+
+export interface ResponseAuth {
+  _id: string
+  email: string
+  token: string
+}

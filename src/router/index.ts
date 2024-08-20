@@ -4,6 +4,7 @@ export const routes = {
   DIAGNOSTIC: '/diagnostics',
   VEHICULES: '/vehicules',
   CLIENTS: '/clients',
+  LOGIN: '/login',
 }
 
 export const Endpoints = {
