@@ -17,4 +17,5 @@ export const Endpoints = {
   CREATE_CLIENT: 'clients/create',
   CREATE_VEHICULE: 'vehicule/create',
   CREATE_VEHICULE_BRAND: 'vehicule/create/brand',
+  CREATE_MULTIPLE_BRANDS: 'vehicule/create/multiple/models',
 }

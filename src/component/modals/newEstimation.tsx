@@ -96,7 +96,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
       toast.success('Presupuesto creado')
       setOpen(false)
-      onUpdate()
+      onUpdate?.()
     } catch (error) {
       toast.error(String(error))
     } finally {
@@ -122,7 +122,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
         if (Array.isArray((dataClients[indexFinded]?.['vehicules']))) {
           [...(dataClients[indexFinded]?.['vehicules'])].map((vehicule: Vehicule) => {
             vehicules.push({
-              label: `${vehicule.brand?.description} ${vehicule.brand?.description} ${vehicule.plate}`,
+              label: `${vehicule.brand?.description} ${vehicule.model?.description} [${vehicule.plate}]`,
               value: String(vehicule._id)
             })
           })

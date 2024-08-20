@@ -49,7 +49,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
         setModelList(arr[indexFinded].models.map(
           model => ({
             label: model.description,
-            value: model._id
+            value: String(model._id),
           })
         ))
       }
@@ -110,13 +110,13 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
             <label className='flex flex-col w-1/2'>
               <CustomSelectOption
                 onChange={(e) => setData(x => ({ ...x, brandId: String(e?.value) }))}
-                placeholder='Cliente'
+                placeholder='Seleccione una Marca'
                 isLoading={loading}
                 className='flex-1'
                 data={brandList} />
               {
                 <div className='flex ml-2 gap-2 items-center'>
-                  <span className=' text-gray-500'>Marcas</span>
+                  <span className='text-gray-500'>Marcas</span>
                   {data.brandId && modelList.length == 0 && (
                     <span className='text-red-500 text-sm'>(Esta marca no contiene modelos)</span>
                   )}
@@ -127,7 +127,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
             <label className='flex flex-col w-1/2'>
               <CustomSelectOption
                 onChange={(e) => setData(x => ({ ...x, modelId: String(e?.value) }))}
-                placeholder='Cliente'
+                placeholder='Seleccione un Modelo'
                 className='flex-1'
                 isLoading={loading}
                 data={modelList} />

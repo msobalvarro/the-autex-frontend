@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { NewVehicule } from '@/component/modals/newVehicule'
 import { Loader } from '@/component/loading'
 import { NewbrandAndModel } from '@/component/modals/newBrand'
+import { NewModel } from '@/component/modals/newModel'
 
 export const VehiculesView = () => {
   const [isOpenModal, setOpen] = useState({
@@ -54,7 +55,7 @@ export const VehiculesView = () => {
           },
           {
             label: 'Crear modelo',
-            onClick: () => console.log('Crear model')
+            onClick: () =>  setOpen(e => ({ ...e, newModel: true }))
           },
         ]}
         subtitle='Visualiza y gestiona todos los vehiculos registrados'
@@ -67,6 +68,7 @@ export const VehiculesView = () => {
 
       {isOpenModal.newVehicule && <NewVehicule setOpen={(is) => setOpen(e => ({ ...e, newVehicule: is }))} onUpdate={refetch} />}
       {isOpenModal.newBrand && <NewbrandAndModel setOpen={(is) => setOpen(e => ({ ...e, newBrand: is }))} onUpdate={refetch} />}
+      {isOpenModal.newModel && <NewModel setOpen={(is) => setOpen(e => ({ ...e, newModel: is }))} onUpdate={refetch} />}
 
       <Loader active={loading} />
     </LayoutComponent>
