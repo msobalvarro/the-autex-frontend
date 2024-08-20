@@ -2,6 +2,7 @@ import { ModalProps } from '@/interfaces'
 import { createPortal } from 'react-dom'
 import { NavButtons } from '@/component/navButtons'
 import { MdOutlineClose } from 'react-icons/md'
+import clsx from 'clsx'
 
 export interface ModalMinimalProps {
   onUpdate?: () => void
@@ -17,13 +18,18 @@ export const CustomModal = ({
   title,
   subTitle,
   containerClassesNames,
-  navButtonsOptions
+  navButtonsOptions,
+  hiddenButtons,
+  small
 }: ModalProps) => {
   if (!isOpen) return null
 
   return createPortal((
     <div className='fixed inset-0 z-10 w-full bg-[rgba(0,0,0,0.5)] justify-center items-center flex'>
-      <div className='md:w-3/6 sm:w-5/6 transform overflow-auto rounded-lg bg-white shadow-xl transition-all sm:my-8 w-100'>
+      <div className={`sm:w-5/6 transform overflow-auto rounded-lg bg-white shadow-xl transition-all sm:my-8 w-100 ${clsx({
+        'md:w-3/6': !small,
+        'md:w-1/3': small,
+      })}`}>
         <div className='px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
           <div className='flex flex-col gap-8'>
             <div className='flex gap-2'>
@@ -49,7 +55,7 @@ export const CustomModal = ({
           </div>
         </div>
 
-        <NavButtons {...navButtonsOptions} />
+        {!hiddenButtons && <NavButtons {...navButtonsOptions} />}
       </div>
     </div>
   ), document.body)

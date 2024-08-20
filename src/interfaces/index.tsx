@@ -23,7 +23,7 @@ export interface ActivityWithCostToDoItemEstimate {
 }
 
 export interface VehiculeModel {
-  _id: string
+  _id?: string
   description: string
 }
 
@@ -114,6 +114,8 @@ export interface ModalProps {
   textSubmit?: string
   containerClassesNames?: string
   navButtonsOptions: NavButtonProps
+  hiddenButtons?: boolean
+  small?: boolean
 }
 
 export interface NavButtonProps {

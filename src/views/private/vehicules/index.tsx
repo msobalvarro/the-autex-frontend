@@ -7,9 +7,14 @@ import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
 import { NewVehicule } from '@/component/modals/newVehicule'
 import { Loader } from '@/component/loading'
+import { NewbrandAndModel } from '@/component/modals/newBrand'
 
 export const VehiculesView = () => {
-  const [isOpenModal, setOpen] = useState<boolean>(false)
+  const [isOpenModal, setOpen] = useState({
+    newVehicule: false,
+    newModel: false,
+    newBrand: false,
+  })
   const [filter, setFilter] = useState<string>('')
   const [dataFiltered, setData] = useState<object[]>()
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
@@ -45,7 +50,7 @@ export const VehiculesView = () => {
         secondaryButtons={[
           {
             label: 'Crear Marca',
-            onClick: () => console.log('Crear marca')
+            onClick: () => setOpen(e => ({ ...e, newBrand: true }))
           },
           {
             label: 'Crear modelo',
@@ -53,14 +58,15 @@ export const VehiculesView = () => {
           },
         ]}
         subtitle='Visualiza y gestiona todos los vehiculos registrados'
-        onClickButton={() => setOpen(true)}
+        onClickButton={() => setOpen(e => ({ ...e, newVehicule: true }))}
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1 bg-white'>
         <TableComponent data={dataFiltered} />
       </div>
 
-      {isOpenModal && <NewVehicule setOpen={setOpen} onUpdate={refetch} />}
+      {isOpenModal.newVehicule && <NewVehicule setOpen={(is) => setOpen(e => ({ ...e, newVehicule: is }))} onUpdate={refetch} />}
+      {isOpenModal.newBrand && <NewbrandAndModel setOpen={(is) => setOpen(e => ({ ...e, newBrand: is }))} onUpdate={refetch} />}
 
       <Loader active={loading} />
     </LayoutComponent>

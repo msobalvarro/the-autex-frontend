@@ -43,7 +43,8 @@ export const AssignVehiculeToClient = ({ setOpen, client, onUpdate }: Props) => 
 
   return (
     <CustomModal
-      isOpen={true}
+      isOpen
+      hiddenButtons
       setOpen={setOpen}
       title={`Asigna un vehiculo`}
       subTitle='Selecciona un vehiculo para asiganar al cliente'
