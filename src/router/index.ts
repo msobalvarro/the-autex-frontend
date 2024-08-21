@@ -1,5 +1,6 @@
 export const routes = {
   ESTIMATE_SERVICE: '/estimates',
+  ESTIMATE_DETAIL: '/estimates/detail/:id',
   ORDER_SERVICE: '/services',
   DIAGNOSTIC: '/diagnostics',
   VEHICULES: '/vehicules',
@@ -21,4 +22,5 @@ export const Endpoints = {
   CREATE_VEHICULE_BRAND: 'vehicule/create/brand',
   CREATE_MULTIPLE_BRANDS: 'vehicule/create/multiple/models',
   LOGIN: 'auth/',
+  GET_ESTIMATION_DETAIL_BY_ID: '/estimate/detail/',
 }

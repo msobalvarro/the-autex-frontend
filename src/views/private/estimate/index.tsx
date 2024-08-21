@@ -5,12 +5,14 @@ import { TableComponent } from '@/component/table'
 import { EstimatePropierties } from '@/interfaces'
 import { Loader } from '@/component/loading'
 import { useAxios } from '@/hooks/fetch'
-import { Endpoints } from '@/router'
+import { Endpoints, routes } from '@/router'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 
 
 export const EstimateServiceView = () => {
+  const navigate = useNavigate()
   const [isOpenModal, setOpen] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const [dataFiltered, setData] = useState<object[]>()
@@ -30,23 +32,28 @@ export const EstimateServiceView = () => {
         'Cliente': item.client?.name,
         'Vehiculo': item.vehicule?.plate,
         'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY'),
-        'Total': item.total?.toLocaleString()
+        'Total': item.total?.toLocaleString(),
+        '__item': item,
       }))
       )
     }
   }, [filter, data])
 
+  const goDetails = (item: EstimatePropierties) => {
+    navigate(routes.ESTIMATE_DETAIL.replace(':id', `${item._id}`))
+  }
+
   return (
     <LayoutComponent>
       <ActionsComponent
-        textButton='Crear Presupuesto'
+        textButton='Nuevo Presupuesto'
         title='Presupuesto'
         subtitle='Visualiza y gestiona todos los presupuestos registrados'
         onClickButton={() => setOpen(true)}
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1 bg-white'>
-        <TableComponent renderEnum data={dataFiltered} />
+        <TableComponent onClickItem={goDetails} renderEnum data={dataFiltered} />
       </div>
 
       <Loader active={loading} />

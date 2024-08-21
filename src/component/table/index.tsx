@@ -1,7 +1,13 @@
 import { TableProps } from '@/interfaces'
 import { MenuOptions } from './option'
 
-export const TableComponent = ({ data, renderEnum, renderOptions, options }: TableProps) => {
+export const TableComponent = ({
+  data,
+  renderEnum,
+  renderOptions,
+  options,
+  onClickItem,
+}: TableProps) => {
   if (!Array.isArray(data)) return null
   const firtRow = Array.isArray(data) ? data?.[0] : {}
 
@@ -25,6 +31,7 @@ export const TableComponent = ({ data, renderEnum, renderOptions, options }: Tab
         <tbody>
           {data.map((item, index) => (
             <tr
+              onClick={() => onClickItem?.(item?.__item)}
               key={crypto.randomUUID()}
               className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-gray-100 transition-colors duration-300`}>
               {renderEnum && (<td className='text-right text-gray-700 text-sm font-bold'>{index + 1}</td>)}

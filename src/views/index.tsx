@@ -8,6 +8,7 @@ import { ClientView } from './private/clients'
 import { LoginView } from './public/login'
 import { useAuth } from '@/hooks/auth'
 import { WelcomeScreen } from './private/welcome'
+import { DetailEstimateView } from './private/estimate/detail'
 
 export const App = () => {
   const { auth } = useAuth()
@@ -23,6 +24,7 @@ export const App = () => {
             <Route path={routes.ESTIMATE_SERVICE} element={<EstimateServiceView />} />
             <Route path={routes.VEHICULES} element={<VehiculesView />} />
             <Route path={routes.CLIENTS} element={<ClientView />} />
+            <Route path={routes.ESTIMATE_DETAIL} element={<DetailEstimateView />} />
           </>)}
 
           {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}

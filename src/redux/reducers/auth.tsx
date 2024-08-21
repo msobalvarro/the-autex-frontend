@@ -14,6 +14,7 @@ export const sessionSlice = createSlice({
     setSessionReducer: (state: ResponseAuth, action) => {
       state.token = action.payload.token
       state.email = action.payload.email
+      state.name = action.payload.name
       state._id = action.payload._id
     },
     clearSessionReducer: (state) => {

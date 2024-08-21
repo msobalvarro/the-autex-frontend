@@ -46,7 +46,7 @@ export const VehiculesView = () => {
   return (
     <LayoutComponent>
       <ActionsComponent
-        textButton='Crear Vehiculo'
+        textButton='Nuevo Vehiculo'
         title='Vehiculo'
         secondaryButtons={[
           {

@@ -83,7 +83,7 @@ export interface EstimatePropierties {
   laborCost?: number
   partsCost?: number
   inputCost?: number
-  createdAt?: Date
+  createdAt?: Date | string
   total?: number
 }
 
@@ -135,15 +135,17 @@ export interface TableProps {
   renderEnum?: boolean
   renderOptions?: boolean
   options?: TableSubMenuProps[]
+  onClickItem?: (item: any) => void
 }
 
 export interface TableSubMenuProps {
   label: string
   onClick?: (e: any) => void
-} 
+}
 
 export interface ResponseAuth {
   _id: string | null
+  name: string | null
   email: string | null
   token: string | null
 }
