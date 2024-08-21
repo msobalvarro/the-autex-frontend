@@ -1,5 +1,5 @@
 import { LayoutComponent } from '@/component/layout'
-import { Loader } from '@/component/loading'
+import { Loader } from '@/component/loader'
 import { TableComponent } from '@/component/table'
 import { useAxios } from '@/hooks/fetch'
 import { EstimatePropierties } from '@/interfaces'

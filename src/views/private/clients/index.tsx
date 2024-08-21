@@ -6,7 +6,7 @@ import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { useState } from 'react'
 import { AssignVehiculeToClient } from '@/component/modals/assignVehiculeToClient'
-import { Loader } from '@/component/loading'
+import { Loader } from '@/component/loader'
 import { NewClient } from '@/component/modals/newClient'
 import dayjs from 'dayjs'
 
@@ -20,7 +20,7 @@ export const ClientView = () => {
   return (
     <LayoutComponent>
       <ActionsComponent
-        textButton='Crear Cliente'
+        textButton='Nuevo Cliente'
         title='Clientes'
         subtitle='Visualiza y gestiona todos clientes registrados'
         onClickButton={() => setOpenModalCient(true)}

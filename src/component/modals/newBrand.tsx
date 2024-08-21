@@ -5,7 +5,7 @@ import { VehiculeModel } from '@/interfaces'
 import { InputField } from '../input'
 import { toast } from 'react-toastify'
 import { TableComponent } from '../table'
-import { Loader } from '../loading'
+import { Loader } from '../loader'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 

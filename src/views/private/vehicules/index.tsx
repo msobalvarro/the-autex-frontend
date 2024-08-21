@@ -4,9 +4,9 @@ import { TableComponent } from '@/component/table'
 import { Vehicule } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { NewVehicule } from '@/component/modals/newVehicule'
-import { Loader } from '@/component/loading'
+import { Loader } from '@/component/loader'
 import { NewbrandAndModel } from '@/component/modals/newBrand'
 import { NewModel } from '@/component/modals/newModel'
 
@@ -17,31 +17,7 @@ export const VehiculesView = () => {
     newBrand: false,
   })
   const [filter, setFilter] = useState<string>('')
-  const [dataFiltered, setData] = useState<object[]>()
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
-
-  useEffect(() => {
-    if (data) {
-      const lowercasedFilter = filter.toLowerCase()
-
-      const filteredData: Vehicule[] = [...data].filter(item =>
-        Object.keys(item).some(key =>
-          String(item[key]).toLowerCase().includes(lowercasedFilter)
-        )
-      )
-
-      setData(
-        filteredData.map(
-          (item: Vehicule) => ({
-            'Marca': item.brand?.description,
-            'Modelo': item.model?.description,
-            'Año': item?.year,
-            'Placa': item?.plate,
-          })
-        )
-      )
-    }
-  }, [filter, data])
 
   return (
     <LayoutComponent>
@@ -55,7 +31,7 @@ export const VehiculesView = () => {
           },
           {
             label: 'Crear modelo',
-            onClick: () =>  setOpen(e => ({ ...e, newModel: true }))
+            onClick: () => setOpen(e => ({ ...e, newModel: true }))
           },
         ]}
         subtitle='Visualiza y gestiona todos los vehiculos registrados'
@@ -63,7 +39,16 @@ export const VehiculesView = () => {
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1'>
-        <TableComponent data={dataFiltered} />
+        <TableComponent
+          filter={filter}
+          data={(Array.isArray(data) ? [...data] : []).map(
+          (item: Vehicule) => ({
+            'Marca': item.brand?.description,
+            'Modelo': item.model?.description,
+            'Año': item?.year,
+            'Placa': item?.plate,
+          }))
+        } />
       </div>
 
       {isOpenModal.newVehicule && <NewVehicule setOpen={(is) => setOpen(e => ({ ...e, newVehicule: is }))} onUpdate={refetch} />}

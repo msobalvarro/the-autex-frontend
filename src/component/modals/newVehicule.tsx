@@ -11,7 +11,7 @@ import { Client, NewVehiculeProps, SelectionProps, VehiculeBrands } from '@/inte
 import { useValidation } from '@/hooks/validations'
 import { CustomSelectOption } from '../selection'
 import { useAxios } from '@/hooks/fetch'
-import { Loader } from '../loading'
+import { Loader } from '../loader'
 
 export const typeRegister = {
   VEHICULE: 'auto',

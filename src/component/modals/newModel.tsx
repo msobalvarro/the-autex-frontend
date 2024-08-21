@@ -1,7 +1,7 @@
 import { useAxios } from '@/hooks/fetch'
 import { ModalMinimalProps, CustomModal } from './layout'
 import { Endpoints } from '@/router'
-import { Loader } from '../loading'
+import { Loader } from '../loader'
 import { InputField } from '../input'
 import { TableComponent } from '../table'
 import { VehiculeBrands, VehiculeModel } from '@/interfaces'
@@ -9,25 +9,26 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { CustomSelectOption } from '../selection'
 import { axiosInstance } from '@/utils/http'
+import _ from 'lodash'
 
 export const NewModel = ({ setOpen }: ModalMinimalProps) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [models, setModels] = useState<VehiculeModel[]>([])
   const [brandId, setBrand] = useState<string | null>(null)
-  const [customModel, setCustomModel] = useState<string>('')
+  const [customModelName, setCustomModel] = useState<string>('')
   const { data: dataBrands, loading: loadingBrands } = useAxios({
     endpoint: Endpoints.GET_ALL_BRAND_MODEL
   })
 
   const addModel = () => {
     try {
-      if (customModel.trim().length === 0) {
+      if (customModelName.trim().length === 0) {
         throw new Error('Ingrese un modelo')
       }
 
-      setModels(m => [...m, { description: customModel }])
+      const newModel = { description: customModelName, _id: _.uniqueId() }
+      setModels(m => [...m, newModel])
       setCustomModel('')
-
     } catch (error) {
       toast.error(String(error))
     }
@@ -44,7 +45,7 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
       if (models.length === 0) {
         throw new Error('Ingresa al menos un modelo')
       }
-      
+
       const response = await axiosInstance.post(Endpoints.CREATE_MULTIPLE_BRANDS, {
         models,
         brandId
@@ -92,9 +93,26 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
           </div>
         )}
 
-
         {models.length > 0 && (
-          <TableComponent renderEnum data={models.map(e => ({ 'Modelo': e.description }))} />
+          <TableComponent
+            renderEnum
+            renderOptions
+            options={[
+              {
+                label: 'Eliminar',
+                onClick: ({ _id }: VehiculeModel) => {
+                  setModels(models => models.filter(model => model._id != _id))
+                }
+              }
+            ]}
+            data={
+              models.map(
+                e => ({
+                  'Modelo': e.description,
+                  '__item': { _id: e._id }
+                })
+              )
+            } />
         )}
 
         <div className='flex flex-col'>
@@ -105,7 +123,7 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
 
           <div className='flex items-strech gap-2'>
             <InputField
-              value={customModel}
+              value={customModelName}
               onChange={({ currentTarget }) => setCustomModel(currentTarget.value)}
               className='flex-1'
               placeholder='ingresa una marca' />

@@ -7,18 +7,14 @@ interface MenuProps {
   item: object
 }
 
-export const MenuOptions = ({ options, item }: MenuProps) => {
+export const MenuOptions = ({ options, item }: MenuProps) => {  
   const [isOpen, setOpen] = useState<boolean>(false)
-
   const onSelectOptions = (fn?: (e: any) => void) => {
-    console.log(item)
-    
     setOpen(false)
     fn?.(item)
   }
 
   if (Array.isArray(options)) {
-
     return (
       <td className='tcenter relative text-gray-700 text-2xl cursor-pointer relative' data-dropdown-toggle='dropdown'>
         <button onClick={() => setOpen(!isOpen)}>
