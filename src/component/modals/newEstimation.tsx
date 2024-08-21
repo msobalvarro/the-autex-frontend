@@ -138,6 +138,12 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       acitivities.length === 0
       || vehiculeSelected === null
       || clientSelected === null
+    ) ||
+    currentSteps === 2 && (
+      partsRequired.length === 0
+    ) ||
+    currentSteps === 3 && (
+      otherRequirements.length === 0
     )
   )
 

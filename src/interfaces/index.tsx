@@ -68,6 +68,7 @@ export interface Vehicule {
 
 export interface NewVehiculeProps extends Vehicule {
   _id?: string
+  clientId?: string | null
   modelId: string | null
   brandId?: string | null
   typeSelections?: string

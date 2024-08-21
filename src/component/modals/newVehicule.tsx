@@ -7,7 +7,7 @@ import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 import { InputField } from '../input'
 import { useEffect, useState } from 'react'
-import { NewVehiculeProps, SelectionProps, VehiculeBrands } from '@/interfaces'
+import { Client, NewVehiculeProps, SelectionProps, VehiculeBrands } from '@/interfaces'
 import { useValidation } from '@/hooks/validations'
 import { CustomSelectOption } from '../selection'
 import { useAxios } from '@/hooks/fetch'
@@ -23,10 +23,11 @@ export const typeRegister = {
 
 export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   const [modelList, setModelList] = useState<SelectionProps[]>([])
-  const [brandList, setBrandList] = useState<SelectionProps[]>([])
   const { validateNumber } = useValidation()
-  const { data: dataBrands, loading } = useAxios({ endpoint: Endpoints.GET_ALL_BRAND_MODEL })
+  const { data: dataBrands, loading: loadingBrand } = useAxios({ endpoint: Endpoints.GET_ALL_BRAND_MODEL })
+  const { data: dataClient, loading: loadingClient } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
   const [data, setData] = useState<NewVehiculeProps>({
+    clientId: null,
     brandId: null,
     modelId: null,
     color: '',
@@ -55,19 +56,6 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       }
     }
   }, [data.brandId])
-
-  useEffect(() => {
-    if (Array.isArray(dataBrands)) {
-      const arr: VehiculeBrands[] = [...dataBrands]
-
-      setBrandList(arr.map(
-        vehicule => ({
-          label: vehicule.description,
-          value: vehicule._id
-        })
-      ))
-    }
-  }, [data])
 
   const onSubmit = async () => {
     try {
@@ -109,19 +97,71 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
           <div className='flex gap-4'>
             <label className='flex flex-col w-1/2'>
               <CustomSelectOption
-                onChange={(e) => setData(x => ({ ...x, brandId: String(e?.value) }))}
-                placeholder='Seleccione una Marca'
-                isLoading={loading}
+                onChange={(e) => setData(x => ({ ...x, typeSelections: String(e?.value) }))}
+                placeholder='Cliente'
                 className='flex-1'
-                data={brandList} />
-              {
-                <div className='flex ml-2 gap-2 items-center'>
-                  <span className='text-gray-500'>Marcas</span>
-                  {data.brandId && modelList.length == 0 && (
-                    <span className='text-red-500 text-sm'>(Esta marca no contiene modelos)</span>
-                  )}
-                </div>
-              }
+                data={[
+                  {
+                    label: 'Vehiculo',
+                    value: typeRegister.VEHICULE
+                  },
+                  {
+                    label: 'Motocicleta',
+                    value: typeRegister.MOTORCYCLE
+                  },
+                  {
+                    label: 'Pickup',
+                    value: typeRegister.PICKUP
+                  },
+                  {
+                    label: 'Ban',
+                    value: typeRegister.BAN
+                  },
+                  {
+                    label: 'Camión',
+                    value: typeRegister.TRUCK
+                  },
+                ]} />
+              <span className='ml-2 text-gray-500'>Tipo de Unidad</span>
+            </label>
+
+            <label className='flex flex-col w-1/2'>
+              {Array.isArray(dataClient) && (
+                <CustomSelectOption
+                  onChange={(e) => setData(x => ({ ...x, clientId: String(e?.value) }))}
+                  placeholder='Seleccione un Cliente'
+                  isLoading={loadingBrand}
+                  className='flex-1'
+                  data={[...dataClient].map((client: Client) => ({
+                    label: client.name,
+                    value: client._id
+                  }))} />
+              )}
+
+              <span className='ml-2 text-gray-500'>Selecciona un Cliente</span>
+            </label>
+          </div>
+
+          <div className='flex gap-4'>
+            <label className='flex flex-col w-1/2'>
+              {Array.isArray(dataBrands) && (
+                <CustomSelectOption
+                  onChange={(e) => setData(x => ({ ...x, brandId: String(e?.value) }))}
+                  placeholder='Seleccione una Marca'
+                  isLoading={loadingBrand}
+                  className='flex-1'
+                  data={[...dataBrands].map((vehicule: VehiculeBrands) => ({
+                    label: vehicule.description,
+                    value: vehicule._id
+                  }))} />
+              )}
+
+              <div className='flex ml-2 gap-2 items-center'>
+                <span className='text-gray-500'>Marcas</span>
+                {data.brandId && modelList.length == 0 && (
+                  <span className='text-red-500 text-sm'>(A `gregue un modelo)</span>
+                )}
+              </div>
             </label>
 
             <label className='flex flex-col w-1/2'>
@@ -129,7 +169,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                 onChange={(e) => setData(x => ({ ...x, modelId: String(e?.value) }))}
                 placeholder='Seleccione un Modelo'
                 className='flex-1'
-                isLoading={loading}
+                isLoading={loadingBrand}
                 data={modelList} />
               <span className='ml-2 text-gray-500'>Modelo</span>
             </label>
@@ -223,39 +263,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
             </label>
           </div>
 
-          <div className='flex gap-4'>
-            <label className='flex flex-col w-1/2'>
-              <CustomSelectOption
-                onChange={(e) => setData(x => ({ ...x, typeSelections: String(e?.value) }))}
-                placeholder='Cliente'
-                className='flex-1'
-                data={[
-                  {
-                    label: 'Vehiculo',
-                    value: typeRegister.VEHICULE
-                  },
-                  {
-                    label: 'Motocicleta',
-                    value: typeRegister.MOTORCYCLE
-                  },
-                  {
-                    label: 'Pickup',
-                    value: typeRegister.PICKUP
-                  },
-                  {
-                    label: 'Ban',
-                    value: typeRegister.BAN
-                  },
-                  {
-                    label: 'Camión',
-                    value: typeRegister.TRUCK
-                  },
-                ]} />
-              <span className='ml-2 text-gray-500'>Tipo de Unidad</span>
-            </label>
-          </div>
-
-          <Loader active={loading} />
+          <Loader active={loadingBrand || loadingClient} />
         </>
       </CustomModal>
     ),
