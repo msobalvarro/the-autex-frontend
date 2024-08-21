@@ -17,20 +17,22 @@ export const App = () => {
     <>
       {auth?.token && <NavbarComponent />}
 
-      <Routes>
-        <Route path={routes.MAIN}>
-          {auth?.token && (<>
-            <Route path={routes.MAIN} element={<WelcomeScreen />} />
-            <Route path={routes.ESTIMATE_SERVICE} element={<EstimateServiceView />} />
-            <Route path={routes.VEHICULES} element={<VehiculesView />} />
-            <Route path={routes.CLIENTS} element={<ClientView />} />
-            <Route path={routes.ESTIMATE_DETAIL} element={<DetailEstimateView />} />
-          </>)}
+      <main className='flex flex-col flex-1 items-center'>
+        <Routes>
+          <Route path={routes.MAIN}>
+            {auth?.token && (<>
+              <Route path={routes.MAIN} element={<WelcomeScreen />} />
+              <Route path={routes.ESTIMATE_SERVICE} element={<EstimateServiceView />} />
+              <Route path={routes.VEHICULES} element={<VehiculesView />} />
+              <Route path={routes.CLIENTS} element={<ClientView />} />
+              <Route path={routes.ESTIMATE_DETAIL} element={<DetailEstimateView />} />
+            </>)}
 
-          {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}
-          <Route path='*' element={<NotFoundView />} />
-        </Route>
-      </Routes>
+            {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}
+            <Route path='*' element={<NotFoundView />} />
+          </Route>
+        </Routes>
+      </main>
     </>
   )
 }

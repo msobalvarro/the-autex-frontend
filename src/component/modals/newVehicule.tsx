@@ -159,7 +159,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
               <div className='flex ml-2 gap-2 items-center'>
                 <span className='text-gray-500'>Marcas</span>
                 {data.brandId && modelList.length == 0 && (
-                  <span className='text-red-500 text-sm'>(A `gregue un modelo)</span>
+                  <span className='text-red-500 text-sm'>(Crea un nuevo modelo)</span>
                 )}
               </div>
             </label>

@@ -11,6 +11,7 @@ import { RiCalculatorFill } from 'react-icons/ri'
 import { IoCheckmarkSharp } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
+import { formatNumber } from '@/utils/formatNumber'
 
 
 interface ListRepresentationProps {
@@ -231,7 +232,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
         {currentSteps === 4 && (
           <>
-            <div className='flex flex-col gap-4 px-20'>
+            <div className='flex flex-col gap-4 px-10'>
               <p className='text-lg text-gray-600 uppercase'>Resumen Total</p>
 
               <div className='flex'>
@@ -259,8 +260,8 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                 </div>
 
                 <div className='text-center flex-1'>
-                  <p className='text-6xl text-gray-800'>
-                    C$ {_.sum(Object.values(sums))}
+                  <p className='text-4xl text-gray-800 font-bold'>
+                    C$ {formatNumber(_.sum(Object.values(sums)))}
                   </p>
                   <p className='text-xl font-bold text-gray-400'>Precio total</p>
                 </div>

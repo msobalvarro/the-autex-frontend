@@ -29,7 +29,7 @@ export const NavButtons = ({
           'bg-gray-300': nextDisabled,
           'bg-gray-600': !nextDisabled,
         })}`}>
-        Continuar <FaArrowRight />
+        <span>Continuar</span> <FaArrowRight />
       </button>
     )}
 

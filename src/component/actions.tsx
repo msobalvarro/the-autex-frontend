@@ -29,9 +29,7 @@ export const ActionsComponent = ({
       <div className='flex flex-row gap-4'>
         <InputSearch
           placeholder='search'
-          onChange={
-            ({ currentTarget }) => onChangeFilterValue(currentTarget.value)
-          } />
+          onChange={({ currentTarget }) => onChangeFilterValue(currentTarget.value)} />
         <button className='py-3 px-6 outline-none bg-gray-800 text-white rounded-lg' onClick={onClickButton}>{textButton}</button>
       </div>
     </div>

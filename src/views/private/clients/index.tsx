@@ -48,7 +48,7 @@ export const ClientView = () => {
         onClickButton={() => setOpenModalCient(true)}
         onChangeFilterValue={setFilter} />
 
-      <div className='flex-1 bg-white'>
+      <div className='flex-1'>
         <TableComponent
           renderEnum
           renderOptions

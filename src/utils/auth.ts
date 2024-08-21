@@ -1,17 +1,18 @@
 import { ResponseAuth } from '@/interfaces'
 import { sessionSlice } from '@/redux/reducers/auth'
 import store from '@/redux'
+import { routes } from '@/router'
 
 export const LOCAL_KEY = 'session'
 
 export const getSession = async (): Promise<ResponseAuth | null> => {
   const auth = localStorage.getItem(LOCAL_KEY)
-  
+
   if (!auth) {
     return null
   }
 
-  const response: ResponseAuth = JSON.parse(auth)  
+  const response: ResponseAuth = JSON.parse(auth)
   return response
 }
 
@@ -28,4 +29,10 @@ export const removeSession = async (): Promise<void> => {
 export const getToken = async (): Promise<string | null> => {
   const response = await getSession()
   return response?.token || null
+}
+
+export const logoutService = async() => {
+  await removeSession()
+  window.location.pathname = routes.MAIN
+  window.location.reload()
 }

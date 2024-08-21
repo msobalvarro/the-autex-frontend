@@ -131,8 +131,14 @@ export interface NavButtonProps {
   onSuccess?: () => void
 }
 
+export interface ObjectPropsTable {
+  '__item'?: Object
+  [key: string]: any
+}
+
 export interface TableProps {
-  data?: Object[] | null
+  filter?: string
+  data?: ObjectPropsTable[] | null
   renderEnum?: boolean
   renderOptions?: boolean
   options?: TableSubMenuProps[]

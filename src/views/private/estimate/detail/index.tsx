@@ -45,7 +45,7 @@ const Resume = ({ data }: PropsResume) => (
       <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
         <dt className='text-sm font-medium leading-6 text-gray-900'>Fecha registrada</dt>
         <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-          {dayjs(data?.createdAt).format('LTS')}
+          {dayjs(data.createdAt).format('DD/MM/YYYY hh:mm A')}
         </dd>
       </div>
       <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
@@ -135,7 +135,7 @@ export const DetailEstimateView = () => {
   }
 
   return (
-    <LayoutComponent>
+    <LayoutComponent renderBack>
       {data && (
         <div className='flex gap-8'>
           <div className='flex-1'>

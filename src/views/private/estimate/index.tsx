@@ -21,17 +21,16 @@ export const EstimateServiceView = () => {
   useEffect(() => {
     if (data) {
       const lowercasedFilter = filter.toLowerCase()
-
       const filteredData: EstimatePropierties[] = [...data].filter(item =>
-        Object.keys(item).some(key =>
-          String(item[key]).toLowerCase().includes(lowercasedFilter)
+        Object.values(item).some(val =>
+          String(val).toLowerCase().includes(lowercasedFilter)
         )
       )
-
+      
       setData(filteredData.map((item: EstimatePropierties) => ({
         'Cliente': item.client?.name,
         'Vehiculo': item.vehicule?.plate,
-        'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY'),
+        'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
         'Total': item.total?.toLocaleString(),
         '__item': item,
       }))
@@ -52,7 +51,7 @@ export const EstimateServiceView = () => {
         onClickButton={() => setOpen(true)}
         onChangeFilterValue={setFilter} />
 
-      <div className='flex-1 bg-white'>
+      <div className='flex-1'>
         <TableComponent onClickItem={goDetails} renderEnum data={dataFiltered} />
       </div>
 

@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { useState, InputHTMLAttributes } from 'react'
 import { IoIosSearch } from 'react-icons/io'
 
-export const InputSearch = ({ placeholder }: InputHTMLAttributes<HTMLInputElement>) => {
+export const InputSearch = (props: InputHTMLAttributes<HTMLInputElement>) => {
   const [isFocus, setFocus] = useState<boolean>(false)
   return (
     <div className='relative flex-grow'>
@@ -10,7 +10,7 @@ export const InputSearch = ({ placeholder }: InputHTMLAttributes<HTMLInputElemen
         onBlur={() => setFocus(false)}
         onFocus={() => setFocus(true)}
         type='text'
-        placeholder={placeholder || 'Search...'}
+        {...props}
         className={`w-full outline-none py-3 pl-4 pr-10 bg-white text-gray-900 transition rounded-lg border ${clsx({ 'shadow-lg': isFocus })}`}
       />
       <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
