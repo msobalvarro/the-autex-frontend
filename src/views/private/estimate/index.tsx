@@ -15,28 +15,8 @@ export const EstimateServiceView = () => {
   const navigate = useNavigate()
   const [isOpenModal, setOpen] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
-  const [dataFiltered, setData] = useState<object[]>()
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_ESTIMATIONS })
 
-  useEffect(() => {
-    if (data) {
-      const lowercasedFilter = filter.toLowerCase()
-      const filteredData: EstimatePropierties[] = [...data].filter(item =>
-        Object.values(item).some(val =>
-          String(val).toLowerCase().includes(lowercasedFilter)
-        )
-      )
-      
-      setData(filteredData.map((item: EstimatePropierties) => ({
-        'Cliente': item.client?.name,
-        'Vehiculo': item.vehicule?.plate,
-        'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
-        'Total': item.total?.toLocaleString(),
-        '__item': item,
-      }))
-      )
-    }
-  }, [filter, data])
 
   const goDetails = (item: EstimatePropierties) => {
     navigate(routes.ESTIMATE_DETAIL.replace(':id', `${item._id}`))
@@ -52,7 +32,20 @@ export const EstimateServiceView = () => {
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1'>
-        <TableComponent onClickItem={goDetails} renderEnum data={dataFiltered} />
+        {Array.isArray(data) && (
+          <TableComponent
+            filter={filter}
+            onClickItem={goDetails}
+            renderEnum
+            data={[...data].map((item: EstimatePropierties) => ({
+              'Cliente': item.client?.name,
+              'Vehiculo': item.vehicule?.plate,
+              'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
+              'Total': item.total?.toLocaleString(),
+              '__item': item,
+            }))} />
+
+        )}
       </div>
 
       <Loader active={loading} />

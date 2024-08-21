@@ -138,7 +138,7 @@ export interface ObjectPropsTable {
 
 export interface TableProps {
   filter?: string
-  data?: ObjectPropsTable[] | null
+  data: ObjectPropsTable[]
   renderEnum?: boolean
   renderOptions?: boolean
   options?: TableSubMenuProps[]

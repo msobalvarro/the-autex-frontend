@@ -4,7 +4,7 @@ import { TableComponent } from '@/component/table'
 import { Client } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AssignVehiculeToClient } from '@/component/modals/assignVehiculeToClient'
 import { Loader } from '@/component/loading'
 import { NewClient } from '@/component/modals/newClient'
@@ -15,29 +15,7 @@ export const ClientView = () => {
   const [isOpenModalAssignVehicule, setOpenModalVehicule] = useState<boolean>(false)
   const [clientSelected, setClient] = useState<Client | null>(null)
   const [filter, setFilter] = useState<string>('')
-  const [dataFiltered, setData] = useState<object[]>()
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
-
-  useEffect(() => {
-    if (data) {
-      const lowercasedFilter = filter.toLowerCase()
-
-      const filteredData: Client[] = [...data].filter(item =>
-        Object.keys(item).some(key =>
-          String(item[key]).toLowerCase().includes(lowercasedFilter)
-        )
-      )
-
-      setData(filteredData.map((item: Client) => ({
-        'Nombre': item.name,
-        'Correo Electrónico': item.email,
-        'Numero Telefónico': item.phoneNumber,
-        'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),
-        'Vehiculos': item.vehicules.length,
-        '__item': item
-      })))
-    }
-  }, [filter, data])
 
   return (
     <LayoutComponent>
@@ -50,6 +28,7 @@ export const ClientView = () => {
 
       <div className='flex-1'>
         <TableComponent
+          filter={filter}
           renderEnum
           renderOptions
           options={[
@@ -61,7 +40,16 @@ export const ClientView = () => {
               }
             }
           ]}
-          data={dataFiltered} />
+          data={
+            (Array.isArray(data) ? [...data] : []).map((item: Client) => ({
+              'Nombre': item.name,
+              'Correo Electrónico': item.email,
+              'Numero Telefónico': item.phoneNumber,
+              'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),
+              'Vehiculos': item.vehicules.length,
+              '__item': item
+            }))
+          } />
       </div>
 
       {(isOpenModalAssignVehicule && clientSelected) && (

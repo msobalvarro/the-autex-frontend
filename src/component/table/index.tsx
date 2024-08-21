@@ -1,6 +1,8 @@
 import { TableProps, ObjectPropsTable } from '@/interfaces'
 import { MenuOptions } from './option'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import _ from 'lodash'
 
 export const TableComponent = ({
   data,
@@ -8,13 +10,28 @@ export const TableComponent = ({
   renderOptions,
   options,
   onClickItem,
+  filter,
 }: TableProps) => {
-  const dataArray = Array.isArray(data) ? [...data] : []
+  const [filteredData, setData] = useState<ObjectPropsTable[]>([])
+  useEffect(() => {
+    const arr = Array.isArray(data) ? [...data] : []
+    const lowercasedFilter = filter?.toLowerCase() || ''
+    
+    setData(_.filter([...arr], item => {
+      delete item.__item
+      const str = Object.values(item).toString().toLowerCase()
+      return str.search(lowercasedFilter) > -1
+    }))
+  }, [data, filter])
 
-  if (dataArray.length === 0) {
+  if ((Array.isArray(data) ? [...data] : []).length == 0) {
+    return <p className='text-2xl text-gray-400 text-center'>No se encotraron registros en la búsqueda</p>
+  }
+
+  if (filteredData.length === 0) {
     return (
-      <div >
-        <p className='text-2xl text-gray-400 text-center'>No se encotraron registros</p>
+      <div>
+        <p className='text-2xl text-gray-400 text-center'>No se encotraron registros en la búsqueda</p>
       </div>
     )
   } else {
@@ -37,7 +54,7 @@ export const TableComponent = ({
           </thead>
 
           <tbody>
-            {data?.map((item, index) => (
+            {filteredData?.map((item, index) => (
               <tr
                 onClick={() => onClickItem?.(item?.__item)}
                 key={crypto.randomUUID()}
