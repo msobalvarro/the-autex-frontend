@@ -9,6 +9,7 @@ import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
+import { formatNumber } from '@/utils/formatNumber'
 
 
 export const EstimateServiceView = () => {
@@ -41,7 +42,7 @@ export const EstimateServiceView = () => {
               'Cliente': item.client?.name,
               'Vehiculo': item.vehicule?.plate,
               'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
-              'Total': item.total?.toLocaleString(),
+              'Total': formatNumber(Number(item.total)),
               '__item': item,
             }))} />
 

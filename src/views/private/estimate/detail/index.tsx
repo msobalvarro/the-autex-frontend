@@ -6,6 +6,7 @@ import { EstimatePropierties } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
+import { formatNumber } from '@/utils/formatNumber'
 
 interface PropsQuery {
   id?: string
@@ -70,7 +71,7 @@ const Resume = ({ data }: PropsResume) => (
       <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
         <dt className='text-sm font-medium leading-6 text-gray-900'>Total</dt>
         <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-          C$ {data.total}
+          {formatNumber(Number(data.total))}
         </dd>
       </div>
     </dl>
@@ -84,36 +85,44 @@ const Tables = ({ data }: PropsResume) => {
         <p className='text-lg text-gray-600 ml-2'>Actividades Previstas a Realizar</p>
         <TableComponent
           renderEnum
-          data={data.activitiesToDo?.map(a => ({
-            'Descripción': a.description,
-            'Cantidad': a.quantity,
-            'Costo Unitario': a.unitCost,
-            'Total': a.total
-          }))} />
+          data={
+            data?.activitiesToDo?.map(a => ({
+              'Descripción': a.description,
+              'Cantidad': a.quantity,
+              'Costo Unitario': a.unitCost,
+              'Total': formatNumber(Number(a.total)),
+              '__item': a,
+            })) || []
+          } />
       </div>
 
       <div className='flex flex-col gap-2'>
         <p className='text-lg text-gray-600 ml-2'>Partes Principales Requeridas</p>
         <TableComponent
           renderEnum
-          data={data.requiredParts?.map(a => ({
-            'Descripción': a.description,
-            'Cantidad': a.quantity,
-            'Costo Unitario': a.unitCost,
-            'Total': a.total
-          }))} />
+          data={
+            data.requiredParts?.map(a => ({
+              'Descripción': a.description,
+              'Cantidad': a.quantity,
+              'Costo Unitario': a.unitCost,
+              'Total': formatNumber(Number(a.total)),
+              '__item': a,
+            })) || []
+          } />
       </div>
 
       <div className='flex flex-col gap-2'>
         <p className='text-lg text-gray-600 ml-2'>Otros Requerimientos</p>
         <TableComponent
           renderEnum
-          data={data.otherRequirements?.map(a => ({
-            'Descripción': a.description,
-            'Cantidad': a.quantity,
-            'Costo Unitario': a.unitCost,
-            'Total': a.total
-          }))} />
+          data={
+            data.otherRequirements?.map(a => ({
+              'Descripción': a.description,
+              'Cantidad': a.quantity,
+              'Costo Unitario': a.unitCost,
+              'Total': formatNumber(Number(a.total))
+            })) || []
+          } />
       </div>
     </>
   )

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { IoChevronBack } from 'react-icons/io5'
 
 interface AuxProps {
@@ -19,7 +19,7 @@ export const LayoutComponent = ({ children, renderBack }: AuxProps) => {
         </button>
       )}
 
-      <div className='bg-gray-50 rounded p-8 flex-1 shadow-xl border flex flex-col gap-8'>
+      <div className='bg-white rounded-md p-8 flex-1 shadow-xl flex flex-col gap-8'>
         {children}
       </div>
     </div>

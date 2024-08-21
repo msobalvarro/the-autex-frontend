@@ -72,11 +72,7 @@ export const TableComponent = ({
                 </td>
               ))}
 
-              {renderOptions && (
-                <MenuOptions
-                  item={item.__item || {}}
-                  options={options} />
-              )}
+              {renderOptions && (<MenuOptions item={item.__item || {}} options={options} />)}
             </tr>
           ))}
         </tbody>
