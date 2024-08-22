@@ -156,3 +156,53 @@ export interface ResponseAuth {
   email: string | null
   token: string | null
 }
+
+export interface AttentionsProperties {
+  _id?: string
+  isLocal: boolean
+  isExpress: boolean
+  isHome: boolean
+  isRescue: boolean
+}
+
+export interface PreliminaryManagementProperties {
+  _id?: string
+  isDiagnosed: boolean
+  isProven: boolean
+  isKOER: boolean
+  isKOEO: boolean
+  parked: boolean
+  onRoad: boolean
+}
+
+export interface AcivitiesProperties {
+  _id?: string
+  isMaintenance: boolean
+  isService: boolean
+  isMinorMantenance: boolean
+  isPredictive: boolean
+  isPreventive: boolean
+  isCorrective: boolean
+}
+
+
+export interface ServicesTypesToDoOrderProperties {
+  _id?: string
+  isMecanic: boolean
+  isElectrict: boolean
+  isElectroMecanic: boolean
+  isElectronic: boolean
+  isMultiple: boolean
+  isExternal: boolean
+}
+
+export interface OrderServicePropierties { 
+  _id?: string
+  attentionType: AttentionsProperties
+  estimateProps?: EstimatePropierties
+  preliminarManagment: PreliminaryManagementProperties
+  typesActivitiesToDo: AcivitiesProperties
+  serviceType: ServicesTypesToDoOrderProperties
+  estimatedCosts?: EstimatePropierties
+  status?: 'pending' | 'process' | 'finished' | 'canceled'
+}

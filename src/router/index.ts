@@ -23,4 +23,6 @@ export const Endpoints = {
   CREATE_MULTIPLE_BRANDS: 'vehicule/create/multiple/models',
   LOGIN: 'auth/',
   GET_ESTIMATION_DETAIL_BY_ID: '/estimate/detail/',
+  GET_ESTIMATION_ORDER_DETAIL_BY_ID: '/estimate/detailWithOrder/',
+  CREATE_ORDER_SERVICE: '/order/create/',
 }

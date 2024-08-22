@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { NewEstimation } from '@/component/modals/newEstimation'
 import { ActionsComponent } from '@/component/actions'
 import { LayoutComponent } from '@/component/layout'
@@ -8,7 +9,6 @@ import { useAxios } from '@/hooks/fetch'
 import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import dayjs from 'dayjs'
 import { formatNumber } from '@/utils/formatNumber'
 
 
@@ -39,6 +39,7 @@ export const EstimateServiceView = () => {
             onClickItem={goDetails}
             renderEnum
             data={[...data].map((item: EstimatePropierties) => ({
+              'Id': item._id,
               'Cliente': item.client?.name,
               'Vehiculo': item.vehicule?.plate,
               'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
