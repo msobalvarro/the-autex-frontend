@@ -1,7 +1,6 @@
 import { ResponseAuth } from '@/interfaces'
 import { sessionSlice } from '@/redux/reducers/auth'
 import store from '@/redux'
-import { routes } from '@/router'
 
 export const LOCAL_KEY = 'session'
 
@@ -33,6 +32,6 @@ export const getToken = async (): Promise<string | null> => {
 
 export const logoutService = async() => {
   await removeSession()
-  window.location.pathname = routes.MAIN
+  window.location.pathname = '/'
   window.location.reload()
 }

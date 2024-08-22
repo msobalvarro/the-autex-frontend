@@ -240,28 +240,28 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                   <div className='flex gap-2'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio total Por Mano de obra ({acitivities.length}) [total: {sums.ACTIVITY}]
+                      Precio total Por Mano de obra) <b>[{formatNumber(sums.ACTIVITY)}]</b>
                     </p>
                   </div>
 
                   <div className='flex gap-2'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio por repuestos ({partsRequired.length}) [total: {sums.ACTIVITY}]
+                      Precio por repuestos) <b>[{formatNumber(sums.ACTIVITY)}]</b>
                     </p>
                   </div>
 
                   <div className='flex gap-2'>
                     <IoCheckmarkSharp />
                     <p>
-                      Insumos ({otherRequirements.length}) [total: {sums.OTHER}]
+                      Insumos) <b>[{formatNumber(sums.OTHER)}]</b>
                     </p>
                   </div>
                 </div>
 
                 <div className='text-center flex-1'>
                   <p className='text-4xl text-gray-800 font-bold'>
-                    C$ {formatNumber(_.sum(Object.values(sums)))}
+                    {formatNumber(_.sum(Object.values(sums)))}
                   </p>
                   <p className='text-xl font-bold text-gray-400'>Precio total</p>
                 </div>

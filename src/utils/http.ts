@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getToken, removeSession } from './auth'
+import { getToken, logoutService } from './auth'
 
 export const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000',
@@ -24,8 +24,8 @@ axiosInstance.interceptors.request.use(
 
 axios.interceptors.response.use(e => e, async reject => {
   if (reject?.response?.status === 401) {
-    await removeSession()
-    window.location.pathname = '/'
-    window.location.reload()
+    await logoutService()
   }
+
+  return Promise.reject(reject)
 })

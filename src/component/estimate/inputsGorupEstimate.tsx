@@ -22,8 +22,8 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
 
   const handledClick = () => {
     if (String(dataForm.description)?.length > 6) {
-      const uuid= crypto.randomUUID()
-      
+      const uuid = crypto.randomUUID()
+
       // add data
       onAdd({
         ...dataForm,
@@ -48,6 +48,7 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
     <div className='flex gap-2 items-start'>
       <label className='flex flex-col w-4/5'>
         <InputField
+          autoFocus
           value={dataForm.description}
           onChange={
             ({ currentTarget }) => setDataForm(v => ({

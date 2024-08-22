@@ -145,6 +145,18 @@ export const DetailEstimateView = () => {
 
   return (
     <LayoutComponent renderBack>
+      {
+        data?.['_id'] && (
+          <div className='flex items-center flex-1 justify-between'>
+            <p className='text-2xl text-gray-600'>
+              Orden <code className='bg-gray-100 text-xl p-1'>{data?.['_id']}</code>
+            </p>
+
+            <button className='bg-gray-700 p-2 rounded text-white hover:bg-gray-600'>Generar Orden de Servicio</button>
+          </div>
+        )
+      }
+      
       {data && (
         <div className='flex gap-8'>
           <div className='flex-1'>
