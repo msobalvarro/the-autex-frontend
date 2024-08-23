@@ -167,7 +167,7 @@ export const DetailEstimateView = () => {
         estimate?.['_id'] && (
           <div className='flex items-center flex-1 justify-between'>
             <p className='text-2xl text-gray-600'>
-              Orden ID <code className='bg-gray-100 text-xl p-1'>{estimate?.['_id']}</code>
+              Presupuesto ID <code className='bg-gray-100 text-xl p-1'>{estimate?.['_id']}</code>
             </p>
 
             {!order && (
@@ -177,7 +177,10 @@ export const DetailEstimateView = () => {
             )}
 
             {order && (
-              <p className='text-gray-400 text-xl uppercase'>{order?.['status']}</p>
+              <div className='flex items-center gap-4'>
+                <button className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Ver Orden</button>
+                <p className='text-gray-400 text-xl uppercase'>[{order?.['status']}]</p>
+              </div>
             )}
           </div>
         )

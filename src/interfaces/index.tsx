@@ -205,4 +205,5 @@ export interface OrderServicePropierties {
   serviceType: ServicesTypesToDoOrderProperties
   estimatedCosts?: EstimatePropierties
   status?: 'pending' | 'process' | 'finished' | 'canceled'
+  createdAt?: Date
 }

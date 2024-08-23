@@ -24,5 +24,6 @@ export const Endpoints = {
   LOGIN: 'auth/',
   GET_ESTIMATION_DETAIL_BY_ID: '/estimate/detail/',
   GET_ESTIMATION_ORDER_DETAIL_BY_ID: '/estimate/detailWithOrder/',
+  GET_ALL_ORDERS: '/order/getAll',
   CREATE_ORDER_SERVICE: '/order/create/',
 }
