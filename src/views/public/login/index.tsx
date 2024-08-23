@@ -34,7 +34,7 @@ export const LoginView = () => {
   }
 
   return (
-    <div className='bg-gray-800 flex flex-1 justify-center items-center'>
+    <div className='bg-gray-800 w-full flex flex-1 justify-center items-center absolute h-full'>
       <div className='p-6 w-1/3 flex flex-col gap-8'>
         <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white'>
           Ingresa a tu cuenta
