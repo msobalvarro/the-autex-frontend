@@ -10,6 +10,7 @@ import { useAuth } from '@/hooks/auth'
 import { WelcomeScreen } from './private/welcome'
 import { DetailEstimateView } from './private/estimate/detail'
 import { OrderServiceView } from './private/order'
+import { OrderDetailView } from './private/order/detail'
 
 export const App = () => {
   const { auth } = useAuth()
@@ -28,6 +29,7 @@ export const App = () => {
               <Route path={routes.CLIENTS} element={<ClientView />} />
               <Route path={routes.ESTIMATE_DETAIL} element={<DetailEstimateView />} />
               <Route path={routes.ORDER_SERVICE} element={<OrderServiceView />} />
+              <Route path={routes.ORDER_DETAIL} element={<OrderDetailView />} />
             </>)}
 
             {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}

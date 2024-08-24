@@ -14,7 +14,7 @@ export const LayoutComponent = ({ children, renderBack }: AuxProps) => {
   return (
     <div className='w-3/4 flex flex-col gap-4 mt-10'>
       {renderBack && (
-        <button onClick={onBack} className='flex items-center self-start gap-2 p-2 rounded hover:bg-gray-200'>
+        <button onClick={onBack} className='flex items-center self-start gap-2 p-2 rounded hover:underline'>
           <IoChevronBack /> Volver
         </button>
       )}

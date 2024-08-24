@@ -1,7 +1,8 @@
 export const routes = {
   ESTIMATE_SERVICE: '/estimates',
   ESTIMATE_DETAIL: '/estimates/detail/:id',
-  ORDER_SERVICE: '/services',
+  ORDER_SERVICE: '/orders',
+  ORDER_DETAIL: '/orders/detail/:id',
   DIAGNOSTIC: '/diagnostics',
   VEHICULES: '/vehicules',
   CLIENTS: '/clients',
@@ -24,6 +25,7 @@ export const Endpoints = {
   LOGIN: 'auth/',
   GET_ESTIMATION_DETAIL_BY_ID: '/estimate/detail/',
   GET_ESTIMATION_ORDER_DETAIL_BY_ID: '/estimate/detailWithOrder/',
+  GET_ORDER_DETAIL_SERVICE: '/order/detail/',
   GET_ALL_ORDERS: '/order/getAll',
   CREATE_ORDER_SERVICE: '/order/create/',
 }

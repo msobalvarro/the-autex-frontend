@@ -1,6 +1,7 @@
 import { InputField } from '@/component/input'
 import { useValidation } from '@/hooks/validations'
 import { ActivityWithCostToDoItemEstimate } from '@/interfaces'
+import clsx from 'clsx'
 import { useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import { toast } from 'react-toastify'
@@ -8,9 +9,10 @@ import { toast } from 'react-toastify'
 
 interface InputsGroupAddNewDataProps {
   onAdd: (v: ActivityWithCostToDoItemEstimate) => void
+  small?: boolean
 }
 
-export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => {
+export const InputsGroupAddNewData = ({ onAdd, small }: InputsGroupAddNewDataProps) => {
   const { validateNumber } = useValidation()
 
   const [dataForm, setDataForm] = useState<ActivityWithCostToDoItemEstimate>({
@@ -45,7 +47,7 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
   }
 
   return (
-    <div className='flex gap-2 items-start'>
+    <div className={`flex gap-2 items-start ${clsx({ 'text-xs': small })}`}>
       <label className='flex flex-col w-4/5'>
         <InputField
           autoFocus
@@ -72,7 +74,6 @@ export const InputsGroupAddNewData = ({ onAdd }: InputsGroupAddNewDataProps) => 
               )} />
         <span className='ml-2 text-gray-500'>Costo Unidad</span>
       </label>
-
 
       <label className='flex flex-col w-1/5'>
         <InputField

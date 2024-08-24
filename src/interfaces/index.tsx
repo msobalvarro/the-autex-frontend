@@ -198,11 +198,11 @@ export interface ServicesTypesToDoOrderProperties {
 
 export interface OrderServicePropierties { 
   _id?: string
-  attentionType: AttentionsProperties
+  attentionType?: AttentionsProperties
   estimateProps?: EstimatePropierties
-  preliminarManagment: PreliminaryManagementProperties
-  typesActivitiesToDo: AcivitiesProperties
-  serviceType: ServicesTypesToDoOrderProperties
+  preliminarManagment?: PreliminaryManagementProperties
+  typesActivitiesToDo?: AcivitiesProperties
+  serviceType?: ServicesTypesToDoOrderProperties
   estimatedCosts?: EstimatePropierties
   status?: 'pending' | 'process' | 'finished' | 'canceled'
   createdAt?: Date

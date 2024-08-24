@@ -8,7 +8,7 @@ interface Props {
 
 export const useAxios = ({ endpoint }: Props) => {
   const [data, setData] = useState(null)
-  const [status, setStatus]= useState<number | null>(null)
+  const [status, setStatus] = useState<number | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 

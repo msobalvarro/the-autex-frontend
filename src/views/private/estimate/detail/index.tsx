@@ -3,12 +3,13 @@ import { Loader } from '@/component/loader'
 import { TableComponent } from '@/component/table'
 import { useAxios } from '@/hooks/fetch'
 import { EstimatePropierties, OrderServicePropierties } from '@/interfaces'
-import { Endpoints } from '@/router'
+import { Endpoints, routes } from '@/router'
 import { useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import { formatNumber } from '@/utils/formatNumber'
 import { NewOrderService } from '@/component/modals/newOrderService'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 interface PropsQuery {
   id?: string
@@ -137,8 +138,9 @@ export const DetailEstimateView = () => {
     endpoint: Endpoints.GET_ESTIMATION_ORDER_DETAIL_BY_ID + queryParams.id
   })
 
-  const estimate: EstimatePropierties | null = data?.['estimate'] || null
-  const order: OrderServicePropierties | null = data?.['order'] || null
+  const estimate: EstimatePropierties = data ? data?.['estimate'] : {}
+
+  const order: OrderServicePropierties = data ? data?.['order'] : {}
 
   if (error) {
     return (
@@ -178,7 +180,9 @@ export const DetailEstimateView = () => {
 
             {order && (
               <div className='flex items-center gap-4'>
-                <button className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Ver Orden</button>
+                <Link to={routes.ORDER_DETAIL.replace(':id', String(order._id))} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
+                  Ver Orden
+                </Link>
                 <p className='text-gray-400 text-xl uppercase'>[{order?.['status']}]</p>
               </div>
             )}
