@@ -28,4 +28,6 @@ export const Endpoints = {
   GET_ORDER_DETAIL_SERVICE: '/order/detail/',
   GET_ALL_ORDERS: '/order/getAll',
   CREATE_ORDER_SERVICE: '/order/create/',
+  UPDATE_FINDINGS_LIST: '/order/update/findings',
+  UPDATE_OBSERVATIONS_LIST: '/order/update/observations',
 }

@@ -1,4 +1,5 @@
 
+import { logoutService } from '@/utils/auth'
 import { axiosInstance } from '@/utils/http'
 import { useState, useCallback, useEffect } from 'react'
 
@@ -19,6 +20,10 @@ export const useAxios = ({ endpoint }: Props) => {
 
     try {
       const response = await axiosInstance({ url: endpoint, method: 'GET' })
+      if (response.status === 401) {
+        await logoutService()
+      }
+      
       setStatus(response.status)
       setData(response.data)
     } catch (err) {

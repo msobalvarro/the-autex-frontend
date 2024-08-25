@@ -8,44 +8,96 @@ import { ActivityWithCostToDoItemEstimate, OrderServicePropierties } from '@/int
 import { Endpoints, routes } from '@/router'
 import { formatNumber } from '@/utils/formatNumber'
 import { useParams } from 'react-router-dom'
-import { IoCheckboxSharp } from 'react-icons/io5'
-import { MdOutlineIndeterminateCheckBox } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TableRepresentation } from '@/component/estimate/tableRepresentation'
 import { InputsGroupAddNewData } from '@/component/estimate/inputsGorupEstimate'
-
-interface CheckBoxProps {
-  label: string
-  checked?: boolean
-}
-
-const CheckboxField = ({ label, checked }: CheckBoxProps) => {
-  return (
-    <div className='flex items-center gap-2'>
-      {checked && <IoCheckboxSharp />}
-      {!checked && <MdOutlineIndeterminateCheckBox />}
-      <span>{label}</span>
-    </div>
-  )
-}
+import { CheckboxField } from '@/component/order/checkboxField'
+import { Comments } from '@/component/order/comments'
+import { axiosInstance } from '@/utils/http'
+import { toast } from 'react-toastify'
 
 interface PropsQuery {
   id?: string
 }
 
 export const OrderDetailView = () => {
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const [findingsList, setFindingsList] = useState<string[]>([])
+  const [observations, setObservations] = useState<string[]>([])
   const [listResume, setResume] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const queryParams: PropsQuery = useParams()
-  const { data, loading, error } = useAxios({
+  const { data, loading, error, refetch } = useAxios({
     endpoint: Endpoints.GET_ORDER_DETAIL_SERVICE + queryParams.id
   })
   const customData: OrderServicePropierties = data ? data : {}
+
+  useEffect(() => {
+    if (customData?.findings?.length) {
+      setFindingsList(customData?.findings)
+    }
+
+    if (customData?.observations?.length) {
+      setObservations(customData?.observations)
+    }
+  }, [customData])
 
   const removeResume = (resume: ActivityWithCostToDoItemEstimate) => {
     setResume(resumes => _.remove(resumes, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === resume.uuid))
   }
 
+  const updateFindingsList = async () => {
+    setLoading(true)
+    
+    try {
+      if (findingsList.length === 0) {
+        throw new Error('Ingresa al menos un hallazgo')
+      }
+
+      const response = await axiosInstance.put(Endpoints.UPDATE_FINDINGS_LIST, {
+        id: customData._id,
+        list: findingsList
+      })
+
+      if (response.status !== 200) {
+        throw new Error(response.data);
+      }
+
+      toast.success('Lista de hallazgos actualizada')
+      refetch()
+    } catch (error) {
+      toast.error(String(error))
+    } finally { 
+      setLoading(false)
+    }
+  }
+
+  const updateObservationsList = async () => {
+    setLoading(true)
+    
+    try {
+      if (observations.length === 0) {
+        throw new Error('Ingresa al menos un hallazgo')
+      }
+
+      const response = await axiosInstance.put(Endpoints.UPDATE_OBSERVATIONS_LIST, {
+        id: customData._id,
+        list: observations
+      })
+
+      if (response.status !== 200) {
+        throw new Error(response.data);
+      }
+
+      toast.success('Lista de observaciones actualizada')
+      refetch()
+    } catch (error) {
+      toast.error(String(error))
+    } finally { 
+      setLoading(false)
+    }
+  }
+  
   if (error) {
     return (
       <LayoutComponent renderBack>
@@ -60,7 +112,7 @@ export const OrderDetailView = () => {
   return (
     <LayoutComponent renderBack>
       <div className='flex items-center justify-between'>
-        <div>
+        <div className='flex flex-col'>
           <p className='text-xl text-gray-600 uppercase'>
             Fecha Orden: <b>{dayjs(String(customData.createdAt)).format('D, MMM YYYY h:mm A')}</b>
           </p>
@@ -75,27 +127,29 @@ export const OrderDetailView = () => {
         </div>
       </div>
 
-      <div className='flex flex-1 gap-4 uppercase'>
-        <div className='flex flex-1 flex-col gap-6'>
-          <div className='flex flex-col'>
-            <div className='flex items-center gap-1 text-gray-600'>
-              <p className='font-bold'>Cliente: </p>
-              <p>{customData.estimateProps?.client?.name}</p>
-            </div>
+      <div className='flex justify-between text-lg uppercase'>
+        <div className='flex items-center gap-1 text-gray-600'>
+          <p className='font-bold'>Cliente: </p>
+          <p>{customData.estimateProps?.client?.name}</p>
+        </div>
 
-            <div className='flex items-center gap-1 text-gray-600'>
-              <p className='font-bold'>Vehciulo:</p>
-              <p>
-                {`
+        <div className='flex items-center gap-1 text-gray-600'>
+          <p className='font-bold'>Vehciulo:</p>
+          <p>
+            {`
                 ${customData.estimateProps?.vehicule?.brand?.description} 
                 ${customData.estimateProps?.vehicule?.model?.description}
                 `}
-              </p>
+          </p>
 
-              <p className='text-gray-600'>[{customData.estimateProps?.vehicule?.plate}]</p>
-            </div>
-          </div>
+          <p className='text-gray-600'>[{customData.estimateProps?.vehicule?.plate}]</p>
+        </div>
+      </div>
 
+      <hr />
+
+      <div className='flex flex-1 gap-8 uppercase'>
+        <div className='flex flex-1 flex-col gap-6'>
           <div className='flex'>
             <article className='flex flex-col gap-3 flex-1'>
               <p className='text-gray-500 text-xl'>Gestiones Preliminares</p>
@@ -181,7 +235,61 @@ export const OrderDetailView = () => {
         </div>
       </div>
 
-      <Loader active={loading} />
+      <div className='flex flex-1 gap-8'>
+        <div className='flex flex-1 flex-col gap-6'>
+          <div className='flex items-center justify-between'>
+            <p className='text-gray-500 text-xl'>Hallazgos durante el proceso de ejecución</p>
+            {customData.findings?.toString() !== findingsList.toString() && (
+              <button onClick={updateFindingsList} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+            )}
+          </div>
+
+          {findingsList.length > 0 && (
+            <TableComponent
+              renderEnum
+              data={
+                findingsList.map(item => (
+                  {
+                    '__item': item,
+                    'Hallazgo': item
+                  }
+                )) ||
+                []
+              }
+            />
+          )}
+
+          <Comments onAdd={(val) => setFindingsList(l => [...l, val])} label='Escriba los Hallazgos' />
+        </div>
+
+        <div className='flex flex-1 flex-col gap-6'>
+          <div className='flex items-center justify-between'>
+            <p className='text-gray-500 text-xl'>Observaciones / Recomendaciones</p>
+            {customData.observations?.toString() !== observations.toString() && (
+              <button onClick={updateObservationsList} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+            )}
+          </div>
+
+          {observations.length > 0 && (
+            <TableComponent
+              renderEnum
+              data={
+                observations.map(item => (
+                  {
+                    '__item': item,
+                    'Hallazgo': item
+                  }
+                )) ||
+                []
+              }
+            />
+          )}
+
+          <Comments onAdd={(val) => setObservations(l => [...l, val])} label='Escriba los Hallazgos' />
+        </div>
+      </div>
+
+      <Loader active={loading || isLoading} />
     </LayoutComponent>
   )
 }
