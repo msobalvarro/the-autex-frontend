@@ -4,9 +4,10 @@ import { toast } from 'react-toastify';
 interface Props {
   label: string;
   onAdd: (value: string) => void
+  textButton?: string
 }
 
-export const Comments = ({ label, onAdd }: Props) => {
+export const Comments = ({ label, onAdd, textButton }: Props) => {
   const [comment, setComment] = useState<string>('')
 
   const submit = () => {
@@ -30,7 +31,14 @@ export const Comments = ({ label, onAdd }: Props) => {
         onChange={({ currentTarget }) => setComment(currentTarget.value)}
         className='focus:outline-none'
         placeholder={label} />
-      <button onClick={submit} className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>Agregar</button>
+
+      {comment.length > 0 && (
+        <button
+          onClick={submit}
+          className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
+          {textButton || 'Agregar'}
+        </button>
+      )}
     </div>
   )
 }

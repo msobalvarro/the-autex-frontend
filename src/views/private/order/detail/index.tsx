@@ -22,10 +22,11 @@ interface PropsQuery {
 }
 
 export const OrderDetailView = () => {
+  const [resume, setResume] = useState<string>('')
   const [isLoading, setLoading] = useState<boolean>(false)
   const [findingsList, setFindingsList] = useState<string[]>([])
   const [observations, setObservations] = useState<string[]>([])
-  const [listResume, setResume] = useState<ActivityWithCostToDoItemEstimate[]>([])
+  const [additionalTaskList, setAdditionalTaskList] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const queryParams: PropsQuery = useParams()
   const { data, loading, error, refetch } = useAxios({
     endpoint: Endpoints.GET_ORDER_DETAIL_SERVICE + queryParams.id
@@ -40,15 +41,20 @@ export const OrderDetailView = () => {
     if (customData?.observations?.length) {
       setObservations(customData?.observations)
     }
+
+    if (customData?.resume) {
+      setResume(customData.resume)
+    }
+
   }, [customData])
 
   const removeResume = (resume: ActivityWithCostToDoItemEstimate) => {
-    setResume(resumes => _.remove(resumes, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === resume.uuid))
+    setAdditionalTaskList(resumes => _.remove(resumes, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === resume.uuid))
   }
 
   const updateFindingsList = async () => {
     setLoading(true)
-    
+
     try {
       if (findingsList.length === 0) {
         throw new Error('Ingresa al menos un hallazgo')
@@ -67,14 +73,14 @@ export const OrderDetailView = () => {
       refetch()
     } catch (error) {
       toast.error(String(error))
-    } finally { 
+    } finally {
       setLoading(false)
     }
   }
 
   const updateObservationsList = async () => {
     setLoading(true)
-    
+
     try {
       if (observations.length === 0) {
         throw new Error('Ingresa al menos un hallazgo')
@@ -93,11 +99,64 @@ export const OrderDetailView = () => {
       refetch()
     } catch (error) {
       toast.error(String(error))
-    } finally { 
+    } finally {
       setLoading(false)
     }
   }
-  
+
+  const pushAdditionalTask = async () => {
+    setLoading(true)
+
+    try {
+      if (additionalTaskList.length === 0) {
+        throw new Error('Ingresa un registo')
+      }
+
+      const response = await axiosInstance.post(Endpoints.CREATE_ADDITIONAL_TASK_LIST, {
+        id: customData._id,
+        list: additionalTaskList
+      })
+
+      if (response.status !== 200) {
+        throw new Error(response.data);
+      }
+
+      setAdditionalTaskList([])
+      toast.success('Tareas adicionales actualizadas actualizada')
+      refetch()
+    } catch (error) {
+      toast.error(String(error))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const updateResume = async () => {
+    setLoading(true)
+
+    try {
+      if (resume.trim().length < 10) {
+        throw new Error('Ingresa un registo')
+      }
+
+      const response = await axiosInstance.put(Endpoints.UPDATE_RESUME_ORDER_SERVICE, {
+        id: customData._id,
+        description: resume
+      })
+
+      if (response.status !== 200) {
+        throw new Error(response.data);
+      }
+
+      toast.success('Resumen Actualizado')
+      refetch()
+    } catch (error) {
+      toast.error(String(error))
+    } finally {
+      setLoading(false)
+    }
+  }
+
   if (error) {
     return (
       <LayoutComponent renderBack>
@@ -134,15 +193,41 @@ export const OrderDetailView = () => {
         </div>
 
         <div className='flex items-center gap-1 text-gray-600'>
-          <p className='font-bold'>Vehciulo:</p>
+          <p className='font-bold'>Vehículo:</p>
           <p>
             {`
-                ${customData.estimateProps?.vehicule?.brand?.description} 
-                ${customData.estimateProps?.vehicule?.model?.description}
-                `}
+              ${customData.estimateProps?.vehicule?.brand?.description} 
+              ${customData.estimateProps?.vehicule?.model?.description}
+            `}
           </p>
 
           <p className='text-gray-600'>[{customData.estimateProps?.vehicule?.plate}]</p>
+        </div>
+      </div>
+
+      <div className='flex justify-between text-lg uppercase'>
+        <div className='flex flex-col flex-1 gap-4 border p-4 rounded transition hover:shadow-md'>
+          <textarea
+            value={resume}
+            maxLength={256}
+            rows={3}
+            onChange={({ currentTarget }) => setResume(currentTarget.value)}
+            className='focus:outline-none'
+            placeholder='Ingrese una breve resumen de las tareas realizadas' />
+
+          <div className='flex justify-between items-center'>
+            <p className='text-gray-400 text-sm'>
+              Ingrese al menos 10 carácteres | {resume.length} de 256
+            </p>
+            {customData.resume !== resume && (
+              <button
+                onClick={updateResume}
+                className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
+                Actualizar
+              </button>
+            )}
+          </div>
+
         </div>
       </div>
 
@@ -207,7 +292,7 @@ export const OrderDetailView = () => {
 
         <div className='flex flex-col gap-8'>
           <div className='flex flex-col gap-2'>
-            <p className='text-lg text-gray-600 uppercase'>Actividades realizada</p>
+            <p className='text-lg text-gray-600 uppercase'>Actividades Requeridas</p>
             <TableComponent
               renderEnum
               data={
@@ -215,6 +300,7 @@ export const OrderDetailView = () => {
                   {
                     '__item': item,
                     'Actividades': item.description,
+                    'Costo Unitario': formatNumber(Number(item.unitCost)),
                     'Total': formatNumber(Number(item.total)),
                   }
                 )) ||
@@ -224,13 +310,26 @@ export const OrderDetailView = () => {
           </div>
 
           <div className='flex flex-col gap-2'>
-            <p className='text-lg text-gray-600 uppercase'>Resumen del Resume realizado</p>
-            {listResume.length > 0 && (
-              <TableRepresentation onRemoveItems={removeResume} list={listResume} />
+            <div className='flex items-center justify-between'>
+              <p className='text-lg text-gray-600 uppercase'>Tareas adicionales Registradas</p>
+              {additionalTaskList.length > 0 && (
+                <button onClick={pushAdditionalTask} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+              )}
+            </div>
+
+            {(customData.additionalTask) && (
+              <TableRepresentation
+                onRemoveItems={removeResume}
+                list={customData?.additionalTask || []} />
             )}
 
-            {listResume.length === 0 && <p className='text-2xl text-gray-400 text-center my-4'>Agrega resumen de lo realizado</p>}
-            <InputsGroupAddNewData small onAdd={(e) => setResume(resumes => [...resumes, e])} />
+            {(additionalTaskList.length > 0) && (
+              <TableRepresentation
+                onRemoveItems={removeResume}
+                list={additionalTaskList} />
+            )}
+
+            <InputsGroupAddNewData small onAdd={(e) => setAdditionalTaskList(resumes => [...resumes, e])} />
           </div>
         </div>
       </div>
@@ -277,7 +376,7 @@ export const OrderDetailView = () => {
                 observations.map(item => (
                   {
                     '__item': item,
-                    'Hallazgo': item
+                    'Observaciones': item
                   }
                 )) ||
                 []

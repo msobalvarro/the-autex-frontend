@@ -206,7 +206,8 @@ export interface OrderServicePropierties {
   estimatedCosts?: EstimatePropierties
   status?: 'pending' | 'process' | 'finished' | 'canceled'
   createdAt?: Date
-  resumeService?: ActivityWithCostToDoItemEstimate[]
+  additionalTask?: ActivityWithCostToDoItemEstimate[]
   findings?: string[]
+  resume?: string
   observations?: string[]
 }
