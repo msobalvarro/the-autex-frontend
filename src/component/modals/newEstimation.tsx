@@ -43,14 +43,23 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   const [acitivities, setAcitivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [partsRequired, setPartRequires] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [otherRequirements, setOtherRequirements] = useState<ActivityWithCostToDoItemEstimate[]>([])
+  const [externalActivities, setExternalActivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const { data: dataClients, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS_WITH_CARS })
 
   const addActivity = (activity: ActivityWithCostToDoItemEstimate) => {
     setAcitivities([...acitivities, activity])
   }
 
+  const addExternalActivity = (activity: ActivityWithCostToDoItemEstimate) => {
+    setExternalActivities([...externalActivities, activity])
+  }
+
   const removeActivity = (activity: ActivityWithCostToDoItemEstimate) => {
     setAcitivities(_.remove(acitivities, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid))
+  }
+
+  const removeExternalActivity = (activity: ActivityWithCostToDoItemEstimate) => {
+    setExternalActivities(_.remove(acitivities, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid))
   }
 
   const addParts = (activity: ActivityWithCostToDoItemEstimate) => {
@@ -86,7 +95,8 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
         'total': _.sum(Object.values(sums)),
         'activitiesToDo': acitivities,
         'requiredParts': partsRequired,
-        'otherRequirements': otherRequirements
+        'otherRequirements': otherRequirements,
+        'externalActivities': externalActivities,
       }
 
       const response = await axiosInstance.post(Endpoints.CREATE_ESTIMATION, data)
@@ -142,9 +152,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
     ) ||
     currentSteps === 2 && (
       partsRequired.length === 0
-    ) ||
-    currentSteps === 3 && (
-      otherRequirements.length === 0
+      || otherRequirements.length === 0
     )
   )
 
@@ -160,7 +168,8 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   const sums = {
     ACTIVITY: _.sumBy(partsRequired, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
     PARTS: _.sumBy(partsRequired, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
-    OTHER: _.sumBy(otherRequirements, (e: ActivityWithCostToDoItemEstimate) => Number(e.total))
+    EXTERNAL: _.sumBy(externalActivities, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
+    OTHER: _.sumBy(otherRequirements, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
   }
 
   return (
@@ -172,7 +181,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       containerClassesNames='flex flex-col gap-8'
       navButtonsOptions={{
         createText: 'Crear Presupuesto',
-        isFinally: currentSteps === 4,
+        isFinally: currentSteps === 3,
         renderNext: true,
         onSuccess: onCreateEstimation,
         onNextClick: () => setSteps(step => step + 1),
@@ -211,26 +220,36 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
               list={acitivities}
               onRemove={removeActivity}
               onAdd={addActivity} />
+
+            <hr />
+
+            <ListRepresentation
+              title='Actividades Externas'
+              list={externalActivities}
+              onRemove={removeExternalActivity}
+              onAdd={addExternalActivity} />
           </>
         )}
 
         {currentSteps === 2 && (
-          <ListRepresentation
-            title='Partes Principales Requeridas'
-            list={partsRequired}
-            onRemove={removeParts}
-            onAdd={addParts} />
+          <>
+            <ListRepresentation
+              title='Partes Principales Requeridas'
+              list={partsRequired}
+              onRemove={removeParts}
+              onAdd={addParts} />
+
+            <hr />
+
+            <ListRepresentation
+              title='Otros Requerimientos'
+              list={otherRequirements}
+              onRemove={removeRequirements}
+              onAdd={addOtherRequirements} />
+          </>
         )}
 
         {currentSteps === 3 && (
-          <ListRepresentation
-            title='Otros Requerimientos'
-            list={otherRequirements}
-            onRemove={removeRequirements}
-            onAdd={addOtherRequirements} />
-        )}
-
-        {currentSteps === 4 && (
           <>
             <div className='flex flex-col gap-4 px-10'>
               <p className='text-lg text-gray-600 uppercase'>Resumen Total</p>
@@ -240,21 +259,28 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                   <div className='flex gap-2'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio total Por Mano de obra) <b>[{formatNumber(sums.ACTIVITY)}]</b>
+                      Precio total Por Mano de obra <b>[{formatNumber(sums.ACTIVITY)}]</b>
                     </p>
                   </div>
 
                   <div className='flex gap-2'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio por repuestos) <b>[{formatNumber(sums.ACTIVITY)}]</b>
+                      Precio total Por Mano de obra Externa <b>[{formatNumber(sums.EXTERNAL)}]</b>
                     </p>
                   </div>
 
                   <div className='flex gap-2'>
                     <IoCheckmarkSharp />
                     <p>
-                      Insumos) <b>[{formatNumber(sums.OTHER)}]</b>
+                      Precio por repuestos <b>[{formatNumber(sums.ACTIVITY)}]</b>
+                    </p>
+                  </div>
+
+                  <div className='flex gap-2'>
+                    <IoCheckmarkSharp />
+                    <p>
+                      Insumos <b>[{formatNumber(sums.OTHER)}]</b>
                     </p>
                   </div>
                 </div>
