@@ -127,6 +127,20 @@ const Tables = ({ data }: PropsResume) => {
             })) || []
           } />
       </div>
+
+      <div className='flex flex-col gap-2'>
+        <p className='text-lg text-gray-600 ml-2'>Actividades Externas</p>
+        <TableComponent
+          renderEnum
+          data={
+            data.externalActivities?.map(a => ({
+              'Descripción': a.description,
+              'Cantidad': a.quantity,
+              'Costo Unitario': a.unitCost,
+              'Total': formatNumber(Number(a.total))
+            })) || []
+          } />
+      </div>
     </>
   )
 }
