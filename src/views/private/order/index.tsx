@@ -19,6 +19,7 @@ export const OrderServiceView = () => {
   return (
     <LayoutComponent>
       <ActionsComponent
+        hiddeButton
         textButton='Nueva Orden'
         title='Orden de Servicio'
         subtitle='Visualiza y gestiona todas las ordenes creadas'

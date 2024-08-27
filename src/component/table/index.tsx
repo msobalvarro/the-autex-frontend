@@ -68,7 +68,7 @@ export const TableComponent = ({
                 <td
                   key={crypto.randomUUID()}
                   className='py-4 px-6 text-gray-700 text-sm cursor-pointer'>
-                  {`${item?.[key]}`}
+                  {item?.[key]}
                 </td>
               ))}
 

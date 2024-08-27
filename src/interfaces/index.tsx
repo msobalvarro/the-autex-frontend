@@ -4,6 +4,7 @@ export interface ActionsComponentProps {
   title: string
   subtitle: string
   textButton: string
+  hiddeButton?: boolean
   onClickButton: () => void
   onChangeFilterValue: (value: string) => void
   secondaryButtons?: SecondaryButtons[]

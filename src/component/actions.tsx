@@ -7,7 +7,8 @@ export const ActionsComponent = ({
   onClickButton,
   textButton,
   onChangeFilterValue,
-  secondaryButtons
+  secondaryButtons,
+  hiddeButton
 }: ActionsComponentProps) => {
   return (
     <div className='flex flex-row flex-1 items-center'>
@@ -30,7 +31,12 @@ export const ActionsComponent = ({
         <InputSearch
           placeholder='search'
           onChange={({ currentTarget }) => onChangeFilterValue(currentTarget.value)} />
-        <button className='py-3 px-6 outline-none bg-gray-700 text-white rounded-lg' onClick={onClickButton}>{textButton}</button>
+
+        {!hiddeButton && (
+          <button className='py-3 px-6 outline-none bg-gray-700 text-white rounded-lg' onClick={onClickButton}>
+            {textButton}
+          </button>
+        )}
       </div>
     </div>
   )

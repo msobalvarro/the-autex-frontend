@@ -39,11 +39,11 @@ export const EstimateServiceView = () => {
             onClickItem={goDetails}
             renderEnum
             data={[...data].map((item: EstimatePropierties) => ({
-              'Id': item._id,
+              'Id': <code className='font-bold'>{item._id}</code>,
               'Cliente': item.client?.name,
               'Vehiculo': item.vehicule?.plate,
               'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
-              'Total': formatNumber(Number(item.total)),
+              'Total': <p className='text-gray-600'>{formatNumber(Number(item.total))}</p> ,
               '__item': item,
             }))} />
 
