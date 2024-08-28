@@ -213,3 +213,8 @@ export interface OrderServicePropierties {
   resume?: string
   observations?: string[]
 }
+
+export interface DistanceTraveledPropierties {
+  distance: number
+  type: string
+}

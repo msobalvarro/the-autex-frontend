@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
-import { ActivityWithCostToDoItemEstimate, Client, SelectionProps, Vehicule } from '@/interfaces'
+import { ActivityWithCostToDoItemEstimate, Client, DistanceTraveledPropierties, SelectionProps, Vehicule } from '@/interfaces'
 import { CustomModal, ModalMinimalProps } from '@/component/modals/layout'
 import { InputsGroupAddNewData } from '@/component/estimate/inputsGorupEstimate'
 import { TableRepresentation } from '@/component/estimate/tableRepresentation'
@@ -12,6 +12,8 @@ import { IoCheckmarkSharp } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { formatNumber } from '@/utils/formatNumber'
+import { InputField } from '../input'
+import { useValidation } from '@/hooks/validations'
 
 
 interface ListRepresentationProps {
@@ -34,6 +36,7 @@ const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentation
 const Icon = <RiCalculatorFill className='text-gray-600 text-xl' />
 
 export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
+  const { validateNumber } = useValidation()
   const [isLoading, setLoading] = useState<boolean>(false)
   const [currentSteps, setSteps] = useState<number>(1)
   const [clientSelected, setClient] = useState<string | null>(null)
@@ -44,6 +47,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   const [partsRequired, setPartRequires] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [otherRequirements, setOtherRequirements] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [externalActivities, setExternalActivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
+  const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: 'km' })
   const { data: dataClients, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS_WITH_CARS })
 
   const addActivity = (activity: ActivityWithCostToDoItemEstimate) => {
@@ -92,7 +96,9 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
         'laborCost': sums.ACTIVITY,
         'partsCost': sums.PARTS,
         'inputCost': sums.OTHER,
+        'externalCost': sums.EXTERNAL,
         'total': _.sum(Object.values(sums)),
+        'traveled': traveled,
         'activitiesToDo': acitivities,
         'requiredParts': partsRequired,
         'otherRequirements': otherRequirements,
@@ -213,6 +219,29 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
               {clientSelected && carsList.length === 0 && (
                 <p className='text-red-400 text-sm mt-1'>No se encontraron vehiculos a este cliente</p>
               )}
+            </div>
+
+            <div className='flex flex-row flex-1 gap-2 justify-stretch'>
+              <label className='flex-1 flex'>
+                <InputField
+                  value={traveled.distance}
+                  onChange={
+                    ({ currentTarget }) =>
+                      validateNumber(currentTarget.value) &&
+                      setTraveled(trav => ({ ...trav, distance: Number(currentTarget.value) }))
+                  }
+                  placeholder='Ingrese los Km / Millas actuales'
+                  className='flex-1' />
+              </label>
+
+              <CustomSelectOption
+                placeholder='Kilometro y Millas'
+                onChange={(data) => setTraveled(e => ({ ...e, type: String(data?.value) }))}
+                className='flex-1'
+                data={[
+                  { label: 'Kilómetros', value: 'km' },
+                  { label: 'Millas', value: 'miles' },
+                ]} />
             </div>
 
             <ListRepresentation

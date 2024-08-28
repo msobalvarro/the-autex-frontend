@@ -17,10 +17,9 @@ export const TableComponent = ({
     const arr = Array.isArray(data) ? [...data] : []
     const lowercasedFilter = filter?.toLowerCase() || ''
 
-    setData(_.filter([...arr], item => {
-      // delete item.__item
-      const str = Object.values(item).toString().toLowerCase()
-      return str.search(lowercasedFilter) > -1
+    setData(_.filter([...arr], i => {
+      const item = Object.values(i)
+      return String(item).toLowerCase().search(lowercasedFilter) > -1
     }))
   }, [data, filter])
 

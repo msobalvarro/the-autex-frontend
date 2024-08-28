@@ -3,9 +3,12 @@ import { FaUserGroup } from 'react-icons/fa6'
 import { createPortal } from 'react-dom'
 import { toast } from 'react-toastify'
 import { InputHTMLAttributes, useState } from 'react'
-import { OrderServicePropierties } from '@/interfaces'
+import { DistanceTraveledPropierties, OrderServicePropierties } from '@/interfaces'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
+import { InputField } from '../input'
+import { useValidation } from '@/hooks/validations'
+import { CustomSelectOption } from '../selection'
 
 interface ItemCheckPros {
   label: string
@@ -70,17 +73,20 @@ const initialState: OrderServicePropierties = {
     isExternal: false,
     isMecanic: false,
     isMultiple: false,
-  }
+  },
 }
 
 export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) => {
+  const { validateNumber } = useValidation()
+  const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: 'km' })
   const [data, setData] = useState<OrderServicePropierties>(initialState)
 
   const submit = async () => {
     try {
       const response = await axiosInstance.post(Endpoints.CREATE_ORDER_SERVICE, {
         estimateId,
-        ...data
+        ...data,
+        traveled,
       })
       if (response.status !== 200) {
         throw new Error(response.data)
@@ -110,6 +116,33 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
         }}
         iconComponent={<FaUserGroup />}>
         <>
+          <div className='flex flex-row flex-1 gap-2 justify-stretch'>
+            <label className='flex flex-col'>
+              <span>KM/MILL Actuales.</span>
+              <InputField
+                value={traveled.distance}
+                onChange={
+                  ({ currentTarget }) =>
+                    validateNumber(currentTarget.value) &&
+                    setTraveled(trav => ({ ...trav, distance: Number(currentTarget.value) }))
+                }
+                placeholder='Ingrese los Km / Millas actuales'
+                className='flex-1' />
+            </label>
+
+            <label>
+              <span>Seleccione Kilometos / Millas</span>
+              <CustomSelectOption
+                placeholder='Kilometro y Millas'
+                onChange={(data) => setTraveled(e => ({ ...e, type: String(data?.value) }))}
+                className='flex-1'
+                data={[
+                  { label: 'Kilómetros', value: 'km' },
+                  { label: 'Millas', value: 'miles' },
+                ]} />
+            </label>
+          </div>
+
           <div className='flex flex-col gap-2'>
             <p className='text-xl text-gray-700'>Tipo de atención</p>
 
@@ -117,24 +150,24 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
               <ItemRadioButton
                 label='Local'
                 propsInput={{
-                  checked: data.attentionType.isLocal,
+                  checked: Boolean(data?.attentionType?.isLocal),
                   onChange: () => setData(e => ({
                     ...e,
                     attentionType: {
-                      ...initialState.attentionType,
-                      isLocal: !e.attentionType.isLocal
+                      ...initialState?.attentionType,
+                      isLocal: Boolean(e?.attentionType?.isLocal)
                     }
                   }))
                 }}
                 name='attentionType' />
               <ItemRadioButton
                 propsInput={{
-                  checked: data.attentionType.isExpress,
+                  checked: Boolean(data?.attentionType?.isExpress),
                   onChange: () => setData(e => ({
                     ...e,
                     attentionType: {
                       ...initialState.attentionType,
-                      isExpress: !e.attentionType.isExpress
+                      isExpress: !Boolean(e?.attentionType?.isExpress)
                     }
                   }))
                 }}
@@ -142,12 +175,12 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
                 name='attentionType' />
               <ItemRadioButton
                 propsInput={{
-                  checked: data.attentionType.isHome,
+                  checked: data?.attentionType?.isHome,
                   onChange: () => setData(e => ({
                     ...e,
                     attentionType: {
                       ...initialState.attentionType,
-                      isHome: !e.attentionType.isHome
+                      isHome: !Boolean(e?.attentionType?.isHome)
                     }
                   }))
                 }}
@@ -155,12 +188,12 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
                 name='attentionType' />
               <ItemRadioButton
                 propsInput={{
-                  checked: data.attentionType.isRescue,
+                  checked: Boolean(data?.attentionType?.isRescue),
                   onChange: () => setData(e => ({
                     ...e,
                     attentionType: {
                       ...initialState.attentionType,
-                      isRescue: !e.attentionType.isRescue
+                      isRescue: !Boolean(e?.attentionType?.isRescue)
                     }
                   }))
                 }}

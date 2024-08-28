@@ -16,6 +16,7 @@ import { CheckboxField } from '@/component/order/checkboxField'
 import { Comments } from '@/component/order/comments'
 import { axiosInstance } from '@/utils/http'
 import { toast } from 'react-toastify'
+import clsx from 'clsx'
 
 interface PropsQuery {
   id?: string
@@ -168,6 +169,8 @@ export const OrderDetailView = () => {
     )
   }
 
+  const isProceessOrPending = (customData.status === 'pending' || customData.status === 'process')
+
   return (
     <LayoutComponent renderBack>
       <div className='flex items-center justify-between'>
@@ -178,11 +181,29 @@ export const OrderDetailView = () => {
           <code className='text-gray-500'>{customData._id}</code>
         </div>
 
+        <p className={`
+            text-lg uppercase font-bold
+            ${clsx({
+          'text-gray-500': customData.status === 'process',
+          'text-gray-400': customData.status === 'pending',
+          'text-green-500': customData.status === 'finished',
+          'text-red-500': customData.status === 'canceled',
+        })}`}>
+          [ESTADO: {customData.status}]
+        </p>
+
         <div className='flex items-center gap-4'>
           <Link className='hover:underline text-blue-500' to={routes.ESTIMATE_DETAIL.replace(':id', String(customData.estimateProps?._id))}>
             Ir a Presupuesto
           </Link>
-          <p className='text-gray-500 text-xl uppercase'>{customData.status}</p>
+
+          {customData.status === 'pending' && (
+            <button className='p-2 bg-gray-600 rounded text-white'>Generar Factura</button>
+          )}
+
+          {customData.status === 'finished' && (
+            <a href='#' className='hover:underline text-blue-500'>Descargar Factura</a>
+          )}
         </div>
       </div>
 
@@ -205,28 +226,37 @@ export const OrderDetailView = () => {
         </div>
       </div>
 
-      <div className='flex justify-between text-lg uppercase'>
+      <div className={`
+          flex flex-col gap-1 justify-between text-lg uppercase
+          ${clsx({
+        'bg-gray-200': customData.status === 'finished'
+      })}`}>
+        <p className='text-gray-400 text-sm ml-2'>Breve descripcion de lo realizado</p>
         <div className='flex flex-col flex-1 gap-4 border p-4 rounded transition hover:shadow-md'>
           <textarea
             value={resume}
             maxLength={256}
+            disabled={customData.status === 'finished'}
             rows={3}
             onChange={({ currentTarget }) => setResume(currentTarget.value)}
-            className='focus:outline-none'
+            className='focus:outline-none text-gray-600 bg-transparent border-none'
             placeholder='Ingrese una breve resumen de las tareas realizadas' />
 
-          <div className='flex justify-between items-center'>
-            <p className='text-gray-400 text-sm'>
-              Ingrese al menos 10 carácteres | {resume.length} de 256
-            </p>
-            {customData.resume !== resume && (
-              <button
-                onClick={updateResume}
-                className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
-                Actualizar
-              </button>
-            )}
-          </div>
+          {(customData.resume !== resume && isProceessOrPending) && (
+            <div className='flex justify-between items-center'>
+              <p className='text-gray-400 text-sm'>
+                Ingrese al menos 10 carácteres | {resume.length} de 256
+              </p>
+
+              {resume.trim().length > 3 && (
+                <button
+                  onClick={updateResume}
+                  className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
+                  Actualizar
+                </button>
+              )}
+            </div>
+          )}
 
         </div>
       </div>
@@ -358,7 +388,9 @@ export const OrderDetailView = () => {
             />
           )}
 
-          <Comments onAdd={(val) => setFindingsList(l => [...l, val])} label='Escriba los Hallazgos' />
+          {isProceessOrPending && (
+            <Comments onAdd={(val) => setFindingsList(l => [...l, val])} label='Escriba los Hallazgos' />
+          )}
         </div>
 
         <div className='flex flex-1 flex-col gap-6'>
@@ -384,7 +416,9 @@ export const OrderDetailView = () => {
             />
           )}
 
-          <Comments onAdd={(val) => setObservations(l => [...l, val])} label='Escriba los Hallazgos' />
+          {isProceessOrPending && (
+            <Comments onAdd={(val) => setObservations(l => [...l, val])} label='Escriba los Hallazgos' />
+          )}
         </div>
       </div>
 
