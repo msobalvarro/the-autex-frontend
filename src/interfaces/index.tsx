@@ -112,13 +112,14 @@ export interface ModalProps {
   setOpen: (value: boolean) => void
   children: React.ReactElement,
   iconComponent?: JSX.Element
-  title: string
-  subTitle: string
+  title?: string
+  subTitle?: string
   textSubmit?: string
   containerClassesNames?: string
-  navButtonsOptions: NavButtonProps
+  navButtonsOptions?: NavButtonProps
   hiddenButtons?: boolean
   small?: boolean
+  big?: boolean
 }
 
 export interface NavButtonProps {

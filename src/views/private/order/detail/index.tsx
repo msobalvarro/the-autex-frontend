@@ -17,13 +17,14 @@ import { CheckboxField } from '@/component/order/checkboxField'
 import { Comments } from '@/component/order/comments'
 import { axiosInstance } from '@/utils/http'
 import { toast } from 'react-toastify'
-import { generateInvoice } from '@/utils/bill/index'
+import { BillPreview } from '@/component/modals/bill'
 
 interface PropsQuery {
   id?: string
 }
 
 export const OrderDetailView = () => {
+  const [showBill, toggleBill] = useState<boolean>(false)
   const [resume, setResume] = useState<string>('')
   const [isLoading, setLoading] = useState<boolean>(false)
   const [findingsList, setFindingsList] = useState<string[]>([])
@@ -165,7 +166,7 @@ export const OrderDetailView = () => {
         id: customData._id,
       })
 
-      if (response.status !== 200) { 
+      if (response.status !== 200) {
         throw new Error(response.data)
       }
       refetch()
@@ -220,7 +221,7 @@ export const OrderDetailView = () => {
           )}
 
           {customData.status === 'finished' && (
-            <a href='#' onClick={generateInvoice} className='hover:underline text-blue-500'>Descargar Factura</a>
+            <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Descargar Factura</a>
           )}
         </div>
       </div>
@@ -351,37 +352,7 @@ export const OrderDetailView = () => {
 
       <hr />
 
-      {/* Description */}
-      <div className={` flex flex-col gap-1 justify-between text-lg uppercase`}>
-        <p className='text-gray-400 text-sm ml-2'>Breve descripcion de lo realizado</p>
-        <div className='flex flex-col flex-1 gap-4 border p-4 rounded transition hover:shadow-md'>
-          <textarea
-            value={resume}
-            maxLength={256}
-            disabled={customData.status === 'finished'}
-            rows={3}
-            onChange={({ currentTarget }) => setResume(currentTarget.value)}
-            className='focus:outline-none text-gray-600 bg-transparent border-none'
-            placeholder='Ingrese una breve resumen de las tareas realizadas' />
-
-          {(customData.resume !== resume && isProceessOrPending) && (
-            <div className='flex justify-between items-center'>
-              <p className='text-gray-400 text-sm'>
-                Ingrese al menos 10 carácteres | {resume.length} de 256
-              </p>
-
-              {resume.trim().length > 3 && (
-                <button
-                  onClick={updateResume}
-                  className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
-                  Actualizar
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-
+      {/* other description and observations */}
       <div className='flex flex-1 gap-8'>
         <div className='flex flex-1 flex-col gap-6'>
           <div className='flex items-center justify-between'>
@@ -439,6 +410,39 @@ export const OrderDetailView = () => {
           )}
         </div>
       </div>
+
+      {/* Description */}
+      <div className={` flex flex-col gap-1 justify-between text-lg uppercase`}>
+        <p className='text-gray-400 text-sm ml-2'>Breve descripcion de lo realizado</p>
+        <div className='flex flex-col flex-1 gap-4 border p-4 rounded transition hover:shadow-md'>
+          <textarea
+            value={resume}
+            maxLength={256}
+            disabled={customData.status === 'finished'}
+            rows={3}
+            onChange={({ currentTarget }) => setResume(currentTarget.value)}
+            className='focus:outline-none text-gray-600 bg-transparent border-none'
+            placeholder='Ingrese una breve resumen de las tareas realizadas' />
+
+          {(customData.resume !== resume && isProceessOrPending) && (
+            <div className='flex justify-between items-center'>
+              <p className='text-gray-400 text-sm'>
+                Ingrese al menos 10 carácteres | {resume.length} de 256
+              </p>
+
+              {resume.trim().length > 3 && (
+                <button
+                  onClick={updateResume}
+                  className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
+                  Actualizar
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {showBill && <BillPreview setOpen={toggleBill} />}
 
       <Loader active={loading || isLoading} />
     </LayoutComponent>

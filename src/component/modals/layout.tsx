@@ -20,7 +20,8 @@ export const CustomModal = ({
   containerClassesNames,
   navButtonsOptions,
   hiddenButtons,
-  small
+  small,
+  big,
 }: ModalProps) => {
   if (!isOpen) return null
 
@@ -29,6 +30,7 @@ export const CustomModal = ({
       <div className={`sm:w-5/6 transform overflow-auto rounded-lg bg-white shadow-xl transition-all sm:my-8 w-100 ${clsx({
         'md:w-3/6': !small,
         'md:w-1/3': small,
+        'md:w-2/3': big,
       })}`}>
         <div className='px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
           <div className='flex flex-col gap-8'>
@@ -41,7 +43,7 @@ export const CustomModal = ({
 
               <div className='w-full'>
                 <p className='text-xl uppercase font-bold text-gray-600'>{title}</p>
-                <p className='text-sm text-gray-500'>{subTitle}</p>
+                {subTitle && <p className='text-sm text-gray-500'>{subTitle}</p>}
               </div>
 
               <button className='text-2xl hover:bg-gray-100 rounded px-3' onClick={() => setOpen(false)}>
