@@ -32,4 +32,5 @@ export const Endpoints = {
   UPDATE_OBSERVATIONS_LIST: '/order/update/observations',
   CREATE_ADDITIONAL_TASK_LIST: '/order/create/addtionalTask',
   UPDATE_RESUME_ORDER_SERVICE: '/order/update/resume',
+  CLOSE_ORDER_SERVICE: '/order/closeOrder'
 }

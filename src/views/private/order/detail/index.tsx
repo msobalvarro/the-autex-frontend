@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import dayjs from 'dayjs'
 import _ from 'lodash'
 import { LayoutComponent } from '@/component/layout'
@@ -16,7 +17,7 @@ import { CheckboxField } from '@/component/order/checkboxField'
 import { Comments } from '@/component/order/comments'
 import { axiosInstance } from '@/utils/http'
 import { toast } from 'react-toastify'
-import clsx from 'clsx'
+import { generateInvoice } from '@/utils/bill/index'
 
 interface PropsQuery {
   id?: string
@@ -158,6 +159,22 @@ export const OrderDetailView = () => {
     }
   }
 
+  const closeOrder = async () => {
+    try {
+      const response = await axiosInstance.put(Endpoints.CLOSE_ORDER_SERVICE, {
+        id: customData._id,
+      })
+
+      if (response.status !== 200) { 
+        throw new Error(response.data)
+      }
+      refetch()
+      toast.info('Orden Finalizada')
+    } catch (error) {
+      toast.error(String(error))
+    }
+  }
+
   if (error) {
     return (
       <LayoutComponent renderBack>
@@ -173,6 +190,7 @@ export const OrderDetailView = () => {
 
   return (
     <LayoutComponent renderBack>
+      {/* Header */}
       <div className='flex items-center justify-between'>
         <div className='flex flex-col'>
           <p className='text-xl text-gray-600 uppercase'>
@@ -198,15 +216,16 @@ export const OrderDetailView = () => {
           </Link>
 
           {customData.status === 'pending' && (
-            <button className='p-2 bg-gray-600 rounded text-white'>Generar Factura</button>
+            <button onClick={closeOrder} className='p-2 bg-gray-600 rounded text-white'>Generar Factura</button>
           )}
 
           {customData.status === 'finished' && (
-            <a href='#' className='hover:underline text-blue-500'>Descargar Factura</a>
+            <a href='#' onClick={generateInvoice} className='hover:underline text-blue-500'>Descargar Factura</a>
           )}
         </div>
       </div>
 
+      {/* Client and vehicule */}
       <div className='flex justify-between text-lg uppercase'>
         <div className='flex items-center gap-1 text-gray-600'>
           <p className='font-bold'>Cliente: </p>
@@ -226,45 +245,54 @@ export const OrderDetailView = () => {
         </div>
       </div>
 
-      <div className={`
-          flex flex-col gap-1 justify-between text-lg uppercase
-          ${clsx({
-        'bg-gray-200': customData.status === 'finished'
-      })}`}>
-        <p className='text-gray-400 text-sm ml-2'>Breve descripcion de lo realizado</p>
-        <div className='flex flex-col flex-1 gap-4 border p-4 rounded transition hover:shadow-md'>
-          <textarea
-            value={resume}
-            maxLength={256}
-            disabled={customData.status === 'finished'}
-            rows={3}
-            onChange={({ currentTarget }) => setResume(currentTarget.value)}
-            className='focus:outline-none text-gray-600 bg-transparent border-none'
-            placeholder='Ingrese una breve resumen de las tareas realizadas' />
-
-          {(customData.resume !== resume && isProceessOrPending) && (
-            <div className='flex justify-between items-center'>
-              <p className='text-gray-400 text-sm'>
-                Ingrese al menos 10 carácteres | {resume.length} de 256
-              </p>
-
-              {resume.trim().length > 3 && (
-                <button
-                  onClick={updateResume}
-                  className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
-                  Actualizar
-                </button>
-              )}
-            </div>
-          )}
-
-        </div>
-      </div>
-
       <hr />
 
+      {/* Activities required and seleccion option */}
       <div className='flex flex-1 gap-8 uppercase'>
-        <div className='flex flex-1 flex-col gap-6'>
+        <div className='flex flex-1 flex-col gap-8'>
+          <div className='flex flex-col gap-2'>
+            <p className='text-lg text-gray-600 uppercase'>Actividades Requeridas</p>
+            <TableComponent
+              renderEnum
+              data={
+                customData.estimateProps?.activitiesToDo?.map(item => (
+                  {
+                    '__item': item,
+                    'Actividades': item.description,
+                    'Costo Unitario': formatNumber(Number(item.unitCost)),
+                    'Total': formatNumber(Number(item.total)),
+                  }
+                )) ||
+                []
+              }
+            />
+          </div>
+
+          <div className='flex flex-col gap-2'>
+            <div className='flex items-center justify-between'>
+              <p className='text-lg text-gray-600 uppercase'>Tareas adicionales Registradas</p>
+              {additionalTaskList.length > 0 && (
+                <button onClick={pushAdditionalTask} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+              )}
+            </div>
+
+            {(customData.additionalTask) && (
+              <TableRepresentation
+                onRemoveItems={removeResume}
+                list={customData?.additionalTask || []} />
+            )}
+
+            {(additionalTaskList.length > 0) && (
+              <TableRepresentation
+                onRemoveItems={removeResume}
+                list={additionalTaskList} />
+            )}
+
+            <InputsGroupAddNewData small onAdd={(e) => setAdditionalTaskList(resumes => [...resumes, e])} />
+          </div>
+        </div>
+
+        <div className='flex flex-col gap-6'>
           <div className='flex'>
             <article className='flex flex-col gap-3 flex-1'>
               <p className='text-gray-500 text-xl'>Gestiones Preliminares</p>
@@ -319,48 +347,38 @@ export const OrderDetailView = () => {
           </div>
 
         </div>
+      </div>
 
-        <div className='flex flex-col gap-8'>
-          <div className='flex flex-col gap-2'>
-            <p className='text-lg text-gray-600 uppercase'>Actividades Requeridas</p>
-            <TableComponent
-              renderEnum
-              data={
-                customData.estimateProps?.activitiesToDo?.map(item => (
-                  {
-                    '__item': item,
-                    'Actividades': item.description,
-                    'Costo Unitario': formatNumber(Number(item.unitCost)),
-                    'Total': formatNumber(Number(item.total)),
-                  }
-                )) ||
-                []
-              }
-            />
-          </div>
+      <hr />
 
-          <div className='flex flex-col gap-2'>
-            <div className='flex items-center justify-between'>
-              <p className='text-lg text-gray-600 uppercase'>Tareas adicionales Registradas</p>
-              {additionalTaskList.length > 0 && (
-                <button onClick={pushAdditionalTask} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+      {/* Description */}
+      <div className={` flex flex-col gap-1 justify-between text-lg uppercase`}>
+        <p className='text-gray-400 text-sm ml-2'>Breve descripcion de lo realizado</p>
+        <div className='flex flex-col flex-1 gap-4 border p-4 rounded transition hover:shadow-md'>
+          <textarea
+            value={resume}
+            maxLength={256}
+            disabled={customData.status === 'finished'}
+            rows={3}
+            onChange={({ currentTarget }) => setResume(currentTarget.value)}
+            className='focus:outline-none text-gray-600 bg-transparent border-none'
+            placeholder='Ingrese una breve resumen de las tareas realizadas' />
+
+          {(customData.resume !== resume && isProceessOrPending) && (
+            <div className='flex justify-between items-center'>
+              <p className='text-gray-400 text-sm'>
+                Ingrese al menos 10 carácteres | {resume.length} de 256
+              </p>
+
+              {resume.trim().length > 3 && (
+                <button
+                  onClick={updateResume}
+                  className='hover:bg-gray-500 self-end py-2 px-4 rounded bg-gray-600 text-white'>
+                  Actualizar
+                </button>
               )}
             </div>
-
-            {(customData.additionalTask) && (
-              <TableRepresentation
-                onRemoveItems={removeResume}
-                list={customData?.additionalTask || []} />
-            )}
-
-            {(additionalTaskList.length > 0) && (
-              <TableRepresentation
-                onRemoveItems={removeResume}
-                list={additionalTaskList} />
-            )}
-
-            <InputsGroupAddNewData small onAdd={(e) => setAdditionalTaskList(resumes => [...resumes, e])} />
-          </div>
+          )}
         </div>
       </div>
 
