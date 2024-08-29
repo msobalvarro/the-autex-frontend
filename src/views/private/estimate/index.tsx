@@ -10,11 +10,13 @@ import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatNumber } from '@/utils/formatNumber'
+import { ActivitiesModal } from '@/component/modals/acitivitiesGroup'
 
 
 export const EstimateServiceView = () => {
   const navigate = useNavigate()
   const [isOpenModal, setOpen] = useState<boolean>(false)
+  const [isOpenNewGroup, toggleGroupModal] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_ESTIMATIONS })
 
@@ -30,6 +32,12 @@ export const EstimateServiceView = () => {
         title='Presupuesto'
         subtitle='Visualiza y gestiona todos los presupuestos registrados'
         onClickButton={() => setOpen(true)}
+        secondaryButtons={[
+          {
+            label: 'Tipos de Actividades',
+            onClick: () => toggleGroupModal(true)
+          }
+        ]}
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1'>
@@ -43,7 +51,7 @@ export const EstimateServiceView = () => {
               'Cliente': item.client?.name,
               'Vehiculo': item.vehicule?.plate,
               'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
-              'Total': <p className='text-gray-600'>{formatNumber(Number(item.total))}</p> ,
+              'Total': <p className='text-gray-600'>{formatNumber(Number(item.total))}</p>,
               '__item': item,
             }))} />
 
@@ -53,6 +61,7 @@ export const EstimateServiceView = () => {
       <Loader active={loading} />
 
       {isOpenModal && <NewEstimation onUpdate={refetch} setOpen={setOpen} />}
+      {isOpenNewGroup && <ActivitiesModal setOpen={toggleGroupModal} /> }
     </LayoutComponent>
   )
 }
