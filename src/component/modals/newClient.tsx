@@ -1,13 +1,13 @@
+import { toast } from 'react-toastify'
+import { createPortal } from 'react-dom'
 import { useState } from 'react'
-import { CustomModal, ModalMinimalProps } from './layout'
+import { CustomModal, ModalMinimalProps } from '@/component/modals/layout'
 import { FaUserGroup } from 'react-icons/fa6'
 import { NewClientProps } from '@/interfaces'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
-import { toast } from 'react-toastify'
-import { createPortal } from 'react-dom'
-import { InputField } from '../input'
-import { CustomSelectOption } from '../selection'
+import { InputField } from '@/component/input'
+import { CustomSelectOption } from '@/component/selection'
 import { useValidation } from '@/hooks/validations'
 
 const valuesTypes = {

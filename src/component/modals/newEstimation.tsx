@@ -6,7 +6,7 @@ import { InputsGroupAddNewData } from '@/component/estimate/inputsGorupEstimate'
 import { TableRepresentation } from '@/component/estimate/tableRepresentation'
 import { CustomSelectOption } from '@/component/selection'
 import { useAxios } from '@/hooks/fetch'
-import { Endpoints } from '@/router'
+import { Endpoints, routes } from '@/router'
 import { RiCalculatorFill } from 'react-icons/ri'
 import { IoCheckmarkSharp } from 'react-icons/io5'
 import { toast } from 'react-toastify'
@@ -14,6 +14,7 @@ import { axiosInstance } from '@/utils/http'
 import { formatNumber } from '@/utils/formatNumber'
 import { InputField } from '../input'
 import { useValidation } from '@/hooks/validations'
+import { useNavigate } from 'react-router-dom'
 
 
 interface ListRepresentationProps {
@@ -36,6 +37,7 @@ const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentation
 const Icon = <RiCalculatorFill className='text-gray-600 text-xl' />
 
 export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
+  const navigate = useNavigate()
   const { validateNumber } = useValidation()
   const [isLoading, setLoading] = useState<boolean>(false)
   const [currentSteps, setSteps] = useState<number>(1)
@@ -113,7 +115,8 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
       toast.success('Presupuesto creado')
       setOpen(false)
-      onUpdate?.()
+      // onUpdate?.()
+      navigate(routes.ESTIMATE_DETAIL.replace(':id', response.data?.['_id']))
     } catch (error) {
       toast.error(String(error))
     } finally {

@@ -3,7 +3,7 @@ import { FaUserGroup } from 'react-icons/fa6'
 import { createPortal } from 'react-dom'
 import { toast } from 'react-toastify'
 import { InputHTMLAttributes, useState } from 'react'
-import { DistanceTraveledPropierties, OrderServicePropierties } from '@/interfaces'
+import { DistanceTraveledPropierties, OrderStateProps } from '@/interfaces'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 import { InputField } from '../input'
@@ -43,7 +43,7 @@ interface CustomProps extends ModalMinimalProps {
   estimateId?: string | null
 }
 
-const initialState: OrderServicePropierties = {
+const initialState: OrderStateProps = {
   attentionType: {
     isExpress: false,
     isHome: false,
@@ -79,7 +79,7 @@ const initialState: OrderServicePropierties = {
 export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) => {
   const { validateNumber } = useValidation()
   const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: 'km' })
-  const [data, setData] = useState<OrderServicePropierties>(initialState)
+  const [data, setData] = useState<OrderStateProps>(initialState)
 
   const submit = async () => {
     try {
@@ -150,52 +150,52 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
               <ItemRadioButton
                 label='Local'
                 propsInput={{
-                  checked: Boolean(data?.attentionType?.isLocal),
-                  onChange: () => setData(e => ({
-                    ...e,
+                  checked: data.attentionType?.isLocal,
+                  onChange: () => setData({
+                    ...data,
                     attentionType: {
-                      ...initialState?.attentionType,
-                      isLocal: Boolean(e?.attentionType?.isLocal)
+                      ...initialState.attentionType,
+                      isLocal: !data?.attentionType?.isLocal
                     }
-                  }))
+                  })
                 }}
                 name='attentionType' />
               <ItemRadioButton
                 propsInput={{
-                  checked: Boolean(data?.attentionType?.isExpress),
-                  onChange: () => setData(e => ({
-                    ...e,
+                  checked: data?.attentionType?.isExpress,
+                  onChange: () => setData({
+                    ...data,
                     attentionType: {
                       ...initialState.attentionType,
-                      isExpress: !Boolean(e?.attentionType?.isExpress)
-                    }
-                  }))
+                      isExpress: !data?.attentionType?.isExpress
+                }
+                })
                 }}
-                label='Express'
+              label='Express'
                 name='attentionType' />
               <ItemRadioButton
                 propsInput={{
                   checked: data?.attentionType?.isHome,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     attentionType: {
                       ...initialState.attentionType,
-                      isHome: !Boolean(e?.attentionType?.isHome)
+                      isHome: !data?.attentionType.isHome
                     }
-                  }))
+                  })
                 }}
                 label='A domicilio'
                 name='attentionType' />
               <ItemRadioButton
                 propsInput={{
-                  checked: Boolean(data?.attentionType?.isRescue),
-                  onChange: () => setData(e => ({
-                    ...e,
+                  checked: data?.attentionType?.isRescue,
+                  onChange: () => setData({
+                    ...data,
                     attentionType: {
                       ...initialState.attentionType,
-                      isRescue: !Boolean(e?.attentionType?.isRescue)
+                      isRescue: !data?.attentionType?.isRescue
                     }
-                  }))
+                  })
                 }}
                 label='Rescate'
                 name='attentionType' />
@@ -209,78 +209,78 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
               <ItemCheck
                 propsInput={{
                   checked: data.preliminarManagment.isDiagnosed,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     preliminarManagment: {
-                      ...e.preliminarManagment,
-                      isDiagnosed: !e.preliminarManagment.isDiagnosed
+                      ...data.preliminarManagment,
+                      isDiagnosed: !data.preliminarManagment.isDiagnosed
                     }
-                  }))
+                  })
                 }}
                 label='Diganosticado' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.preliminarManagment.isProven,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     preliminarManagment: {
-                      ...e.preliminarManagment,
-                      isProven: !e.preliminarManagment.isProven
+                      ...data.preliminarManagment,
+                      isProven: !data.preliminarManagment.isProven
                     }
-                  }))
+                  })
                 }}
                 label='Comprobado' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.preliminarManagment.isKOEO,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     preliminarManagment: {
-                      ...e.preliminarManagment,
-                      isKOEO: !e.preliminarManagment.isKOEO
+                      ...data.preliminarManagment,
+                      isKOEO: !data.preliminarManagment.isKOEO
                     }
-                  }))
+                  })
                 }}
                 label='KOEO' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.preliminarManagment.isKOER,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     preliminarManagment: {
-                      ...e.preliminarManagment,
-                      isKOER: !e.preliminarManagment.isKOER
+                      ...data.preliminarManagment,
+                      isKOER: !data.preliminarManagment.isKOER
                     }
-                  }))
+                  })
                 }}
                 label='KOER' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.preliminarManagment.parked,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     preliminarManagment: {
-                      ...e.preliminarManagment,
-                      parked: !e.preliminarManagment.parked
+                      ...data.preliminarManagment,
+                      parked: !data.preliminarManagment.parked
                     }
-                  }))
+                  })
                 }}
                 label='Estacionado' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.preliminarManagment.onRoad,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     preliminarManagment: {
-                      ...e.preliminarManagment,
-                      onRoad: !e.preliminarManagment.onRoad
+                      ...data.preliminarManagment,
+                      onRoad: !data.preliminarManagment.onRoad
                     }
-                  }))
+                  })
                 }}
                 label='En movimiento' />
 
@@ -294,91 +294,91 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
               <ItemCheck
                 propsInput={{
                   checked: data.typesActivitiesToDo.isService,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     typesActivitiesToDo: {
-                      ...e.typesActivitiesToDo,
-                      isService: !e.typesActivitiesToDo.isService
+                      ...data.typesActivitiesToDo,
+                      isService: !data.typesActivitiesToDo.isService
                     }
-                  }))
+                  })
                 }}
                 label='Servicio' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.typesActivitiesToDo.isMaintenance,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     typesActivitiesToDo: {
-                      ...e.typesActivitiesToDo,
-                      isMaintenance: !e.typesActivitiesToDo.isMaintenance
+                      ...data.typesActivitiesToDo,
+                      isMaintenance: !data.typesActivitiesToDo.isMaintenance
                     }
-                  }))
+                  })
                 }}
                 label='Mantenimiento' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.typesActivitiesToDo.isMinorMantenance,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     typesActivitiesToDo: {
-                      ...e.typesActivitiesToDo,
-                      isMinorMantenance: !e.typesActivitiesToDo.isMinorMantenance
+                      ...data.typesActivitiesToDo,
+                      isMinorMantenance: !data.typesActivitiesToDo.isMinorMantenance
                     }
-                  }))
+                  })
                 }}
                 label='Menor' />
 
               <ItemCheck
                 propsInput={{
                   checked: !data.typesActivitiesToDo.isMinorMantenance,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     typesActivitiesToDo: {
-                      ...e.typesActivitiesToDo,
-                      isMinorMantenance: !e.typesActivitiesToDo.isMinorMantenance
+                      ...data.typesActivitiesToDo,
+                      isMinorMantenance: !data.typesActivitiesToDo.isMinorMantenance
                     }
-                  }))
+                  })
                 }}
                 label='Mayor' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.typesActivitiesToDo.isPredictive,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     typesActivitiesToDo: {
-                      ...e.typesActivitiesToDo,
-                      isPredictive: !e.typesActivitiesToDo.isPredictive
+                      ...data.typesActivitiesToDo,
+                      isPredictive: !data.typesActivitiesToDo.isPredictive
                     }
-                  }))
+                  })
                 }}
                 label='Predictivo' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.typesActivitiesToDo.isPreventive,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     typesActivitiesToDo: {
-                      ...e.typesActivitiesToDo,
-                      isPreventive: !e.typesActivitiesToDo.isPreventive
+                      ...data.typesActivitiesToDo,
+                      isPreventive: !data.typesActivitiesToDo.isPreventive
                     }
-                  }))
+                  })
                 }}
                 label='Preventivo' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.typesActivitiesToDo.isCorrective,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     typesActivitiesToDo: {
-                      ...e.typesActivitiesToDo,
-                      isCorrective: !e.typesActivitiesToDo.isCorrective
+                      ...data.typesActivitiesToDo,
+                      isCorrective: !data.typesActivitiesToDo.isCorrective
                     }
-                  }))
+                  })
                 }}
                 label='Correctivo' />
             </div>
@@ -391,78 +391,78 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
               <ItemCheck
                 propsInput={{
                   checked: data.serviceType.isMecanic,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     serviceType: {
-                      ...e.serviceType,
-                      isMecanic: !e.serviceType.isMecanic
+                      ...data.serviceType,
+                      isMecanic: !data.serviceType.isMecanic
                     }
-                  }))
+                  })
                 }}
                 label='Mecánico' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.serviceType.isElectrict,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     serviceType: {
-                      ...e.serviceType,
-                      isElectrict: !e.serviceType.isElectrict
+                      ...data.serviceType,
+                      isElectrict: !data.serviceType.isElectrict
                     }
-                  }))
+                  })
                 }}
                 label='Eléctrico' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.serviceType.isElectroMecanic,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     serviceType: {
-                      ...e.serviceType,
-                      isElectroMecanic: !e.serviceType.isElectroMecanic
+                      ...data.serviceType,
+                      isElectroMecanic: !data.serviceType.isElectroMecanic
                     }
-                  }))
+                  })
                 }}
                 label='Electrómecanico' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.serviceType.isElectronic,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     serviceType: {
-                      ...e.serviceType,
-                      isElectronic: !e.serviceType.isElectronic
+                      ...data.serviceType,
+                      isElectronic: !data.serviceType.isElectronic
                     }
-                  }))
+                  })
                 }}
                 label='Electrónico' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.serviceType.isMultiple,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     serviceType: {
-                      ...e.serviceType,
-                      isMultiple: !e.serviceType.isMultiple
+                      ...data.serviceType,
+                      isMultiple: !data.serviceType.isMultiple
                     }
-                  }))
+                  })
                 }}
                 label='Multiple' />
 
               <ItemCheck
                 propsInput={{
                   checked: data.serviceType.isExternal,
-                  onChange: () => setData(e => ({
-                    ...e,
+                  onChange: () => setData({
+                    ...data,
                     serviceType: {
-                      ...e.serviceType,
-                      isExternal: !e.serviceType.isExternal
+                      ...data.serviceType,
+                      isExternal: !data.serviceType.isExternal
                     }
-                  }))
+                  })
                 }}
                 label='Externo' />
 

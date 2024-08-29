@@ -46,6 +46,7 @@ export const VehiculesView = () => {
             'Marca': item.brand?.description,
             'Modelo': item.model?.description,
             'Año': item?.year,
+            'Color': item?.color,
             'Placa': item?.plate,
           }))
         } />

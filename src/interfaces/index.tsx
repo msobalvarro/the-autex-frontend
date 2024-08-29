@@ -218,6 +218,13 @@ export interface OrderServicePropierties {
   traveled?: DistanceTraveledPropierties
 }
 
+export interface OrderStateProps {
+  attentionType: AttentionsProperties
+  preliminarManagment: PreliminaryManagementProperties
+  typesActivitiesToDo: AcivitiesProperties
+  serviceType: ServicesTypesToDoOrderProperties
+}
+
 export interface DistanceTraveledPropierties {
   distance: number
   type: string
