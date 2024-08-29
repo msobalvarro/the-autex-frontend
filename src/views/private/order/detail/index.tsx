@@ -194,35 +194,39 @@ export const OrderDetailView = () => {
       {/* Header */}
       <div className='flex items-center justify-between'>
         <div className='flex flex-col'>
-          <p className='text-xl text-gray-600 uppercase'>
-            Fecha Orden: <b>{dayjs(String(customData.createdAt)).format('D, MMM YYYY h:mm A')}</b>
+          <p className='text-2xl text-gray-600'>
+            Orden de Servicio
           </p>
           <code className='text-gray-500'>{customData._id}</code>
         </div>
 
-        <p className={`
+        <div className='flex flex-col items-end'>
+          <p className='text-md font-bold text-gray-600 uppercase'>
+            {dayjs(String(customData.createdAt)).format('D, MMM YYYY h:mm A')}
+          </p>
+          <div className='flex items-center gap-4'>
+            <Link className='hover:underline text-blue-500' to={routes.ESTIMATE_DETAIL.replace(':id', String(customData.estimateProps?._id))}>
+              Ir a Presupuesto
+            </Link>
+
+            {isProceessOrPending && (
+              <button onClick={closeOrder} className='p-2 bg-gray-600 rounded text-white'>Generar Factura</button>
+            )}
+
+            {customData.status === 'finished' && (
+              <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Ver Factura</a>
+            )}
+            <p className={`
             text-lg uppercase font-bold
             ${clsx({
-          'text-gray-500': customData.status === 'process',
-          'text-gray-400': customData.status === 'pending',
-          'text-green-500': customData.status === 'finished',
-          'text-red-500': customData.status === 'canceled',
-        })}`}>
-          [ESTADO: {customData.status}]
-        </p>
-
-        <div className='flex items-center gap-4'>
-          <Link className='hover:underline text-blue-500' to={routes.ESTIMATE_DETAIL.replace(':id', String(customData.estimateProps?._id))}>
-            Ir a Presupuesto
-          </Link>
-
-          {customData.status === 'pending' && (
-            <button onClick={closeOrder} className='p-2 bg-gray-600 rounded text-white'>Generar Factura</button>
-          )}
-
-          {customData.status === 'finished' && (
-            <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Ver Factura</a>
-          )}
+              'text-gray-500': customData.status === 'process',
+              'text-gray-400': customData.status === 'pending',
+              'text-green-500': customData.status === 'finished',
+              'text-red-500': customData.status === 'canceled',
+            })}`}>
+              [ESTADO: {customData.status}]
+            </p>
+          </div>
         </div>
       </div>
 
@@ -243,6 +247,8 @@ export const OrderDetailView = () => {
           </p>
 
           <p className='text-gray-600'>[{customData.estimateProps?.vehicule?.plate}]</p>
+
+          <p>({customData.traveled?.distance} {customData.traveled?.type})</p>
         </div>
       </div>
 
@@ -289,7 +295,9 @@ export const OrderDetailView = () => {
                 list={additionalTaskList} />
             )}
 
-            <InputsGroupAddNewData small onAdd={(e) => setAdditionalTaskList(resumes => [...resumes, e])} />
+            {isProceessOrPending && (
+              <InputsGroupAddNewData small onAdd={(e) => setAdditionalTaskList(resumes => [...resumes, e])} />
+            )}
           </div>
         </div>
 

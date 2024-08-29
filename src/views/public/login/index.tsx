@@ -1,13 +1,15 @@
 import { InputField } from '@/component/input'
 import { Loader } from '@/component/loader'
 import { ResponseAuth } from '@/interfaces'
-import { Endpoints } from '@/router'
+import { Endpoints, routes } from '@/router'
 import { setSession } from '@/utils/auth'
 import { axiosInstance } from '@/utils/http'
 import { useState } from 'react'
+import { useNavigate, } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 export const LoginView = () => {
+  const navigate = useNavigate()
   const [isLoading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -26,6 +28,7 @@ export const LoginView = () => {
       }
 
       await setSession(data)
+      navigate(routes.ORDER_SERVICE)
     } catch (error) {
       toast.error(String(error))
     } finally {
