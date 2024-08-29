@@ -172,7 +172,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   }
 
   const sums = {
-    ACTIVITY: _.sumBy(partsRequired, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
+    ACTIVITY: _.sumBy(acitivities, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
     PARTS: _.sumBy(partsRequired, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
     EXTERNAL: _.sumBy(externalActivities, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
     OTHER: _.sumBy(otherRequirements, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),

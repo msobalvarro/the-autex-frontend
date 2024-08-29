@@ -17,7 +17,7 @@ import { CheckboxField } from '@/component/order/checkboxField'
 import { Comments } from '@/component/order/comments'
 import { axiosInstance } from '@/utils/http'
 import { toast } from 'react-toastify'
-import { BillPreview } from '@/component/modals/bill'
+import { BillOrderPreview } from '@/component/modals/bill'
 
 interface PropsQuery {
   id?: string
@@ -221,7 +221,7 @@ export const OrderDetailView = () => {
           )}
 
           {customData.status === 'finished' && (
-            <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Descargar Factura</a>
+            <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Ver Factura</a>
           )}
         </div>
       </div>
@@ -442,7 +442,7 @@ export const OrderDetailView = () => {
         </div>
       </div>
 
-      {showBill && <BillPreview setOpen={toggleBill} />}
+      {showBill && <BillOrderPreview orderId={String(customData._id)} setOpen={toggleBill} />}
 
       <Loader active={loading || isLoading} />
     </LayoutComponent>

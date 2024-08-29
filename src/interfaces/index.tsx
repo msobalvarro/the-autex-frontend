@@ -206,13 +206,13 @@ export interface OrderServicePropierties {
   preliminarManagment?: PreliminaryManagementProperties
   typesActivitiesToDo?: AcivitiesProperties
   serviceType?: ServicesTypesToDoOrderProperties
-  estimatedCosts?: EstimatePropierties
   status?: 'pending' | 'process' | 'finished' | 'canceled'
   createdAt?: Date
   additionalTask?: ActivityWithCostToDoItemEstimate[]
   findings?: string[]
   resume?: string
   observations?: string[]
+  traveled?: DistanceTraveledPropierties
 }
 
 export interface DistanceTraveledPropierties {
