@@ -105,6 +105,7 @@ export interface SelectorComponentProps {
   isSearchable?: boolean
   onChange?: (value: SingleValue<SelectionProps>) => void
   data: SelectionProps[]
+  value?: string | null
 }
 
 export interface ModalProps {
@@ -158,6 +159,8 @@ export interface ResponseAuth {
   name: string | null
   email: string | null
   token: string | null
+  isRoot?: boolean
+  isAdmin?: boolean
 }
 
 export interface AttentionsProperties {

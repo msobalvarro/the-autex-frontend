@@ -221,8 +221,8 @@ export const OrderDetailView = () => {
             ${clsx({
               'text-gray-500': customData.status === 'process',
               'text-gray-400': customData.status === 'pending',
-              'text-green-500': customData.status === 'finished',
-              'text-red-500': customData.status === 'canceled',
+              'text-green-700': customData.status === 'finished',
+              'text-red-700': customData.status === 'canceled',
             })}`}>
               [ESTADO: {customData.status}]
             </p>
@@ -285,12 +285,14 @@ export const OrderDetailView = () => {
 
             {(customData.additionalTask) && (
               <TableRepresentation
+                renderOptions={isProceessOrPending}
                 onRemoveItems={removeResume}
                 list={customData?.additionalTask || []} />
             )}
 
             {(additionalTaskList.length > 0) && (
               <TableRepresentation
+                renderOptions={isProceessOrPending}
                 onRemoveItems={removeResume}
                 list={additionalTaskList} />
             )}

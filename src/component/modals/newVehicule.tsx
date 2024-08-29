@@ -57,6 +57,8 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
     }
   }, [data.brandId])
 
+  console.log(data.brandId)
+
   const onSubmit = async () => {
     try {
       const respone = await axiosInstance.post(Endpoints.CREATE_VEHICULE, {
@@ -98,7 +100,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
             <label className='flex flex-col w-1/2'>
               <CustomSelectOption
                 onChange={(e) => setData(x => ({ ...x, typeSelections: String(e?.value) }))}
-                placeholder='Cliente'
+                placeholder='Seleccione el tipo de unidad'
                 className='flex-1'
                 data={[
                   {
@@ -138,7 +140,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                   }))} />
               )}
 
-              <span className='ml-2 text-gray-500'>Selecciona un Cliente</span>
+              <span className='ml-2 text-gray-500'>Cliente</span>
             </label>
           </div>
 
@@ -157,7 +159,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
               )}
 
               <div className='flex ml-2 gap-2 items-center'>
-                <span className='text-gray-500'>Marcas</span>
+                <span className='text-gray-500'>Marca</span>
                 {data.brandId && modelList.length == 0 && (
                   <span className='text-red-500 text-sm'>(Crea un nuevo modelo)</span>
                 )}
