@@ -229,3 +229,22 @@ export interface DistanceTraveledPropierties {
   distance: number
   type: string
 }
+
+export interface User {
+  _id: string
+  name: string
+  email: string
+  password?: string
+  isAdmin: boolean
+  isRoot: boolean
+}
+
+export interface WorkshopPropierties {
+  _id: string
+  name: string
+  slogan: string  
+  pictureUrl: string | null
+  administrators?: User[]
+  users?: User[]
+  createdAt?: Date
+}

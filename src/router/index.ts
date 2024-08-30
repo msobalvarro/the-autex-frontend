@@ -8,6 +8,7 @@ export const routes = {
   CLIENTS: '/clients',
   LOGIN: '/login',
   MAIN: '/',
+  WORKSHOPS: '/workshops',
 }
 
 export const Endpoints = {
@@ -32,5 +33,7 @@ export const Endpoints = {
   UPDATE_OBSERVATIONS_LIST: '/order/update/observations',
   CREATE_ADDITIONAL_TASK_LIST: '/order/create/addtionalTask',
   UPDATE_RESUME_ORDER_SERVICE: '/order/update/resume',
-  CLOSE_ORDER_SERVICE: '/order/closeOrder'
+  CLOSE_ORDER_SERVICE: '/order/closeOrder',
+  GET_ALL_WORKSHOPS: '/workshop/getAll',
+  CREATE_WORKSHOP: '/workshop/create',
 }

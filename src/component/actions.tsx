@@ -29,7 +29,7 @@ export const ActionsComponent = ({
 
       <div className='flex flex-row gap-4'>
         <InputSearch
-          placeholder='search'
+          placeholder='buscar'
           onChange={({ currentTarget }) => onChangeFilterValue(currentTarget.value)} />
 
         {!hiddeButton && (

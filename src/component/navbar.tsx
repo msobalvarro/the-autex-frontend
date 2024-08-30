@@ -4,10 +4,12 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import clsx from 'clsx'
 import { logoutService } from '@/utils/auth'
+import { useAuth } from '@/hooks/auth'
 
 const itemClassName = 'rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
 
 export const NavbarComponent = () => {
+  const { auth } = useAuth()
 
   const [isOpenMenu, setOpenMenu] = useState<boolean>(false)
   const location = useLocation()
@@ -28,6 +30,9 @@ export const NavbarComponent = () => {
                 <Link to={routes.ORDER_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ORDER_SERVICE) })}`}>Orden de Servicio</Link>
                 <Link to={routes.CLIENTS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.CLIENTS) })}`}>Clientes</Link>
                 <Link to={routes.VEHICULES} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.VEHICULES) })}`}>Vehiculos</Link>
+                {auth?.isRoot && (
+                  <Link to={routes.WORKSHOPS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.WORKSHOPS) })}`}>Talleres</Link>
+                )}
               </div>
             </div>
           </div>

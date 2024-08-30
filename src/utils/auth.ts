@@ -30,8 +30,7 @@ export const getToken = async (): Promise<string | null> => {
   return response?.token || null
 }
 
-export const logoutService = async() => {
+export const logoutService = async () => {
   await removeSession()
   window.location.pathname = '/'
-  window.location.reload()
 }

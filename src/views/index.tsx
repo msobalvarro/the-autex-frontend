@@ -11,14 +11,13 @@ import { WelcomeScreen } from './private/welcome'
 import { DetailEstimateView } from './private/estimate/detail'
 import { OrderServiceView } from './private/order'
 import { OrderDetailView } from './private/order/detail'
+import { WorkshopsView } from './private/workshops'
 
 export const App = () => {
   const { auth } = useAuth()
-
   return (
     <>
       {auth?.token && <NavbarComponent />}
-
       <main className='flex flex-col flex-1 items-center'>
         <Routes>
           <Route path={routes.MAIN}>
@@ -30,6 +29,7 @@ export const App = () => {
               <Route path={routes.ESTIMATE_DETAIL} element={<DetailEstimateView />} />
               <Route path={routes.ORDER_SERVICE} element={<OrderServiceView />} />
               <Route path={routes.ORDER_DETAIL} element={<OrderDetailView />} />
+              <Route path={routes.WORKSHOPS} element={<WorkshopsView />} />
             </>)}
 
             {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}
