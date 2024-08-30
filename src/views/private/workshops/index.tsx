@@ -1,6 +1,7 @@
 import { ActionsComponent } from '@/component/actions'
 import { LayoutComponent } from '@/component/layout'
 import { Loader } from '@/component/loader'
+import { NewWorkshopModal } from '@/component/modals/newWorkshop'
 import { WorkShopItem } from '@/component/workshop/workshopItem'
 import { useAxios } from '@/hooks/fetch'
 import { WorkshopPropierties } from '@/interfaces'
@@ -8,6 +9,7 @@ import { Endpoints } from '@/router'
 import { useState } from 'react'
 
 export const WorkshopsView = () => {
+  const [isOpenNewWokshop, toggleNewWokshop] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const { data, loading } = useAxios({ endpoint: Endpoints.GET_ALL_WORKSHOPS })
 
@@ -19,13 +21,14 @@ export const WorkshopsView = () => {
         textButton='Nuevo Taller'
         title='Talleres'
         subtitle='Visualiza y gestiona todos los tallers y sus usuarios registrados'
-        onClickButton={() => { }}
+        onClickButton={() => toggleNewWokshop(true)}
         onChangeFilterValue={setFilter} />
-      <p>Talleres y Usuarios</p>
 
       <div className='flex gap-4'>
         {customData.map(workshop => <WorkShopItem workshop={workshop} key={crypto.randomUUID()} />)}
       </div>
+
+      {isOpenNewWokshop && <NewWorkshopModal setOpen={toggleNewWokshop} />}
 
       <Loader active={loading} />
     </LayoutComponent>

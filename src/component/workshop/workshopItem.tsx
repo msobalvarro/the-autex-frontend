@@ -1,4 +1,5 @@
 import { User, WorkshopPropierties } from '@/interfaces'
+import { FaPlus } from 'react-icons/fa6'
 
 interface UserItemProps {
   user: User
@@ -35,8 +36,11 @@ export const WorkShopItem = ({ workshop }: Props) => {
       <div className='flex flex-col gap-4'>
         {workshop.users?.map(user => <UserItem user={user} key={crypto.randomUUID()} />)}
         {workshop.users?.length == 0 && <p className='text-sm text-gray-400'>No hay usuarios</p>}
-        <div className='flex justify-center'>
-          <button className='px-4 py-2 bg-gray-700 text-white rounded'>Nuevo Usuario</button>
+        <div className='flex'>
+          <button className='px-4 py-2 bg-gray-700 text-white rounded flex items-center gap-2'>
+            <FaPlus />
+            Nuevo Usuario
+          </button>
         </div>
       </div>
     </div>
