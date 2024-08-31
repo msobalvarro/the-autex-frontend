@@ -256,3 +256,9 @@ export interface WorkshopStateProps {
   phoneNumber: string
   location: string
 }
+
+export interface CreateUserProps {
+  name: string
+  email: string
+  password: string
+}

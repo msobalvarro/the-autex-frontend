@@ -36,4 +36,5 @@ export const Endpoints = {
   CLOSE_ORDER_SERVICE: '/order/closeOrder',
   GET_ALL_WORKSHOPS: '/workshop/getAll',
   CREATE_WORKSHOP: '/workshop/create',
+  CREATE_USER_ASSIGN_WORKSHOP: 'user/create/workshop/',
 }

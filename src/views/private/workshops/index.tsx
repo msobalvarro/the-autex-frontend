@@ -15,7 +15,6 @@ export const WorkshopsView = () => {
   const [isOpenNewWokshop, toggleNewWokshop] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const { data, loading, refetch } = useAxios({ endpoint: Endpoints.GET_ALL_WORKSHOPS })
-
   const customData: WorkshopPropierties[] = Array.isArray(data) ? [...data] : []
 
   const onOpenNewUser = (workshop: WorkshopPropierties) => {
@@ -42,7 +41,7 @@ export const WorkshopsView = () => {
       </div>
 
       {isOpenNewWokshop && <NewWorkshopModal onUpdate={refetch} setOpen={toggleNewWokshop} />}
-      {(isOpenNewUser && workshopSelected) && <NewUserModal workshop={workshopSelected} setOpen={toggleNewUser} />}
+      {(isOpenNewUser && workshopSelected) && <NewUserModal onUpdate={refetch} workshop={workshopSelected} setOpen={toggleNewUser} />}
       <Loader active={loading} />
     </LayoutComponent>
   )

@@ -34,7 +34,7 @@ export const CustomModal = ({
       })}`}>
         <div className='px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
           <div className='flex flex-col gap-8'>
-            <div className='flex gap-2'>
+            <div className='flex gap-2 items-center'>
               {(iconComponent) && (
                 <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200  text-gray-800 sm:mx-0 sm:h-10 sm:w-10'>
                   {iconComponent}
@@ -46,7 +46,7 @@ export const CustomModal = ({
                 {subTitle && <p className='text-sm text-gray-500'>{subTitle}</p>}
               </div>
 
-              <button className='text-2xl hover:bg-gray-100 rounded px-3' onClick={() => setOpen(false)}>
+              <button className='text-2xl hover:bg-gray-100 rounded p-3' onClick={() => setOpen(false)}>
                 <MdOutlineClose />
               </button>
             </div>
