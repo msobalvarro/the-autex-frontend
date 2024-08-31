@@ -1,4 +1,4 @@
-import { CreateUserProps, WorkshopPropierties, WorkshopStateProps } from '@/interfaces'
+import { CreateUserProps, User, WorkshopPropierties, WorkshopStateProps } from '@/interfaces'
 import { ModalMinimalProps, CustomModal } from './layout'
 import { useState } from 'react'
 import { Loader } from '../loader'
@@ -10,14 +10,15 @@ import { Endpoints } from '@/router'
 
 interface Props extends ModalMinimalProps {
   workshop: WorkshopPropierties
+  defaultData?: User | null
 }
-export const NewUserModal = ({ setOpen, workshop, onUpdate }: Props) => {
+export const NewUserModal = ({ setOpen, workshop, onUpdate, defaultData }: Props) => {
   const { validateEmail } = useValidation()
   const [isLoading, setLoading] = useState<boolean>(false)
   const [data, setData] = useState<CreateUserProps>({
-    name: '',
-    email: '',
-    password: '',
+    name: defaultData ? defaultData.name : '',
+    email: defaultData ? defaultData.email : '',
+    password: defaultData ? String(defaultData.password) : '',
   })
 
   const submit = async () => {
@@ -34,13 +35,27 @@ export const NewUserModal = ({ setOpen, workshop, onUpdate }: Props) => {
         throw new Error('La contraseña debe contener al menos 6 dīgitos')
       }
 
-      const { data: dataResponse, status } = await axiosInstance.post(Endpoints.CREATE_USER_ASSIGN_WORKSHOP, {
-        workshopId: workshop._id,
-        ...data,
-      })
-      if (status !== 200) {
-        throw new Error(dataResponse)
+      if (defaultData) {
+        const { data: dataResponse, status } = await axiosInstance.post(Endpoints.UPDATE_USER, {
+          ...data,
+          _id: defaultData._id
+        })
+
+        if (status !== 200) {
+          throw new Error(dataResponse)
+        }
+
+      } else {
+        const { data: dataResponse, status } = await axiosInstance.post(Endpoints.CREATE_USER_ASSIGN_WORKSHOP, {
+          workshopId: workshop._id,
+          ...data,
+        })
+        
+        if (status !== 200) {
+          throw new Error(dataResponse)
+        }
       }
+
 
       setOpen(false)
       onUpdate?.()
@@ -85,6 +100,10 @@ export const NewUserModal = ({ setOpen, workshop, onUpdate }: Props) => {
             placeholder='Ingrese una contraseña'
             type='password' />
           <span className='ml-2'>Contraseña *</span>
+        </label>
+
+        <label>
+
         </label>
 
         <button disabled={isLoading} onClick={submit} className='py-2 px-3 mt-4 rounded bg-gray-600 text-white text-bold self-end'>Crear Usuario</button>
