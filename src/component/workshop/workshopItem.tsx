@@ -24,9 +24,10 @@ const UserItem = ({ user, onDelete, onEdit }: UserItemProps) => {
 
 interface Props {
   workshop: WorkshopPropierties
+  onNewUser: (workshop: WorkshopPropierties) => void
 }
 
-export const WorkShopItem = ({ workshop }: Props) => {
+export const WorkShopItem = ({ workshop, onNewUser }: Props) => {
   return (
     <div className='flex flex-col gap-8 p-5 rounded-lg border'>
       <div>
@@ -37,7 +38,7 @@ export const WorkShopItem = ({ workshop }: Props) => {
         {workshop.users?.map(user => <UserItem user={user} key={crypto.randomUUID()} />)}
         {workshop.users?.length == 0 && <p className='text-sm text-gray-400'>No hay usuarios</p>}
         <div className='flex'>
-          <button className='px-4 py-2 bg-gray-700 text-white rounded flex items-center gap-2'>
+          <button onClick={() => onNewUser(workshop)} className='px-4 py-2 bg-gray-700 text-white rounded flex items-center gap-2'>
             <FaPlus />
             Nuevo Usuario
           </button>

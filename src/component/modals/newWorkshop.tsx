@@ -88,7 +88,7 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
           <p className='text-sm'>Telefono del Representante</p>
         </label>
 
-        <button onClick={submit} className='p-2 font-bold uppercase bg-gray-700 rounded text-white mt-4'>Crear Nuevo Taller</button>
+        <button onClick={submit} className='p-2 font-bold uppercase bg-gray-700 rounded text-white mt-4'>Nuevo Taller</button>
         <Loader active={isLoading} />
       </div>
     </CustomModal>
