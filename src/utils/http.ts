@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getToken, logoutService } from './auth'
 
-export const axiosInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000',
   timeout: 10000,
   headers: {
@@ -22,10 +22,16 @@ axiosInstance.interceptors.request.use(
   }
 )
 
-axios.interceptors.response.use(e => e, async reject => {
-  if (reject?.response?.status === 401) {
+axios.interceptors.response.use(async (e) => {
+  if (e.status === 401) {
     await logoutService()
   }
 
-  return Promise.reject(reject)
+  return e
+}, async reject => {
+  console.log(reject)
+  
+  return reject
 })
+
+export { axiosInstance }

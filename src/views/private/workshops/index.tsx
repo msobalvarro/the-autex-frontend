@@ -11,7 +11,7 @@ import { useState } from 'react'
 export const WorkshopsView = () => {
   const [isOpenNewWokshop, toggleNewWokshop] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
-  const { data, loading } = useAxios({ endpoint: Endpoints.GET_ALL_WORKSHOPS })
+  const { data, loading, refetch } = useAxios({ endpoint: Endpoints.GET_ALL_WORKSHOPS })
 
   const customData: WorkshopPropierties[] = Array.isArray(data) ? [...data] : []
 
@@ -28,7 +28,7 @@ export const WorkshopsView = () => {
         {customData.map(workshop => <WorkShopItem workshop={workshop} key={crypto.randomUUID()} />)}
       </div>
 
-      {isOpenNewWokshop && <NewWorkshopModal setOpen={toggleNewWokshop} />}
+      {isOpenNewWokshop && <NewWorkshopModal onUpdate={refetch} setOpen={toggleNewWokshop} />}
 
       <Loader active={loading} />
     </LayoutComponent>

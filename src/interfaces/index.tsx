@@ -248,3 +248,11 @@ export interface WorkshopPropierties {
   users?: User[]
   createdAt?: Date
 }
+
+export interface WorkshopStateProps {
+  name: string
+  slogan: string
+  representative: string
+  phoneNumber: string
+  location: string
+}
