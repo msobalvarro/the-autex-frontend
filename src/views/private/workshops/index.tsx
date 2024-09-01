@@ -30,7 +30,7 @@ export const WorkshopsView = () => {
     toggleNewUser(true)
   }
 
-  const onUpdateUserStatus = (user: User) => { 
+  const onUpdateUserStatus = (user: User) => {
     setUser(user)
     setToggleActiveUser(true)
   }
@@ -67,7 +67,7 @@ export const WorkshopsView = () => {
           workshop={workshopSelected}
           setOpen={toggleNewUser} />}
 
-      {(isOpenConfirToggleActive && userSelected) && <ConfirmAtiveToggleModal user={userSelected}  setOpen={setToggleActiveUser} />}
+      {(isOpenConfirToggleActive && userSelected) && <ConfirmAtiveToggleModal onUpdate={refetch} user={userSelected} setOpen={setToggleActiveUser} />}
       <Loader active={loading} />
     </LayoutComponent>
   )

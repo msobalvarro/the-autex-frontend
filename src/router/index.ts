@@ -37,5 +37,6 @@ export const Endpoints = {
   GET_ALL_WORKSHOPS: '/workshop/getAll',
   CREATE_WORKSHOP: '/workshop/create',
   CREATE_USER_ASSIGN_WORKSHOP: '/user/create/workshop/',
+  UPDATE_USER_STATUS: '/user/update/status',
   UPDATE_USER: '/user/update',
 }
