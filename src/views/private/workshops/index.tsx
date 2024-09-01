@@ -3,6 +3,7 @@ import { LayoutComponent } from '@/component/layout'
 import { Loader } from '@/component/loader'
 import { NewUserModal } from '@/component/modals/newUser'
 import { NewWorkshopModal } from '@/component/modals/newWorkshop'
+import { ConfirmAtiveToggleModal } from '@/component/workshop/confirm'
 import { WorkShopItem } from '@/component/workshop/workshopItem'
 import { useAxios } from '@/hooks/fetch'
 import { User, WorkshopPropierties } from '@/interfaces'
@@ -12,6 +13,7 @@ import { useState } from 'react'
 export const WorkshopsView = () => {
   const [workshopSelected, setWorkshop] = useState<WorkshopPropierties | null>(null)
   const [userSelected, setUser] = useState<User | null>(null)
+  const [isOpenConfirToggleActive, setToggleActiveUser] = useState<boolean>(false)
   const [isOpenNewUser, toggleNewUser] = useState<boolean>(false)
   const [isOpenNewWokshop, toggleNewWokshop] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
@@ -28,6 +30,11 @@ export const WorkshopsView = () => {
     toggleNewUser(true)
   }
 
+  const onUpdateUserStatus = (user: User) => { 
+    setUser(user)
+    setToggleActiveUser(true)
+  }
+
   return (
     <LayoutComponent>
       <ActionsComponent
@@ -42,6 +49,7 @@ export const WorkshopsView = () => {
           workshop.name.toLocaleLowerCase().search(filter.toLocaleLowerCase()) > -1 &&
           <WorkShopItem
             onUpdateUser={onUpdateUserAndOpenModal}
+            onActiveOrInactive={onUpdateUserStatus}
             onNewUser={onOpenNewUser}
             workshop={workshop}
             key={crypto.randomUUID()} />)}
@@ -59,6 +67,7 @@ export const WorkshopsView = () => {
           workshop={workshopSelected}
           setOpen={toggleNewUser} />}
 
+      {(isOpenConfirToggleActive && userSelected) && <ConfirmAtiveToggleModal user={userSelected}  setOpen={setToggleActiveUser} />}
       <Loader active={loading} />
     </LayoutComponent>
   )

@@ -11,7 +11,10 @@ export const NavButtons = ({
   onBackClick,
   onSuccess,
   backText,
-  renderNext
+  renderNext,
+  renderConfirmDelete,
+  deleteText,
+  onDelete,
 }: NavButtonProps) => (
   <div className='bg-gray-100 px-4 py-3 sm:flex justify-end sm:px-6 gap-2'>
     {renderBack && (
@@ -40,6 +43,16 @@ export const NavButtons = ({
         type='button'
         className='w-full justify-center flex items-center gap-2 rounded-md bg-gray-600 px-3 py-2 text-white sm:w-auto'>
         <span>{createText || 'Guardar'}</span>
+      </button>
+    )}
+
+    {(renderConfirmDelete) && (
+      <button
+        disabled={nextDisabled}
+        onClick={onDelete}
+        type='button'
+        className='w-full justify-center flex items-center gap-2 rounded-md bg-red-800 px-3 py-2 text-white sm:w-auto'>
+        <span>{deleteText || 'Eliminar'}</span>
       </button>
     )}
   </div>

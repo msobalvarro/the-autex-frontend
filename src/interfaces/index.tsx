@@ -125,14 +125,17 @@ export interface ModalProps {
 
 export interface NavButtonProps {
   backText?: string
+  deleteText?: string
   nextDisabled?: boolean
   renderBack?: boolean
   renderNext?: boolean
+  renderConfirmDelete?: boolean
   isFinally?: boolean
   createText?: string
   onNextClick?: () => void
   onBackClick?: () => void
   onSuccess?: () => void
+  onDelete?: () => void
 }
 
 export interface ObjectPropsTable {
@@ -237,6 +240,7 @@ export interface User {
   password?: string
   isAdmin: boolean
   isRoot: boolean
+  status: 'active' | 'inactive' | 'blocked'
 }
 
 export interface WorkshopPropierties {
