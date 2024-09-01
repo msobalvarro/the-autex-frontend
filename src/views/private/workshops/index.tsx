@@ -1,7 +1,7 @@
 import { ActionsComponent } from '@/component/actions'
 import { LayoutComponent } from '@/component/layout'
 import { Loader } from '@/component/loader'
-import { NewUserModal } from '@/component/modals/newUser'
+import { NewAndUpdateUserModal } from '@/component/modals/newUser'
 import { NewWorkshopModal } from '@/component/modals/newWorkshop'
 import { ConfirmAtiveToggleModal } from '@/component/workshop/confirm'
 import { WorkShopItem } from '@/component/workshop/workshopItem'
@@ -23,9 +23,11 @@ export const WorkshopsView = () => {
   const onOpenNewUser = (workshop: WorkshopPropierties) => {
     setWorkshop(workshop)
     toggleNewUser(true)
+    setUser(null)
   }
 
   const onUpdateUserAndOpenModal = (user: User) => {
+    console.log(user)
     setUser(user)
     toggleNewUser(true)
   }
@@ -60,8 +62,8 @@ export const WorkshopsView = () => {
           onUpdate={refetch}
           setOpen={toggleNewWokshop} />}
 
-      {(isOpenNewUser && workshopSelected) &&
-        <NewUserModal
+      {((isOpenNewUser && workshopSelected) || isOpenNewUser && userSelected) &&
+        <NewAndUpdateUserModal
           defaultData={userSelected}
           onUpdate={refetch}
           workshop={workshopSelected}
