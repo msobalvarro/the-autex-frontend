@@ -94,8 +94,8 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
       setOpen(false)
       toast.info('Orden de Servicio Creada')
       onUpdate?.()
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     }
   }
 

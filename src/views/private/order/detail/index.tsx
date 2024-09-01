@@ -74,8 +74,8 @@ export const OrderDetailView = () => {
 
       toast.success('Lista de hallazgos actualizada')
       refetch()
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }
@@ -100,8 +100,8 @@ export const OrderDetailView = () => {
 
       toast.success('Lista de observaciones actualizada')
       refetch()
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }
@@ -127,8 +127,8 @@ export const OrderDetailView = () => {
       setAdditionalTaskList([])
       toast.success('Tareas adicionales actualizadas actualizada')
       refetch()
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }
@@ -153,8 +153,8 @@ export const OrderDetailView = () => {
 
       toast.success('Resumen Actualizado')
       refetch()
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }
@@ -171,8 +171,8 @@ export const OrderDetailView = () => {
       }
       refetch()
       toast.info('Orden Finalizada')
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     }
   }
 

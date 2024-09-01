@@ -29,8 +29,8 @@ export const ConfirmAtiveToggleModal = ({ user, setOpen, onUpdate }: Props) => {
       onUpdate?.()
       toast.info('Estado actualizado')
       setOpen(false)
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     }
   }
 

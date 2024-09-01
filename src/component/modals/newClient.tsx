@@ -40,8 +40,8 @@ export const NewClient = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
       setOpen(false)
       onUpdate?.()
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     }
   }
 

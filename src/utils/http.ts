@@ -9,6 +9,20 @@ const axiosInstance = axios.create({
   },
 })
 
+axios.interceptors.response.use(
+  async (e) => {
+    if (e.status === 401) {
+      await logoutService()
+    }
+
+    return e
+  },
+  (error) => error,
+  {
+    synchronous: true,
+  }
+)
+
 axiosInstance.interceptors.request.use(
   async config => {
     const token = await getToken()
@@ -17,21 +31,9 @@ axiosInstance.interceptors.request.use(
     }
     return config
   },
-  error => {
-    return Promise.reject(error)
+  error => {    
+    return Promise.reject(error.message)
   }
 )
-
-axios.interceptors.response.use(async (e) => {
-  if (e.status === 401) {
-    await logoutService()
-  }
-
-  return e
-}, async reject => {
-  console.log(reject)
-  
-  return reject
-})
 
 export { axiosInstance }

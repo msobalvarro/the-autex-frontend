@@ -29,8 +29,8 @@ export const LoginView = () => {
 
       await setSession(data)
       navigate(routes.ORDER_SERVICE)
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }

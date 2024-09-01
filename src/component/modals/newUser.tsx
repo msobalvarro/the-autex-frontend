@@ -47,21 +47,25 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
         }
 
       } else {
-        const { data: dataResponse, status } = await axiosInstance.post(Endpoints.CREATE_USER_ASSIGN_WORKSHOP, {
-          workshopId: workshop?._id,
-          ...data,
-        })
+        try {
+          const { data: dataResponse, status } = await axiosInstance.post(Endpoints.CREATE_USER_ASSIGN_WORKSHOP, {
+            workshopId: workshop?._id,
+            ...data,
+          })
 
-        if (status !== 200) {
-          throw new Error(dataResponse)
+          if (status !== 200) {
+            throw new Error(dataResponse.response.data)
+          }
+        } catch (error: any) {
+          console.log(error)
         }
       }
 
       setOpen(false)
       onUpdate?.()
       toast.info(`${data.name} ${defaultData ? 'actualizado' : 'creado'}`)
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(error?.response?.data || error)
     } finally {
       setLoading(false)
     }

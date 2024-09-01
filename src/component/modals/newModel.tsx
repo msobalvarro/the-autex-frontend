@@ -29,8 +29,8 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
       const newModel = { description: customModelName, _id: _.uniqueId() }
       setModels(m => [...m, newModel])
       setCustomModel('')
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     }
   }
 
@@ -57,8 +57,8 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
 
       toast.success(`Modelo agregado al sistema`)
       setOpen(false)
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }

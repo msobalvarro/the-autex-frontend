@@ -34,8 +34,8 @@ export const AssignVehiculeToClient = ({ setOpen, client, onUpdate }: Props) => 
       onUpdate?.()
       toast.info(`Vehiculo asignado a ${client.name}`)
       setOpen(false)
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }

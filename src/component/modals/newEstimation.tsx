@@ -117,8 +117,8 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       setOpen(false)
       // onUpdate?.()
       navigate(routes.ESTIMATE_DETAIL.replace(':id', response.data?.['_id']))
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }

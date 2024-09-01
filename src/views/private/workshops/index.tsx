@@ -27,7 +27,6 @@ export const WorkshopsView = () => {
   }
 
   const onUpdateUserAndOpenModal = (user: User) => {
-    console.log(user)
     setUser(user)
     toggleNewUser(true)
   }

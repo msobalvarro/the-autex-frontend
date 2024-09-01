@@ -43,7 +43,7 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       onUpdate?.()
 
       toast.success('Nuevo taller creado')
-    } catch (error) {
+    } catch (error: any) {
       // console.log(error)
       toast.error(String(error))
     } finally {

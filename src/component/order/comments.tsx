@@ -18,7 +18,7 @@ export const Comments = ({ label, onAdd, textButton }: Props) => {
 
       onAdd(comment)
       setComment('')
-    } catch (error) {
+    } catch (error: any) {
       toast.error(String(error));
     }
 

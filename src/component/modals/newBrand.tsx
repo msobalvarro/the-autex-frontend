@@ -24,8 +24,8 @@ export const NewbrandAndModel = ({ setOpen }: ModalMinimalProps) => {
       setModels(m => [...m, { description: customModel }])
       setCustomModel('')
 
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     }
   }
 
@@ -48,8 +48,8 @@ export const NewbrandAndModel = ({ setOpen }: ModalMinimalProps) => {
 
       setOpen(false)
       toast.success(`Marca ${description} agregada al sistema`)
-    } catch (error) {
-      toast.error(String(error))
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
     } finally {
       setLoading(false)
     }
