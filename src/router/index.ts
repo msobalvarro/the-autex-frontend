@@ -40,4 +40,5 @@ export const Endpoints = {
   UPDATE_USER_STATUS: '/user/update/status',
   UPDATE_USER: '/user/update',
   CREATE_ACTIVITIES_GROUP_ESTIMATION: '/estimate/create/activitiesGroup',
+  GET_ACTIVITIES_GROUP: '/estimate/activitiesGroup',
 }

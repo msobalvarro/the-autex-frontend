@@ -11,10 +11,12 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatNumber } from '@/utils/formatNumber'
 import { ActivitiesModal } from '@/component/modals/acitivitiesGroup'
+import { ActivitiesGroupPreviewModal } from '@/component/modals/activitiesGroupPreview'
 
 
 export const EstimateServiceView = () => {
   const navigate = useNavigate()
+  const [isOpenGroupView, setOpenGroupView] = useState<boolean>(false)
   const [isOpenModal, setOpen] = useState<boolean>(false)
   const [isOpenNewGroup, toggleGroupModal] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
@@ -34,7 +36,7 @@ export const EstimateServiceView = () => {
         secondaryButtons={[
           {
             label: 'Ver Grupos de Actividades',
-            onClick: () => toggleGroupModal(true)
+            onClick: () => setOpenGroupView(true)
           },
           {
             label: 'Nuevo Grupo de Actividades',
@@ -63,6 +65,7 @@ export const EstimateServiceView = () => {
 
       <Loader active={loading} />
 
+      {isOpenGroupView && <ActivitiesGroupPreviewModal setOpen={setOpenGroupView} />}
       {isOpenModal && <NewEstimation onUpdate={refetch} setOpen={setOpen} />}
       {isOpenNewGroup && <ActivitiesModal setOpen={toggleGroupModal} />}
     </LayoutComponent>

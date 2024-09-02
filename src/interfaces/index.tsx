@@ -267,3 +267,10 @@ export interface CreateUserProps {
   email: string
   password: string
 }
+
+export interface ActivitiesGroupPropierties {
+  _id: string
+  name: string
+  price: number
+  activities: string[]
+}

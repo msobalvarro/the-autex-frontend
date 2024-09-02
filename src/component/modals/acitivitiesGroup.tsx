@@ -3,22 +3,19 @@ import { CustomModal, ModalMinimalProps } from './layout'
 import { InputField } from '../ui/input'
 import { MdTaskAlt } from 'react-icons/md'
 import { InputAddNewActivity } from '../estimate/inputAddNewActivity'
-import { useValidation } from '@/hooks/validations'
 import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 import { Loader } from '../ui/loader'
 
 export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
-  const { validateNumber } = useValidation()
   const [loading, setLoading] = useState<boolean>(false)
   const [name, setName] = useState<string>('')
-  const [price, setPrice] = useState<number>(0)
   const [activities, setActivities] = useState<string[]>([])
 
   const submit = async () => {
     setLoading(true)
-    
+
     try {
       if (activities.length === 0) {
         throw new Error('las actividades son requeridas')
@@ -27,14 +24,9 @@ export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
         throw new Error('Ingrese un nombre')
       }
 
-      if (price === 0) {
-        throw new Error('Ingrese un precio')
-      }
-
       const { data, status } = await axiosInstance.post(Endpoints.CREATE_ACTIVITIES_GROUP_ESTIMATION, {
         activities,
-        name,
-        price
+        name
       })
 
       if (status !== 200) {
@@ -43,10 +35,10 @@ export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
 
       toast.info(`Grupo ${name} creado, ya puedes utilizarlo en el presupuesto`)
       setOpen(false)
-      
+
     } catch (error) {
       toast.error(String(error))
-    } finally { 
+    } finally {
       setLoading(false)
     }
   }
@@ -54,11 +46,11 @@ export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
   return (
     <CustomModal
       isOpen
-      medium
+      small
       setOpen={setOpen}
       title='Nuevo grupo de actividad'
       subTitle='Crea grupo de actividades para aplicarlas en el presupuesto'
-      containerClassesNames='flex flex-col gap-2'
+      containerClassesNames='flex flex-col gap-4'
       navButtonsOptions={{
         isFinally: true,
         createText: 'Crear Grupo',
@@ -67,8 +59,17 @@ export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
         renderNext: false,
         onSuccess: submit,
       }}>
-      <div className='flex flex-col gap-4'>
+      <>
+        <label className='flex flex-col flex-1'>
+          <InputField
+            value={name}
+            onChange={({ currentTarget }) => setName(currentTarget.value)}
+            placeholder='Nombre de Grupo' />
+          <span className='text-gray-600 ml-2'>Nombre del Grupo de actividades*</span>
+        </label>
+
         <InputAddNewActivity onPush={act => setActivities(l => ([...l, act]))} />
+
         {activities.length === 0 && (
           <div className='flex items-center p-5 bg-gray-50 rounded justify-between'>
             <div className='flex flex-col'>
@@ -93,28 +94,9 @@ export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
 
         <hr />
 
-        <div className='flex gap-2'>
-          <label className='flex flex-col flex-1'>
-            <InputField
-              value={name}
-              onChange={({ currentTarget }) => setName(currentTarget.value)}
-              placeholder='ingrese un nombre' />
-            <span className='text-gray-600 ml-2'>Nombre Grupo de actividad *</span>
-          </label>
-
-          <label className='flex flex-col'>
-            <InputField
-              value={String(price)}
-              onChange={({ currentTarget }) =>
-                validateNumber(currentTarget.value)
-                && setPrice(Number(currentTarget.value))}
-              placeholder='ingrese un precio' />
-            <span className='text-gray-600 ml-2'>Precio Total *</span>
-          </label>
-        </div>
 
         <Loader active={loading} />
-      </div>
+      </>
     </CustomModal>
   )
 }
