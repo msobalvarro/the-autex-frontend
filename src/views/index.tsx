@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { NavbarComponent } from '../component/navbar'
+import { NavbarComponent } from '../component/ui/navbar'
 import { routes } from '../router'
 import { NotFoundView } from './public/notFound'
 import { EstimateServiceView } from './private/estimate'

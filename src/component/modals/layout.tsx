@@ -1,6 +1,6 @@
 import { ModalProps } from '@/interfaces'
 import { createPortal } from 'react-dom'
-import { NavButtons } from '@/component/navButtons'
+import { NavButtons } from '@/component/ui/navButtons'
 import { MdOutlineClose } from 'react-icons/md'
 import clsx from 'clsx'
 
@@ -21,6 +21,7 @@ export const CustomModal = ({
   navButtonsOptions,
   hiddenButtons,
   small,
+  medium,
   big,
 }: ModalProps) => {
   if (!isOpen) return null
@@ -29,6 +30,7 @@ export const CustomModal = ({
     <div className='fixed backdrop-blur-sm overflow-auto inset-0 z-10 w-full bg-[rgba(0,0,0,0.5)] justify-center items-center flex'>
       <div className={`sm:w-5/6 transform overflow-auto rounded-lg bg-white shadow-xl transition-all sm:my-8 w-100 ${clsx({
         'md:w-3/6': !small,
+        'md:w-2/5': medium,
         'md:w-1/3': small,
         'md:w-2/3': big,
       })}`}>

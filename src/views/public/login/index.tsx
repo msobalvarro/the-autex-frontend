@@ -1,5 +1,5 @@
-import { InputField } from '@/component/input'
-import { Loader } from '@/component/loader'
+import { InputField } from '@/component/ui/input'
+import { Loader } from '@/component/ui/loader'
 import { ResponseAuth } from '@/interfaces'
 import { Endpoints, routes } from '@/router'
 import { setSession } from '@/utils/auth'

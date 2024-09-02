@@ -5,13 +5,13 @@ import { FaCar } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
-import { InputField } from '../input'
+import { InputField } from '../ui/input'
 import { useEffect, useState } from 'react'
 import { Client, NewVehiculeProps, SelectionProps, VehiculeBrands } from '@/interfaces'
 import { useValidation } from '@/hooks/validations'
-import { CustomSelectOption } from '../selection'
+import { CustomSelectOption } from '../ui/selection'
 import { useAxios } from '@/hooks/fetch'
-import { Loader } from '../loader'
+import { Loader } from '../ui/loader'
 
 export const typeRegister = {
   VEHICULE: 'auto',

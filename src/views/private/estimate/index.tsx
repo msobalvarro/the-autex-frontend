@@ -1,10 +1,10 @@
 import dayjs from 'dayjs'
 import { NewEstimation } from '@/component/modals/newEstimation'
-import { ActionsComponent } from '@/component/actions'
-import { LayoutComponent } from '@/component/layout'
+import { ActionsComponent } from '@/component/ui/actions'
+import { LayoutComponent } from '@/component/ui/layout'
 import { TableComponent } from '@/component/table'
 import { EstimatePropierties } from '@/interfaces'
-import { Loader } from '@/component/loader'
+import { Loader } from '@/component/ui/loader'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
@@ -20,7 +20,6 @@ export const EstimateServiceView = () => {
   const [filter, setFilter] = useState<string>('')
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_ESTIMATIONS })
 
-
   const goDetails = (item: EstimatePropierties) => {
     navigate(routes.ESTIMATE_DETAIL.replace(':id', `${item._id}`))
   }
@@ -34,9 +33,13 @@ export const EstimateServiceView = () => {
         onClickButton={() => setOpen(true)}
         secondaryButtons={[
           {
-            label: 'Tipos de Actividades',
+            label: 'Ver Grupos de Actividades',
             onClick: () => toggleGroupModal(true)
-          }
+          },
+          {
+            label: 'Nuevo Grupo de Actividades',
+            onClick: () => toggleGroupModal(true)
+          },
         ]}
         onChangeFilterValue={setFilter} />
 
@@ -61,7 +64,7 @@ export const EstimateServiceView = () => {
       <Loader active={loading} />
 
       {isOpenModal && <NewEstimation onUpdate={refetch} setOpen={setOpen} />}
-      {isOpenNewGroup && <ActivitiesModal setOpen={toggleGroupModal} /> }
+      {isOpenNewGroup && <ActivitiesModal setOpen={toggleGroupModal} />}
     </LayoutComponent>
   )
 }

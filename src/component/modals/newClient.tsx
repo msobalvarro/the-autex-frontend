@@ -6,8 +6,8 @@ import { FaUserGroup } from 'react-icons/fa6'
 import { NewClientProps } from '@/interfaces'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
-import { InputField } from '@/component/input'
-import { CustomSelectOption } from '@/component/selection'
+import { InputField } from '@/component/ui/input'
+import { CustomSelectOption } from '@/component/ui/selection'
 import { useValidation } from '@/hooks/validations'
 
 const valuesTypes = {

@@ -1,4 +1,4 @@
-import { InputField } from '@/component/input'
+import { InputField } from '@/component/ui/input'
 import { useValidation } from '@/hooks/validations'
 import { ActivityWithCostToDoItemEstimate } from '@/interfaces'
 import clsx from 'clsx'

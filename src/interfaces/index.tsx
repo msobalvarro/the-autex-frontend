@@ -120,6 +120,7 @@ export interface ModalProps {
   navButtonsOptions?: NavButtonProps
   hiddenButtons?: boolean
   small?: boolean
+  medium?: boolean
   big?: boolean
 }
 

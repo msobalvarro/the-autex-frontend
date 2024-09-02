@@ -6,9 +6,9 @@ import { InputHTMLAttributes, useState } from 'react'
 import { DistanceTraveledPropierties, OrderStateProps } from '@/interfaces'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
-import { InputField } from '../input'
+import { InputField } from '../ui/input'
 import { useValidation } from '@/hooks/validations'
-import { CustomSelectOption } from '../selection'
+import { CustomSelectOption } from '../ui/selection'
 
 interface ItemCheckPros {
   label: string

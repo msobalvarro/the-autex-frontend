@@ -1,4 +1,4 @@
-import { LayoutComponent } from '@/component/layout'
+import { LayoutComponent } from '@/component/ui/layout'
 
 export const WelcomeScreen = () => { 
   return (

@@ -1,5 +1,5 @@
 import { ActionsComponentProps } from '@/interfaces';
-import { InputSearch } from '@/component/input';
+import { InputSearch } from '@/component/ui/input';
 
 export const ActionsComponent = ({
   title,

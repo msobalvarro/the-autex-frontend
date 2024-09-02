@@ -3,11 +3,11 @@ import { useAxios } from '@/hooks/fetch'
 import { Client, Vehicule } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { IoCarSportSharp } from 'react-icons/io5'
-import { Loader } from '../loader'
+import { Loader } from '../ui/loader'
 import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { useState } from 'react'
-import { InputField } from '../input'
+import { InputField } from '../ui/input'
 
 interface Props extends ModalMinimalProps {
   client: Client
