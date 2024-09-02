@@ -54,7 +54,7 @@ export const EstimateServiceView = () => {
               'Cliente': item.client?.name,
               'Vehiculo': item.vehicule?.plate,
               'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
-              'Total': <p className='text-gray-600'>{formatNumber(Number(item.total))}</p>,
+              'Total': <p className='text-gray-600 font-bold'>{formatNumber(Number(item.total))}</p>,
               '__item': item,
             }))} />
 

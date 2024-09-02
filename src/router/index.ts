@@ -39,4 +39,5 @@ export const Endpoints = {
   CREATE_USER_ASSIGN_WORKSHOP: '/user/create/workshop/',
   UPDATE_USER_STATUS: '/user/update/status',
   UPDATE_USER: '/user/update',
+  CREATE_ACTIVITIES_GROUP_ESTIMATION: '/estimate/create/activitiesGroup',
 }
