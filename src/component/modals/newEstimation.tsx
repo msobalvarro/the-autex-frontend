@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
-import { ActivityWithCostToDoItemEstimate, Client, DistanceTraveledPropierties, SelectionProps, Vehicule } from '@/interfaces'
+import { ActivitiesGroupPropierties, ActivityWithCostToDoItemEstimate, Client, DistanceTraveledPropierties, SelectionProps, Vehicule } from '@/interfaces'
 import { CustomModal, ModalMinimalProps } from '@/component/modals/layout'
 import { InputsGroupAddNewData } from '@/component/estimate/inputsGorupEstimate'
 import { TableRepresentation } from '@/component/estimate/tableRepresentation'
@@ -15,6 +15,7 @@ import { formatNumber } from '@/utils/formatNumber'
 import { InputField } from '../ui/input'
 import { useValidation } from '@/hooks/validations'
 import { useNavigate } from 'react-router-dom'
+import { Loader } from '../ui/loader'
 
 
 interface ListRepresentationProps {
@@ -30,13 +31,13 @@ const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentation
     {list.length > 0 && (
       <TableRepresentation onRemoveItems={onRemove} list={list} />
     )}
-    <InputsGroupAddNewData onAdd={onAdd} />
+    <InputsGroupAddNewData small onAdd={onAdd} />
   </div>
 )
 
 const Icon = <RiCalculatorFill className='text-gray-600 text-xl' />
 
-export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
+export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
   const navigate = useNavigate()
   const { validateNumber } = useValidation()
   const [isLoading, setLoading] = useState<boolean>(false)
@@ -49,8 +50,12 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   const [partsRequired, setPartRequires] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [otherRequirements, setOtherRequirements] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [externalActivities, setExternalActivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
-  const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: 'km' })
+  const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: null })
+  const [acitivtyGroupId, setAcitivtyGroupId] = useState<string | null>(null)
+  // const [activit, setAcitivtyGroupId] = useState<string | null>(null)
+  const { data: dataActivities, loading: loadingActivities } = useAxios({ endpoint: Endpoints.GET_ACTIVITIES_GROUP })
   const { data: dataClients, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS_WITH_CARS })
+  const activitiesGroup: ActivitiesGroupPropierties[] | null = Array.isArray(dataActivities) ? [...dataActivities] : null
 
   const addActivity = (activity: ActivityWithCostToDoItemEstimate) => {
     setAcitivities([...acitivities, activity])
@@ -105,6 +110,8 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
         'requiredParts': partsRequired,
         'otherRequirements': otherRequirements,
         'externalActivities': externalActivities,
+        'acitivtyGroupId': acitivtyGroupId,
+        'activitiesGroupCost': Number()
       }
 
       const response = await axiosInstance.post(Endpoints.CREATE_ESTIMATION, data)
@@ -155,11 +162,15 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   // validation for step 1
   const disabledValidationFirstStep = (
     currentSteps === 1 && (
-      acitivities.length === 0
-      || vehiculeSelected === null
+      vehiculeSelected === null
       || clientSelected === null
+      || traveled.distance === 0
+      || traveled.type === null
     ) ||
-    currentSteps === 2 && (
+    currentSteps === 3 && (
+      acitivities.length === 0
+    ) ||
+    currentSteps === 3 && (
       partsRequired.length === 0
       || otherRequirements.length === 0
     )
@@ -167,9 +178,10 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
   const renderSubtitle = (): string => {
     switch (currentSteps) {
-      case 1: return 'Selecciona el cliente, vehículo e ingresa todas las actividades'
-      case 2: return 'Ingresa las partes principales requiridas'
-      case 3: return 'Ingresa otros requerimientos'
+      case 1: return 'Selecciona el cliente, vehículo'
+      case 2: return 'Igresa las actividades a realizar'
+      case 3: return 'Ingresa las partes principales requiridas'
+      case 4: return 'Ingresa otros requerimientos'
       default: return 'Resumen del Presupuesto'
     }
   }
@@ -183,6 +195,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
   return (
     <CustomModal
+      medium
       isOpen={true}
       setOpen={setOpen}
       title={`Nuevo Presupuesto (Paso ${currentSteps} de 4)`}
@@ -190,7 +203,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       containerClassesNames='flex flex-col gap-8'
       navButtonsOptions={{
         createText: 'Crear Presupuesto',
-        isFinally: currentSteps === 3,
+        isFinally: currentSteps === 4,
         renderNext: true,
         onSuccess: onCreateEstimation,
         onNextClick: () => setSteps(step => step + 1),
@@ -204,28 +217,33 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
           <>
             <div>
               <div className='flex flex-row flex-1 gap-2 justify-stretch'>
-                <CustomSelectOption
-                  onChange={(e) => setClient(String(e?.value))}
-                  placeholder='Cliente'
-                  className='flex-1'
-                  isLoading={loading}
-                  data={clientList} />
+                <label className='flex-1 flex flex-col'>
+                  <CustomSelectOption
+                    onChange={(e) => setClient(String(e?.value))}
+                    placeholder='Cliente'
+                    className='flex-1'
+                    isLoading={loading}
+                    data={clientList} />
+                  <span className='text-gray-600 ml-2'>Seleccione el Cliente *</span>
+                </label>
 
-                <CustomSelectOption
-                  isDisabled={!clientSelected}
-                  placeholder='Vehículo'
-                  onChange={(e) => setVehicule(String(e?.value))}
-                  className='flex-1'
-                  data={carsList} />
+                <label className='flex-1 flex flex-col'>
+                  <CustomSelectOption
+                    isDisabled={!clientSelected}
+                    placeholder='Unidad'
+                    onChange={(e) => setVehicule(String(e?.value))}
+                    className='flex-1'
+                    data={carsList} />
+                  <span className='text-gray-600 ml-2'>Seleccione la Unidad *</span>
+                </label>
               </div>
-
               {clientSelected && carsList.length === 0 && (
-                <p className='text-red-400 text-sm mt-1'>No se encontraron vehiculos a este cliente</p>
+                <p className='text-red-400 text-sm mt-1 ml-2'>No se encontraron vehiculos a este cliente</p>
               )}
             </div>
 
             <div className='flex flex-row flex-1 gap-2 justify-stretch'>
-              <label className='flex-1 flex'>
+              <label className='flex-1 flex flex-col'>
                 <InputField
                   value={traveled.distance}
                   onChange={
@@ -233,20 +251,51 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                       validateNumber(currentTarget.value) &&
                       setTraveled(trav => ({ ...trav, distance: Number(currentTarget.value) }))
                   }
-                  placeholder='Ingrese los Km / Millas actuales'
                   className='flex-1' />
+                <span className='text-gray-600 ml-2'>Ingrese los Km / Millas actuales *</span>
               </label>
 
-              <CustomSelectOption
-                placeholder='Kilometro y Millas'
-                onChange={(data) => setTraveled(e => ({ ...e, type: String(data?.value) }))}
-                className='flex-1'
-                data={[
-                  { label: 'Kilómetros', value: 'km' },
-                  { label: 'Millas', value: 'miles' },
-                ]} />
+              <label className='flex-1 flex flex-col'>
+                <CustomSelectOption
+                  placeholder='Kilometro y Millas'
+                  onChange={(data) => setTraveled(e => ({ ...e, type: String(data?.value) }))}
+                  className='flex-1'
+                  data={[
+                    { label: 'Kilómetros', value: 'km' },
+                    { label: 'Millas', value: 'miles' },
+                  ]} />
+
+                <span className='text-gray-600 ml-2'>Seleccione Km ó Millas *</span>
+              </label>
             </div>
 
+            {(activitiesGroup !== null) && (
+              <div className='flex flex-row flex-1 gap-2 justify-stretch'>
+                <label className='flex flex-col '>
+                  <CustomSelectOption
+                    placeholder='Grupo de Mantenimientos'
+                    onChange={(data) => setAcitivtyGroupId(String(data?.value))}
+                    className='flex-1'
+                    data={activitiesGroup.map(act => ({
+                      label: act.name,
+                      value: act._id
+                    }))} />
+
+                  <span className='text-gray-600 ml-2'>Seleccione un grupo de Mantenimiento</span>
+                </label>
+
+                <label className='flex flex-col '>
+                  <InputField placeholder='Ingrese el precio' />
+
+                  <span className='text-gray-600 ml-2'>Seleccione un grupo de Mantenimiento</span>
+                </label>
+              </div>
+            )}
+          </>
+        )}
+
+        {currentSteps === 2 && (
+          <>
             <ListRepresentation
               title='Actividades Previstas a Realizar'
               list={acitivities}
@@ -260,10 +309,11 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
               list={externalActivities}
               onRemove={removeExternalActivity}
               onAdd={addExternalActivity} />
+
           </>
         )}
 
-        {currentSteps === 2 && (
+        {currentSteps === 3 && (
           <>
             <ListRepresentation
               title='Partes Principales Requeridas'
@@ -281,9 +331,9 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
           </>
         )}
 
-        {currentSteps === 3 && (
+        {currentSteps === 4 && (
           <>
-            <div className='flex flex-col gap-4 px-10'>
+            <div className='flex flex-col gap-4'>
               <p className='text-lg text-gray-600 uppercase'>Resumen Total</p>
 
               <div className='flex'>
@@ -317,7 +367,7 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                   </div>
                 </div>
 
-                <div className='text-center flex-1'>
+                <div className='text-right flex-1'>
                   <p className='text-4xl text-gray-800 font-bold'>
                     {formatNumber(_.sum(Object.values(sums)))}
                   </p>
@@ -327,6 +377,8 @@ export const NewEstimation = ({ setOpen, onUpdate }: ModalMinimalProps) => {
             </div>
           </>
         )}
+
+        <Loader active={loading || loadingActivities || isLoading} />
       </>
     </CustomModal>
   )

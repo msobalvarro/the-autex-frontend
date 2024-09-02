@@ -231,7 +231,7 @@ export interface OrderStateProps {
 
 export interface DistanceTraveledPropierties {
   distance: number
-  type: string
+  type: string | null
 }
 
 export interface User {
@@ -271,6 +271,5 @@ export interface CreateUserProps {
 export interface ActivitiesGroupPropierties {
   _id: string
   name: string
-  price: number
   activities: string[]
 }
