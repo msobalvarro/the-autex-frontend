@@ -1,8 +1,9 @@
+import _ from 'lodash'
+import clsx from 'clsx'
 import { TableProps, ObjectPropsTable } from '@/interfaces'
 import { MenuOptions } from './option'
-import { useEffect, useState } from 'react'
-import clsx from 'clsx'
-import _ from 'lodash'
+import { isValidElement, useEffect, useState } from 'react'
+import { onlyText } from 'react-children-utilities'
 
 export const TableComponent = ({
   data,
@@ -18,8 +19,9 @@ export const TableComponent = ({
     const lowercasedFilter = filter?.toLowerCase() || ''
 
     setData(_.filter([...arr], i => {
-      const item = Object.values(i)
-      return String(item).toLowerCase().search(lowercasedFilter) > -1
+      const childs: Array<ChildNode | string> = Object.values(i)
+      const customChildStr: string[] = childs.map(child => isValidElement(child) ? onlyText(child) : String(child))
+      return String(customChildStr).toLowerCase().search(lowercasedFilter) > -1
     }))
   }, [data, filter])
 

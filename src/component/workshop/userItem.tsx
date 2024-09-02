@@ -18,7 +18,7 @@ export const UserItem = ({ user, onStatusToggle, onEdit }: UserItemProps) => {
       <div className='flex gap-2'>
         <button className='bg-white p-2 border rounded transition hover:shadow' onClick={() => onEdit?.(user)}>Editar</button>
         {user.status === 'active' && (
-          <button className='bg-red-700 text-white p-2 rounded transition hover:shadow' onClick={() => onStatusToggle?.(user)}>Desactivar</button>
+          <button className='bg-rose-800 text-white p-2 rounded transition hover:shadow' onClick={() => onStatusToggle?.(user)}>Desactivar</button>
         )}
         {(user.status === 'blocked' || user.status === 'inactive') && (
           <button className='bg-green-700 text-white p-2 rounded transition hover:shadow' onClick={() => onStatusToggle?.(user)}>Activar</button>
