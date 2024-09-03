@@ -51,11 +51,11 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
   const [otherRequirements, setOtherRequirements] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [externalActivities, setExternalActivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: null })
-  const [acitivtyGroupId, setAcitivtyGroupId] = useState<string | null>(null)
-  // const [activit, setAcitivtyGroupId] = useState<string | null>(null)
+  const [activitiesGroupId, setAcitivtyGroupId] = useState<string | null>(null)
+  const [activitiesGroupCost, setAcitivitiesGroupCost] = useState<number>(0)
   const { data: dataActivities, loading: loadingActivities } = useAxios({ endpoint: Endpoints.GET_ACTIVITIES_GROUP })
   const { data: dataClients, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS_WITH_CARS })
-  const activitiesGroup: ActivitiesGroupPropierties[] | null = Array.isArray(dataActivities) ? [...dataActivities] : null
+  const activitiesGroupData: ActivitiesGroupPropierties[] | null = Array.isArray(dataActivities) ? [...dataActivities] : null
 
   const addActivity = (activity: ActivityWithCostToDoItemEstimate) => {
     setAcitivities([...acitivities, activity])
@@ -104,14 +104,14 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
         'partsCost': sums.PARTS,
         'inputCost': sums.OTHER,
         'externalCost': sums.EXTERNAL,
-        'total': _.sum(Object.values(sums)),
+        'total': _.sum([...Object.values(sums), activitiesGroupCost]),
         'traveled': traveled,
         'activitiesToDo': acitivities,
         'requiredParts': partsRequired,
         'otherRequirements': otherRequirements,
         'externalActivities': externalActivities,
-        'acitivtyGroupId': acitivtyGroupId,
-        'activitiesGroupCost': Number()
+        'activitiesGroupId': activitiesGroupId,
+        'activitiesGroupCost': activitiesGroupCost
       }
 
       const response = await axiosInstance.post(Endpoints.CREATE_ESTIMATION, data)
@@ -193,6 +193,11 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
     OTHER: _.sumBy(otherRequirements, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
   }
 
+  const distanceType: SelectionProps[] = [
+    { label: 'Kilómetros', value: 'km' },
+    { label: 'Millas', value: 'miles' },
+  ]
+
   return (
     <CustomModal
       medium
@@ -220,6 +225,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                 <label className='flex-1 flex flex-col'>
                   <CustomSelectOption
                     onChange={(e) => setClient(String(e?.value))}
+                    value={clientList.filter(option => option.value === clientSelected)}
                     placeholder='Cliente'
                     className='flex-1'
                     isLoading={loading}
@@ -230,6 +236,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                 <label className='flex-1 flex flex-col'>
                   <CustomSelectOption
                     isDisabled={!clientSelected}
+                    value={carsList.filter(option => option.value === vehiculeSelected)}
                     placeholder='Unidad'
                     onChange={(e) => setVehicule(String(e?.value))}
                     className='flex-1'
@@ -258,25 +265,27 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
               <label className='flex-1 flex flex-col'>
                 <CustomSelectOption
                   placeholder='Kilometro y Millas'
+                  value={distanceType.filter(option => option.value === traveled.type)}
                   onChange={(data) => setTraveled(e => ({ ...e, type: String(data?.value) }))}
                   className='flex-1'
-                  data={[
-                    { label: 'Kilómetros', value: 'km' },
-                    { label: 'Millas', value: 'miles' },
-                  ]} />
+                  data={distanceType} />
 
                 <span className='text-gray-600 ml-2'>Seleccione Km ó Millas *</span>
               </label>
             </div>
 
-            {(activitiesGroup !== null) && (
+            {(activitiesGroupData !== null) && (
               <div className='flex flex-row flex-1 gap-2 justify-stretch'>
-                <label className='flex flex-col '>
+                <label className='flex flex-col flex-1'>
                   <CustomSelectOption
+                    value={activitiesGroupData.map(act => ({
+                      label: act.name,
+                      value: act._id
+                    })).filter(option => option.value === activitiesGroupId)}
                     placeholder='Grupo de Mantenimientos'
                     onChange={(data) => setAcitivtyGroupId(String(data?.value))}
                     className='flex-1'
-                    data={activitiesGroup.map(act => ({
+                    data={activitiesGroupData.map(act => ({
                       label: act.name,
                       value: act._id
                     }))} />
@@ -284,10 +293,16 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                   <span className='text-gray-600 ml-2'>Seleccione un grupo de Mantenimiento</span>
                 </label>
 
-                <label className='flex flex-col '>
-                  <InputField placeholder='Ingrese el precio' />
+                <label className='flex flex-col flex-1'>
+                  <InputField
+                    value={String(activitiesGroupCost)}
+                    onChange={(({ currentTarget }) =>
+                      validateNumber(currentTarget.value) &&
+                      setAcitivitiesGroupCost(Number(currentTarget.value))
+                    )}
+                    placeholder='Ingrese el precio' />
 
-                  <span className='text-gray-600 ml-2'>Seleccione un grupo de Mantenimiento</span>
+                  <span className='text-gray-600 ml-2'>Ingrese el Precio de la actividad</span>
                 </label>
               </div>
             )}
@@ -338,38 +353,49 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
 
               <div className='flex'>
                 <div className='flex flex-col gap-4'>
-                  <div className='flex gap-2'>
+                  <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
                       Precio total Por Mano de obra <b>[{formatNumber(sums.ACTIVITY)}]</b>
                     </p>
                   </div>
 
-                  <div className='flex gap-2'>
+                  <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
                       Precio total Por Mano de obra Externa <b>[{formatNumber(sums.EXTERNAL)}]</b>
                     </p>
                   </div>
 
-                  <div className='flex gap-2'>
+                  <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
                       Precio por repuestos <b>[{formatNumber(sums.ACTIVITY)}]</b>
                     </p>
                   </div>
 
-                  <div className='flex gap-2'>
+                  <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
                       Insumos <b>[{formatNumber(sums.OTHER)}]</b>
+                    </p>
+                  </div>
+
+                  <div className='flex gap-2 items-center'>
+                    <IoCheckmarkSharp />
+                    <p>
+                      Actividad: <b>
+                        {_.find(
+                          activitiesGroupData, (e: ActivitiesGroupPropierties) => e._id == activitiesGroupId
+                        )?.name} [{formatNumber(sums.OTHER)}]
+                      </b>
                     </p>
                   </div>
                 </div>
 
                 <div className='text-right flex-1'>
                   <p className='text-4xl text-gray-800 font-bold'>
-                    {formatNumber(_.sum(Object.values(sums)))}
+                    {formatNumber(_.sum([...Object.values(sums), activitiesGroupCost]))}
                   </p>
                   <p className='text-xl font-bold text-gray-400'>Precio total</p>
                 </div>

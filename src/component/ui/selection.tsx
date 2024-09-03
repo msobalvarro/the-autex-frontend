@@ -10,7 +10,9 @@ export const CustomSelectOption = ({
   isSearchable,
   className,
   placeholder,
-  onChange
+  onChange,
+  defaultValue,
+  value,
 }: SelectorComponentProps) => {
   return (
     <Select
@@ -34,9 +36,10 @@ export const CustomSelectOption = ({
           primary: '#1f2937',
         },
       })}
+      value={value}
       placeholder={placeholder}
       className={className}
-      defaultValue={null}
+      defaultValue={defaultValue}
       isDisabled={isDisabled}
       isLoading={isLoading}
       isClearable={isClearable}

@@ -1,4 +1,4 @@
-import { SingleValue } from 'react-select'
+import { PropsValue, SingleValue } from 'react-select'
 
 export interface ActionsComponentProps {
   title: string
@@ -96,6 +96,8 @@ export interface SelectionProps {
 }
 
 export interface SelectorComponentProps {
+  value?: PropsValue<SelectionProps> | undefined
+  defaultValue?: PropsValue<SelectionProps> | undefined
   placeholder?: string
   className?: string
   isDisabled?: boolean
@@ -105,7 +107,7 @@ export interface SelectorComponentProps {
   isSearchable?: boolean
   onChange?: (value: SingleValue<SelectionProps>) => void
   data: SelectionProps[]
-  value?: string | null
+  // value?: string | null
 }
 
 export interface ModalProps {
