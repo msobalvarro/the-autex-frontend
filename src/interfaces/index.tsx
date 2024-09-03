@@ -275,3 +275,7 @@ export interface ActivitiesGroupPropierties {
   name: string
   activities: string[]
 }
+
+export interface PropsResume {
+  data: EstimatePropierties
+}
