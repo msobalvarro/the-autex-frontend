@@ -1,7 +1,7 @@
 import { LayoutComponent } from '@/component/ui/layout'
 import { Loader } from '@/component/ui/loader'
 import { useAxios } from '@/hooks/fetch'
-import { EstimatePropierties, OrderServicePropierties } from '@/interfaces'
+import { EstimatePropierties, OrderServicePropierties, PropsQueryId } from '@/interfaces'
 import { Endpoints, routes } from '@/router'
 import { useParams } from 'react-router-dom'
 import { NewOrderService } from '@/component/modals/newOrderService'
@@ -10,13 +10,9 @@ import { Link } from 'react-router-dom'
 import { Resume } from '@/component/estimate/resume'
 import { Tables } from '@/component/estimate/tables'
 
-interface PropsQuery {
-  id?: string
-}
-
 export const DetailEstimateView = () => {
   const [isOpenModal, setOpen] = useState<boolean>(false)
-  const queryParams: PropsQuery = useParams()
+  const queryParams: PropsQueryId = useParams()
   const { data, loading, error, refetch } = useAxios({
     endpoint: Endpoints.GET_ESTIMATION_ORDER_DETAIL_BY_ID + queryParams.id
   })

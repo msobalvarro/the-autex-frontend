@@ -83,6 +83,7 @@ export interface EstimatePropierties {
   requiredParts?: ActivityWithCostToDoItemEstimate[]
   otherRequirements?: ActivityWithCostToDoItemEstimate[]
   externalActivities?: ActivityWithCostToDoItemEstimate[]
+  activitiesGroup?: ActivitiesGroupPropierties
   laborCost?: number
   partsCost?: number
   inputCost?: number
@@ -278,4 +279,8 @@ export interface ActivitiesGroupPropierties {
 
 export interface PropsResume {
   data: EstimatePropierties
+}
+
+export interface PropsQueryId {
+  id?: string
 }
