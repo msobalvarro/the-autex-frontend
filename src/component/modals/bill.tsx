@@ -19,11 +19,14 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
     endpoint: Endpoints.GET_ORDER_DETAIL_SERVICE + orderId
   })
   const customData: OrderServicePropierties = data ? data : {}
-
-  console.log(customData)
-
   const download = () => {
     html2pdf().from(inputRef.current).save()
+  }
+
+  const openNewTabAndPrint = () => {
+    html2pdf().from(inputRef.current).toPdf().get('pdf').then(function (pdf: any) {
+      window.open(pdf.output('bloburl'), '_blank')?.print()
+    })
   }
 
   if (loading) {
@@ -41,10 +44,13 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
     <CustomModal
       big
       title='Factura'
+      subTitle='Puedes descargar la factura e imprimirla sin descargarla'
       navButtonsOptions={{
         createText: 'Descargar factura',
+        backText: 'Imprimir',
+        onBackClick: openNewTabAndPrint,
         isFinally: true,
-        renderBack: false,
+        renderBack: true,
         onSuccess: download
       }}
       containerClassesNames='gap-4 flex flex-col'
@@ -59,7 +65,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
           </div>
           <div className='text-right'>
             <p className='text-muted-foreground'>Fecha de emisión: {dayjs(customData.createdAt).format('dddd, MMMM D, YYYY h:mm A	')}</p>
-            <code className='text-muted-foreground'>{customData._id}</code>
+            <code className='text-muted-foreground font-bold'>{customData._id}</code>
           </div>
         </div>
 
@@ -134,7 +140,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
           </table>
         </div>
 
-        <div className='mt-6 flex items-end flex-col justify-end'>
+        <div className='mt-6 flex items-end flex-col justify-end mr-4'>
           <div className='flex gap-8'>
             <p className='text-muted-foreground'>Mano de Obra</p>
             <p>{formatNumber(sums.ACTIVITY)}</p>
@@ -154,8 +160,8 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
             <p className='text-muted-foreground'>Mano de obra externa</p>
             <p>{formatNumber(sums.EXTERNAL)}</p>
           </div>
-          
-          <div className='flex gap-8'>
+
+          <div className='flex gap-8 font-bold'>
             <p className='text-muted-foreground'>Total</p>
             <p>{formatNumber(_.sum(Object.values(sums)))}</p>
           </div>

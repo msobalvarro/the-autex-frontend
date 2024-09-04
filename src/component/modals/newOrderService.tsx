@@ -5,10 +5,11 @@ import { toast } from 'react-toastify'
 import { InputHTMLAttributes, useState } from 'react'
 import { DistanceTraveledPropierties, OrderStateProps } from '@/interfaces'
 import { axiosInstance } from '@/utils/http'
-import { Endpoints } from '@/router'
+import { Endpoints, routes } from '@/router'
 import { InputField } from '../ui/input'
 import { useValidation } from '@/hooks/validations'
 import { CustomSelectOption } from '../ui/selection'
+import { useNavigate } from 'react-router-dom'
 
 interface ItemCheckPros {
   label: string
@@ -76,7 +77,8 @@ const initialState: OrderStateProps = {
   },
 }
 
-export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) => {
+export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
+  const navigate = useNavigate()
   const { validateNumber } = useValidation()
   const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: 'km' })
   const [data, setData] = useState<OrderStateProps>(initialState)
@@ -93,7 +95,9 @@ export const NewOrderService = ({ setOpen, estimateId, onUpdate }: CustomProps) 
       }
       setOpen(false)
       toast.info('Orden de Servicio Creada')
-      onUpdate?.()
+
+      navigate(routes.ORDER_DETAIL.replace(':id', String(response.data._id)))
+      // onUpdate?.()
     } catch (error: any) {
       toast.error(String(error.response.data || error))
     }

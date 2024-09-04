@@ -20,6 +20,8 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
     endpoint: Endpoints.GET_ALL_BRAND_MODEL
   })
 
+  const brands: VehiculeBrands[] = Array.isArray(dataBrands) ? [...dataBrands] : []
+
   const addModel = () => {
     try {
       if (customModelName.trim().length === 0) {
@@ -47,7 +49,7 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
       }
 
       const response = await axiosInstance.post(Endpoints.CREATE_MULTIPLE_BRANDS, {
-        models,
+        models: models.map(model => ({ description: model.description })),
         brandId
       })
 
@@ -64,6 +66,8 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
     }
   }
 
+  const modelExisting = brands.find(brand => brand._id === brandId)
+
   return (
     <CustomModal
       isOpen
@@ -72,7 +76,8 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
       navButtonsOptions={{
         renderBack: false,
         isFinally: true,
-        onSuccess: submit
+        onSuccess: submit,
+        nextDisabled: models.length == 0 || !brandId
       }}
       containerClassesNames='flex flex-col gap-4'
       setOpen={setOpen}
@@ -83,7 +88,7 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
             <p className='text-md ml-2 text-gray-400'>Selecciona una marca</p>
             <CustomSelectOption
               onChange={(e) => setBrand(String(e?.value))}
-              placeholder='Cliente'
+              placeholder='Ninguna Marca seleccionada'
               className='flex-1'
               isLoading={loading}
               data={[...dataBrands].map((brand: VehiculeBrands) => ({
@@ -92,6 +97,25 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
               }))} />
           </div>
         )}
+
+        {modelExisting && (
+          <div className='flex flex-col gap-2'>
+            <p>Modelos Existentes</p>
+            <TableComponent
+              renderEnum
+              renderOptions
+              data={
+                modelExisting.models.map(
+                  e => ({
+                    'Modelo': e.description,
+                    '__item': { _id: e._id }
+                  })
+                )
+              } />
+          </div>
+        )}
+
+        <hr />
 
         {models.length > 0 && (
           <TableComponent
@@ -128,7 +152,7 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
               className='flex-1'
               placeholder='ingresa una marca' />
 
-            <button onClick={addModel} className='p-2 rounded bg-gray-200 hover:bg-gray-300'>
+            <button onClick={addModel} className='p-2 rounded bg-gray-700 text-white'>
               Agregar modelo
             </button>
           </div>

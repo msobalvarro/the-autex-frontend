@@ -9,6 +9,7 @@ export const routes = {
   LOGIN: '/login',
   MAIN: '/',
   WORKSHOPS: '/workshops',
+  REPORTS: '/reports',
 }
 
 export const Endpoints = {

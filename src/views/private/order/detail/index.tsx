@@ -210,7 +210,7 @@ export const OrderDetailView = () => {
             </Link>
 
             {isProceessOrPending && (
-              <button onClick={closeOrder} className='p-2 bg-gray-600 rounded text-white'>Generar Factura</button>
+              <button onClick={closeOrder} className='p-2 bg-gray-600 rounded text-white'>Cerrar Orden</button>
             )}
 
             {customData.status === 'finished' && (

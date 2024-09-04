@@ -168,6 +168,7 @@ export interface ResponseAuth {
   token: string | null
   isRoot?: boolean
   isAdmin?: boolean
+  workshop: WorkshopPropierties
 }
 
 export interface AttentionsProperties {
@@ -209,7 +210,7 @@ export interface ServicesTypesToDoOrderProperties {
   isExternal: boolean
 }
 
-export interface OrderServicePropierties { 
+export interface OrderServicePropierties {
   _id?: string
   attentionType?: AttentionsProperties
   estimateProps?: EstimatePropierties
@@ -250,7 +251,11 @@ export interface User {
 export interface WorkshopPropierties {
   _id: string
   name: string
-  slogan: string  
+  slogan: string
+  location: string,
+  representative: string
+  ruc: string
+  phoneNumber: string,
   pictureUrl: string | null
   administrators?: User[]
   users?: User[]
@@ -263,6 +268,7 @@ export interface WorkshopStateProps {
   representative: string
   phoneNumber: string
   location: string
+  ruc: string
 }
 
 export interface CreateUserProps {

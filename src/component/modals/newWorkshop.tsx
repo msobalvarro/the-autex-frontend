@@ -15,6 +15,7 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
     phoneNumber: '',
     representative: '',
     slogan: '',
+    ruc: ''
   })
 
   const submit = async () => {
@@ -35,7 +36,6 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
 
       const response = await axiosInstance.post(Endpoints.CREATE_WORKSHOP, data)
       if (response.status !== 200) {
-        console.log(response.data)
         throw new Error(response.data)
       }
 
@@ -86,6 +86,20 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
             onChange={({ currentTarget }) => setData({ ...data, phoneNumber: currentTarget.value })}
             className='flex-1' />
           <p className='text-sm'>Telefono del Representante</p>
+        </label>
+        <label className='flex-1 flex flex-col'>
+          <InputField
+            value={data.ruc}
+            onChange={({ currentTarget }) => setData({ ...data, ruc: currentTarget.value })}
+            className='flex-1' />
+          <p className='text-sm'>Nùmero RUC</p>
+        </label>        
+        <label className='flex-1 flex flex-col'>
+          <InputField
+            value={data.slogan}
+            onChange={({ currentTarget }) => setData({ ...data, slogan: currentTarget.value })}
+            className='flex-1' />
+          <p className='text-sm'>Slogan</p>
         </label>
 
         <button onClick={submit} className='p-2 font-bold uppercase bg-gray-700 rounded text-white mt-4'>Nuevo Taller</button>
