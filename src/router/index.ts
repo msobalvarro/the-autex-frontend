@@ -42,4 +42,6 @@ export const Endpoints = {
   UPDATE_USER: '/user/update',
   CREATE_ACTIVITIES_GROUP_ESTIMATION: '/estimate/create/activitiesGroup',
   GET_ACTIVITIES_GROUP: '/estimate/activitiesGroup',
+  DELETE_ACITIVITY_TO_DO_ITEM: '/estimate/delete/acitivitiesToDo',
+  ADD_ACITIVITY_TO_DO_ITEM: '/estimate/add/acitivitiesToDo',
 }

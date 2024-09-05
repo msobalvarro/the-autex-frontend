@@ -16,6 +16,7 @@ export interface SecondaryButtons {
 }
 
 export interface ActivityWithCostToDoItemEstimate {
+  _id?: string
   uuid?: string
   description?: string
   unitCost?: number

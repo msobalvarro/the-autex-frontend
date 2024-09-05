@@ -59,9 +59,9 @@ export const Resume = ({ data }: PropsResume) => (
       </dd>
     </div>
 
-    <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-      <dt className='text-sm text-gray-600'>Total</dt>
-      <dd className='mt-1 text-lg font-bold text-gray-700'>
+    <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-lg'>
+    <dt className='font-bold text-gray-600'>Total</dt>
+      <dd className='mt-1 font-bold text-gray-700'>
         {formatNumber(Number(data.total))}
       </dd>
     </div>
