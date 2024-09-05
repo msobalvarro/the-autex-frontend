@@ -47,4 +47,7 @@ export const Endpoints = {
   DELETE_OTHER_REQUIREMENT: '/estimate/delete/otherRequirement',
   DELETE_EXTERNAL_ACTIVITY: '/estimate/delete/externalActivity',
   ADD_ACITIVITY_TO_DO_ITEM: '/estimate/add/acitivitiesToDo',
+  ADD_PARTS_REQUIREMENTS: '/estimate/add/requiredPart',
+  ADD_OTHER_REQUIREMENT: '/estimate/add/otherRequirement',
+  ADD_EXTERNAL_ACTIVITY: '/estimate/add/externalActivity',
 }

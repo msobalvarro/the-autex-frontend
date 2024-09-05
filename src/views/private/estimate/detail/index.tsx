@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import { Resume } from '@/component/estimate/resume'
 import { Tables } from '@/component/estimate/tables'
 import dayjs from 'dayjs'
+import { ResumeTotal } from '@/component/estimate/resumeTotal'
 
 export const DetailEstimateView = () => {
   const [isOpenModal, setOpen] = useState<boolean>(false)
@@ -82,6 +83,9 @@ export const DetailEstimateView = () => {
           </div>
           <div className='flex-1 flex flex-col gap-8'>
             <Tables refetch={refetch} isEditMode={!order} data={estimate} />
+          </div>
+          <div className='flex-1'>
+            <ResumeTotal data={estimate} />
           </div>
         </div>
       )}

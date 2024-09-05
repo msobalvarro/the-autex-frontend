@@ -122,6 +122,60 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
     }
   }
 
+  const onAddItemsPartsRequiremens = async () => {
+    try {
+      const { data: dataResponse, status } = await axiosInstance.post(Endpoints.ADD_PARTS_REQUIREMENTS, {
+        activities: partsRequirements,
+        estimateId: data._id
+      })
+
+      if (status !== 200) {
+        throw new Error(dataResponse)
+      }
+
+      setPartsRequirements([])
+      refetch?.()
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
+    }
+  }
+
+  const onAddOtherRequirements = async () => {
+    try {
+      const { data: dataResponse, status } = await axiosInstance.post(Endpoints.ADD_OTHER_REQUIREMENT, {
+        activities: otherRequirements,
+        estimateId: data._id
+      })
+
+      if (status !== 200) {
+        throw new Error(dataResponse)
+      }
+
+      setOtherRequirements([])
+      refetch?.()
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
+    }
+  }
+
+  const onAddExternalActivities = async () => {
+    try {
+      const { data: dataResponse, status } = await axiosInstance.post(Endpoints.ADD_EXTERNAL_ACTIVITY, {
+        activities: externalActivities,
+        estimateId: data._id
+      })
+
+      if (status !== 200) {
+        throw new Error(dataResponse)
+      }
+
+      setExternalActivities([])
+      refetch?.()
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
+    }
+  }
+
   return (
     <>
       <div className='flex flex-col gap-2'>
@@ -129,7 +183,7 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
           {additionalTaskList.length > 0 && (
             <button onClick={onAddItemsActivitiesToDo} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
           )}
-          <p className='text-lg text-gray-600 uppercase'>Tareas adicionales Registradas</p>
+          <p className='text-lg text-gray-600 uppercase'>Actividades Requiredas</p>
         </div>
 
         <TableComponent
@@ -189,7 +243,7 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
       <div className='flex flex-col gap-2'>
         <div className='flex items-center gap-4'>
           {partsRequirements.length > 0 && (
-            <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+            <button onClick={onAddItemsPartsRequiremens} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
           )}
           <p className='text-lg text-gray-600 uppercase'>Partes Principales Requeridas</p>
         </div>
@@ -204,7 +258,7 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
             }
           ]}
           data={
-            data?.activitiesToDo?.map(a => ({
+            data?.requiredParts?.map(a => ({
               'Descripción': a.description,
               'Cantidad': a.quantity,
               'Costo Unitario': a.unitCost,
@@ -251,7 +305,7 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
       <div className='flex flex-col gap-2'>
         <div className='flex items-center gap-4'>
           {otherRequirements.length > 0 && (
-            <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+            <button onClick={onAddOtherRequirements} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
           )}
           <p className='text-lg text-gray-600 uppercase'>Otros Requerimientos</p>
         </div>
@@ -266,7 +320,7 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
             }
           ]}
           data={
-            data?.activitiesToDo?.map(a => ({
+            data?.otherRequirements?.map(a => ({
               'Descripción': a.description,
               'Cantidad': a.quantity,
               'Costo Unitario': a.unitCost,
@@ -313,10 +367,11 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
       <div className='flex flex-col gap-2'>
         <div className='flex items-center gap-4'>
           {externalActivities.length > 0 && (
-            <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+            <button onClick={onAddExternalActivities} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
           )}
           <p className='text-lg text-gray-600 uppercase'>Actividades Externas</p>
         </div>
+
         <TableComponent
           renderEnum
           renderOptions={isEditMode}
