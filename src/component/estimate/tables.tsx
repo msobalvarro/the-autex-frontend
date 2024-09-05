@@ -12,12 +12,81 @@ import { Loader } from '../ui/loader'
 export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
   const [isLoading, setLoading] = useState<boolean>(false)
   const [additionalTaskList, setAdditionalTaskList] = useState<ActivityWithCostToDoItemEstimate[]>([])
+  const [partsRequirements, setPartsRequirements] = useState<ActivityWithCostToDoItemEstimate[]>([])
+  const [otherRequirements, setOtherRequirements] = useState<ActivityWithCostToDoItemEstimate[]>([])
+  const [externalActivities, setExternalActivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
 
   const onDeleteItemActivityToDoItem = async (id: string) => {
     setLoading(true)
 
     try {
       const { data: dataResponse, status } = await axiosInstance.post(Endpoints.DELETE_ACITIVITY_TO_DO_ITEM, {
+        itemId: id,
+        estimateId: data._id
+      })
+
+      if (status !== 200) {
+        throw new Error(dataResponse)
+      }
+
+      toast.info('Elemento eliminado')
+      refetch?.()
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onDeletePartRequired = async (id: string) => {
+    setLoading(true)
+
+    try {
+      const { data: dataResponse, status } = await axiosInstance.post(Endpoints.DELETE_PART_REQUIREMENT, {
+        itemId: id,
+        estimateId: data._id
+      })
+
+      if (status !== 200) {
+        throw new Error(dataResponse)
+      }
+
+      toast.info('Elemento eliminado')
+      refetch?.()
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onDeleteOtherRequirement = async (id: string) => {
+    setLoading(true)
+
+    try {
+      const { data: dataResponse, status } = await axiosInstance.post(Endpoints.DELETE_OTHER_REQUIREMENT, {
+        itemId: id,
+        estimateId: data._id
+      })
+
+      if (status !== 200) {
+        throw new Error(dataResponse)
+      }
+
+      toast.info('Elemento eliminado')
+      refetch?.()
+    } catch (error: any) {
+      toast.error(String(error.response.data || error))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onDeleteExternalActivity = async (id: string) => {
+    setLoading(true)
+
+    try {
+      const { data: dataResponse, status } = await axiosInstance.post(Endpoints.DELETE_EXTERNAL_ACTIVITY, {
         itemId: id,
         estimateId: data._id
       })
@@ -119,14 +188,23 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
 
       <div className='flex flex-col gap-2'>
         <div className='flex items-center gap-4'>
-          <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+          {partsRequirements.length > 0 && (
+            <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+          )}
           <p className='text-lg text-gray-600 uppercase'>Partes Principales Requeridas</p>
         </div>
 
         <TableComponent
           renderEnum
+          renderOptions={isEditMode}
+          options={[
+            {
+              label: 'Eliminar',
+              onClick: (e: ActivityWithCostToDoItemEstimate) => onDeletePartRequired(String(e._id))
+            }
+          ]}
           data={
-            data.requiredParts?.map(a => ({
+            data?.activitiesToDo?.map(a => ({
               'Descripción': a.description,
               'Cantidad': a.quantity,
               'Costo Unitario': a.unitCost,
@@ -135,9 +213,35 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
             })) || []
           } />
 
+        {partsRequirements.length > 0 && (
+          <div className='flex flex-col gap-4 mt-4'>
+            <p className='text-gray-500 text-xl'>Nuevas Tareas Adicionales</p>
+            <TableComponent
+              renderEnum
+              renderOptions
+              options={[
+                {
+                  label: 'Eliminar',
+                  onClick: (data: ActivityWithCostToDoItemEstimate) => setPartsRequirements(
+                    list => _.remove(list, e => e.description === data.description)
+                  )
+                }
+              ]}
+              data={
+                partsRequirements.map(a => ({
+                  'Descripción': a.description,
+                  'Cantidad': a.quantity,
+                  'Costo Unitario': a.unitCost,
+                  'Total': formatNumber(Number(a.total)),
+                  '__item': a,
+                })) || []
+              } />
+          </div>
+        )}
+
         {isEditMode && (
           <div className='self-end'>
-            <InputsGroupAddNewData onAdd={e => { }} />
+            <InputsGroupAddNewData onAdd={v => setPartsRequirements(e => ([...e, v]))} />
           </div>
         )}
       </div>
@@ -146,23 +250,60 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
 
       <div className='flex flex-col gap-2'>
         <div className='flex items-center gap-4'>
-          <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+          {otherRequirements.length > 0 && (
+            <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+          )}
           <p className='text-lg text-gray-600 uppercase'>Otros Requerimientos</p>
         </div>
+
         <TableComponent
           renderEnum
+          renderOptions={isEditMode}
+          options={[
+            {
+              label: 'Eliminar',
+              onClick: (e: ActivityWithCostToDoItemEstimate) => onDeleteOtherRequirement(String(e._id))
+            }
+          ]}
           data={
-            data.otherRequirements?.map(a => ({
+            data?.activitiesToDo?.map(a => ({
               'Descripción': a.description,
               'Cantidad': a.quantity,
               'Costo Unitario': a.unitCost,
-              'Total': formatNumber(Number(a.total))
+              'Total': formatNumber(Number(a.total)),
+              '__item': a,
             })) || []
           } />
 
+        {otherRequirements.length > 0 && (
+          <div className='flex flex-col gap-4 mt-4'>
+            <p className='text-gray-500 text-xl'>Nuevas Tareas Adicionales</p>
+            <TableComponent
+              renderEnum
+              renderOptions
+              options={[
+                {
+                  label: 'Eliminar',
+                  onClick: (data: ActivityWithCostToDoItemEstimate) => setOtherRequirements(
+                    list => _.remove(list, e => e.description === data.description)
+                  )
+                }
+              ]}
+              data={
+                otherRequirements.map(a => ({
+                  'Descripción': a.description,
+                  'Cantidad': a.quantity,
+                  'Costo Unitario': a.unitCost,
+                  'Total': formatNumber(Number(a.total)),
+                  '__item': a,
+                })) || []
+              } />
+          </div>
+        )}
+
         {isEditMode && (
           <div className='self-end'>
-            <InputsGroupAddNewData onAdd={e => { }} />
+            <InputsGroupAddNewData onAdd={v => setOtherRequirements(e => ([...e, v]))} />
           </div>
         )}
       </div>
@@ -171,23 +312,59 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
 
       <div className='flex flex-col gap-2'>
         <div className='flex items-center gap-4'>
-          <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+          {externalActivities.length > 0 && (
+            <button className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
+          )}
           <p className='text-lg text-gray-600 uppercase'>Actividades Externas</p>
         </div>
         <TableComponent
           renderEnum
+          renderOptions={isEditMode}
+          options={[
+            {
+              label: 'Eliminar',
+              onClick: (e: ActivityWithCostToDoItemEstimate) => onDeleteExternalActivity(String(e._id))
+            }
+          ]}
           data={
             data.externalActivities?.map(a => ({
               'Descripción': a.description,
               'Cantidad': a.quantity,
               'Costo Unitario': a.unitCost,
-              'Total': formatNumber(Number(a.total))
+              'Total': formatNumber(Number(a.total)),
+              '__item': a,
             })) || []
           } />
 
+        {externalActivities.length > 0 && (
+          <div className='flex flex-col gap-4 mt-4'>
+            <p className='text-gray-500 text-xl'>Nuevas Tareas Adicionales</p>
+            <TableComponent
+              renderEnum
+              renderOptions
+              options={[
+                {
+                  label: 'Eliminar',
+                  onClick: (data: ActivityWithCostToDoItemEstimate) => setExternalActivities(
+                    list => _.remove(list, e => e.description === data.description)
+                  )
+                }
+              ]}
+              data={
+                externalActivities.map(a => ({
+                  'Descripción': a.description,
+                  'Cantidad': a.quantity,
+                  'Costo Unitario': a.unitCost,
+                  'Total': formatNumber(Number(a.total)),
+                  '__item': a,
+                })) || []
+              } />
+          </div>
+        )}
+
         {isEditMode && (
           <div className='self-end'>
-            <InputsGroupAddNewData onAdd={e => { }} />
+            <InputsGroupAddNewData onAdd={v => setExternalActivities(e => ([...e, v]))} />
           </div>
         )}
       </div>

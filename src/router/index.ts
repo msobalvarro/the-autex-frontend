@@ -43,5 +43,8 @@ export const Endpoints = {
   CREATE_ACTIVITIES_GROUP_ESTIMATION: '/estimate/create/activitiesGroup',
   GET_ACTIVITIES_GROUP: '/estimate/activitiesGroup',
   DELETE_ACITIVITY_TO_DO_ITEM: '/estimate/delete/acitivitiesToDo',
+  DELETE_PART_REQUIREMENT: '/estimate/delete/requiredPart',
+  DELETE_OTHER_REQUIREMENT: '/estimate/delete/otherRequirement',
+  DELETE_EXTERNAL_ACTIVITY: '/estimate/delete/externalActivity',
   ADD_ACITIVITY_TO_DO_ITEM: '/estimate/add/acitivitiesToDo',
 }
