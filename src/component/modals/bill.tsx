@@ -1,19 +1,21 @@
 import html2pdf from 'html2pdf.js'
+import dayjs from 'dayjs'
+import _ from 'lodash'
 import { CustomModal, ModalMinimalProps } from './layout'
 import { useRef } from 'react'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { Loader } from '../ui/loader'
 import { ActivityWithCostToDoItemEstimate, OrderServicePropierties } from '@/interfaces'
-import dayjs from 'dayjs'
 import { formatNumber } from '@/utils/formatNumber'
-import _ from 'lodash'
+import { useAuth } from '@/hooks/auth'
 
 interface Props extends ModalMinimalProps {
   orderId: string
 }
 
 export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
+  const { auth } = useAuth()
   const inputRef = useRef(null)
   const { data, loading } = useAxios({
     endpoint: Endpoints.GET_ORDER_DETAIL_SERVICE + orderId
@@ -57,14 +59,15 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
       isOpen
       setOpen={setOpen}>
       <div className='bg-white p-8 shadow-md rounded-md' ref={inputRef}>
-        <div className='flex justify-between items-center mb-6'>
+        <div className='flex justify-between items-start mb-6'>
           <div>
-            <h1 className='text-2xl font-bold'>Nombre Compañía</h1>
-            <p className='text-muted-foreground'>Managua, Nic.</p>
-            <p className='text-muted-foreground'>info@example.com | (505) 8456-7890</p>
+            <h1 className='text-2xl font-bold'>{auth?.workshop?.name}</h1>
+            <p className='text-sm font-bold'>RUC {auth?.workshop?.ruc}</p>
+            <p className='text-muted-foreground'>{auth?.workshop?.location}</p>
+            <p className='text-muted-foreground'>{auth?.workshop?.phoneNumber}</p>
           </div>
           <div className='text-right'>
-            <p className='text-muted-foreground'>Fecha de emisión: {dayjs(customData.createdAt).format('dddd, MMMM D, YYYY h:mm A	')}</p>
+            <p className='text-muted-foreground'>{dayjs(customData.createdAt).format('dddd, MMMM D, YYYY h:mm A	')}</p>
             <code className='text-muted-foreground font-bold'>{customData._id}</code>
           </div>
         </div>

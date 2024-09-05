@@ -358,28 +358,28 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                   <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio total Por Mano de obra <b>[{formatNumber(sums.ACTIVITY)}]</b>
+                      Mano de obra <b>{formatNumber(sums.ACTIVITY)}</b>
                     </p>
                   </div>
 
                   <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio total Por Mano de obra Externa <b>[{formatNumber(sums.EXTERNAL)}]</b>
+                      Mano de obra Externa <b>{formatNumber(sums.EXTERNAL)}</b>
                     </p>
                   </div>
 
                   <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio por repuestos <b>[{formatNumber(sums.PARTS)}]</b>
+                      Repuestos <b>{formatNumber(sums.PARTS)}</b>
                     </p>
                   </div>
 
                   <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
-                      Insumos <b>[{formatNumber(sums.OTHER)}]</b>
+                      Insumos <b>{formatNumber(sums.OTHER)}</b>
                     </p>
                   </div>
 
@@ -387,10 +387,10 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                     <div className='flex gap-2 items-center'>
                       <IoCheckmarkSharp />
                       <p>
-                        Actividad: <b>
+                        Mantenimiento: <b>
                           {_.find(activitiesGroupData,
                             (e: ActivitiesGroupPropierties) => e._id == activitiesGroupId
-                          )?.name} [{formatNumber(activitiesGroupCost)}]
+                          )?.name} {formatNumber(activitiesGroupCost)}
                         </b>
                       </p>
                     </div>
