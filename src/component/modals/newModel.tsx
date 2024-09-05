@@ -16,7 +16,7 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
   const [models, setModels] = useState<VehiculeModel[]>([])
   const [brandId, setBrand] = useState<string | null>(null)
   const [customModelName, setCustomModel] = useState<string>('')
-  const { data: dataBrands, loading: loadingBrands } = useAxios({
+  const { data: dataBrands, loading: loadingBrands, refetch} = useAxios({
     endpoint: Endpoints.GET_ALL_BRAND_MODEL
   })
 
@@ -58,7 +58,8 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
       }
 
       toast.success(`Modelo agregado al sistema`)
-      setOpen(false)
+      refetch()
+      setModels([])
     } catch (error: any) {
       toast.error(String(error.response.data || error))
     } finally {

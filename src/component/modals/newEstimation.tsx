@@ -104,7 +104,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
         'partsCost': sums.PARTS,
         'inputCost': sums.OTHER,
         'externalCost': sums.EXTERNAL,
-        'total': _.sum([...Object.values(sums), activitiesGroupCost]),
+        'total': total,
         'traveled': traveled,
         'activitiesToDo': acitivities,
         'requiredParts': partsRequired,
@@ -181,7 +181,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
       case 1: return 'Selecciona el cliente, vehículo'
       case 2: return 'Igresa las actividades a realizar'
       case 3: return 'Ingresa las partes principales requiridas'
-      case 4: return 'Ingresa otros requerimientos'
+      case 4: return 'Confirme el valor total'
       default: return 'Resumen del Presupuesto'
     }
   }
@@ -197,6 +197,8 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
     { label: 'Kilómetros', value: 'km' },
     { label: 'Millas', value: 'miles' },
   ]
+
+  const total = _.sum(Object.values(sums)) + activitiesGroupCost
 
   return (
     <CustomModal
@@ -370,7 +372,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                   <div className='flex gap-2 items-center'>
                     <IoCheckmarkSharp />
                     <p>
-                      Precio por repuestos <b>[{formatNumber(sums.ACTIVITY)}]</b>
+                      Precio por repuestos <b>[{formatNumber(sums.PARTS)}]</b>
                     </p>
                   </div>
 
@@ -381,21 +383,23 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
                     </p>
                   </div>
 
-                  <div className='flex gap-2 items-center'>
-                    <IoCheckmarkSharp />
-                    <p>
-                      Actividad: <b>
-                        {_.find(
-                          activitiesGroupData, (e: ActivitiesGroupPropierties) => e._id == activitiesGroupId
-                        )?.name} [{formatNumber(sums.OTHER)}]
-                      </b>
-                    </p>
-                  </div>
+                  {activitiesGroupId && (
+                    <div className='flex gap-2 items-center'>
+                      <IoCheckmarkSharp />
+                      <p>
+                        Actividad: <b>
+                          {_.find(activitiesGroupData,
+                            (e: ActivitiesGroupPropierties) => e._id == activitiesGroupId
+                          )?.name} [{formatNumber(activitiesGroupCost)}]
+                        </b>
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <div className='text-right flex-1'>
                   <p className='text-4xl text-gray-800 font-bold'>
-                    {formatNumber(_.sum([...Object.values(sums), activitiesGroupCost]))}
+                    {formatNumber(total)}
                   </p>
                   <p className='text-xl font-bold text-gray-400'>Precio total</p>
                 </div>
