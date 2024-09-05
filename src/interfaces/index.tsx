@@ -285,6 +285,8 @@ export interface ActivitiesGroupPropierties {
 
 export interface PropsResume {
   data: EstimatePropierties
+  isEditMode?: boolean
+  refetch?: () => void
 }
 
 export interface PropsQueryId {

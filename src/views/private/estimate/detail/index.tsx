@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Resume } from '@/component/estimate/resume'
 import { Tables } from '@/component/estimate/tables'
+import dayjs from 'dayjs'
 
 export const DetailEstimateView = () => {
   const [isOpenModal, setOpen] = useState<boolean>(false)
@@ -45,11 +46,16 @@ export const DetailEstimateView = () => {
   return (
     <LayoutComponent renderBack>
       {
-        estimate?.['_id'] && (
+        estimate?._id && (
           <div className='flex items-center flex-1 justify-between'>
-            <p className='text-2xl text-gray-600'>
-              Presupuesto ID <code className='bg-gray-100 text-xl p-1'>{estimate?.['_id']}</code>
-            </p>
+            <div className='flex flex-col'>
+              <p className='text-2xl text-gray-600'>
+                Presupuesto ID <code className='bg-gray-100 text-xl p-1'>{estimate?._id}</code>
+              </p>
+              <p className='text-gray-600'>
+                {dayjs(String(estimate.createdAt)).format('DD, MMM YYYY h:mm A')}
+              </p>
+            </div>
 
             {!order && (
               <button onClick={() => setOpen(true)} className='bg-gray-700 p-2 rounded text-white hover:bg-gray-600'>
@@ -70,12 +76,12 @@ export const DetailEstimateView = () => {
       }
 
       {estimate && (
-        <div className='flex gap-8'>
+        <div className='flex flex-col gap-8'>
           <div className='flex-1'>
             <Resume data={estimate} />
           </div>
           <div className='flex-1 flex flex-col gap-8'>
-            <Tables data={estimate} />
+            <Tables refetch={refetch} isEditMode={!order} data={estimate} />
           </div>
         </div>
       )}

@@ -8,7 +8,7 @@ interface TableProps {
   renderOptions?: boolean
 }
 
-export const TableRepresentation = ({ list, onRemoveItems,renderOptions }: TableProps) => {
+export const TableRepresentation = ({ list, onRemoveItems, renderOptions }: TableProps) => {
   const [dataFormated, setData] = useState<object[]>([])
 
   useEffect(() => {
