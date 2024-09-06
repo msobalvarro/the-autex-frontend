@@ -5,6 +5,7 @@ import { IoCarSportSharp } from 'react-icons/io5'
 import { MdOutlineWork } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { routes } from '@/router'
+import { StatusOrder } from '../order/statusOrder'
 
 interface Props {
   orders: OrderServicePropierties[]
@@ -26,16 +27,20 @@ export const ListOrderClient = ({ orders }: Props) => {
               <p>{dayjs(order.createdAt).format('D MMMM YYYY')}</p>
             </div>
 
-            <div className='flex items-center gap-3 text-gray-600'>
-              <IoCarSportSharp className='text-xl' />
-              <p>
-                {`
-                ${order.estimateProps?.vehicule?.year} 
-                ${order.estimateProps?.vehicule?.brand?.description} 
-                ${order.estimateProps?.vehicule?.model?.description}             
-                ${order.estimateProps?.vehicule?.plate}             
-              `}
-              </p>
+            <div className='flex items-end flex-col'>
+              <div className='flex items-center gap-3 text-gray-600'>
+                <IoCarSportSharp className='text-xl' />
+                <p>
+                  {`
+                  ${order.estimateProps?.vehicule?.year} 
+                  ${order.estimateProps?.vehicule?.brand?.description} 
+                  ${order.estimateProps?.vehicule?.model?.description}             
+                  ${order.estimateProps?.vehicule?.plate}             
+                `}
+                </p>
+              </div>
+
+              <StatusOrder status={order.status} />
             </div>
           </Link>
         ))}

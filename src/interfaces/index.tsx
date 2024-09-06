@@ -218,7 +218,7 @@ export interface OrderServicePropierties {
   preliminarManagment?: PreliminaryManagementProperties
   typesActivitiesToDo?: AcivitiesProperties
   serviceType?: ServicesTypesToDoOrderProperties
-  status?: 'pending' | 'process' | 'finished' | 'canceled'
+  status: 'pending' | 'process' | 'finished' | 'canceled'
   createdAt?: Date
   additionalTask?: ActivityWithCostToDoItemEstimate[]
   findings?: string[]
