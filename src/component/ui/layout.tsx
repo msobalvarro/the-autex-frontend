@@ -8,7 +8,6 @@ interface AuxProps {
 
 export const LayoutComponent = ({ children, renderBack }: AuxProps) => {
   const navigate = useNavigate()
-
   const onBack = () => navigate(-1)
 
   return (

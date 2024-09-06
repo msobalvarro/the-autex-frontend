@@ -7,7 +7,7 @@ interface Props {
 export const Loader = ({ active }: Props) => {
   if (active) {
     return (
-      <div className='fixed inset-0 flex items-center justify-center bg-[#00000070] bg-opacity-75 z-50'>
+      <div className='fixed inset-0 flex items-center justify-center bg-[#FFFFF70] backdrop-blur-sm bg-opacity-75 z-50'>
         <SyncLoader
           color='#1f2937'
           className='text-gray-100'

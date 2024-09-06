@@ -3,14 +3,16 @@ import { LayoutComponent } from '@/component/ui/layout'
 import { TableComponent } from '@/component/table'
 import { Client } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
-import { Endpoints } from '@/router'
+import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
 import { AssignVehiculeToClient } from '@/component/modals/assignVehiculeToClient'
 import { Loader } from '@/component/ui/loader'
 import { NewClient } from '@/component/modals/newClient'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router-dom'
 
 export const ClientView = () => {
+  const navigate = useNavigate()
   const [isOpenModalNewClient, setOpenModalCient] = useState<boolean>(false)
   const [isOpenModalAssignVehicule, setOpenModalVehicule] = useState<boolean>(false)
   const [clientSelected, setClient] = useState<Client | null>(null)
@@ -31,6 +33,7 @@ export const ClientView = () => {
           filter={filter}
           renderEnum
           renderOptions
+          onClickItem={(client: Client) => navigate(routes.CLIENT_DETAIL.replace(':id', String(client._id)))}
           options={[
             {
               label: 'Asignar vehículo',

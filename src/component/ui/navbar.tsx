@@ -1,12 +1,12 @@
+import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import { routes } from '@/router'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import clsx from 'clsx'
 import { logoutService } from '@/utils/auth'
 import { useAuth } from '@/hooks/auth'
 
-const itemClassName = 'rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
+const itemClassName = 'rounded-md px-2 py-3 text-sm font-bold text-gray-300 hover:bg-gray-700 hover:text-white'
 
 export const NavbarComponent = () => {
   const { auth } = useAuth()

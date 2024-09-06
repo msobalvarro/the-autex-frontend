@@ -10,6 +10,7 @@ export const routes = {
   MAIN: '/',
   WORKSHOPS: '/workshops',
   REPORTS: '/reports',
+  CLIENT_DETAIL: '/clients/detail/:id',
 }
 
 export const Endpoints = {
@@ -50,4 +51,6 @@ export const Endpoints = {
   ADD_PARTS_REQUIREMENTS: '/estimate/add/requiredPart',
   ADD_OTHER_REQUIREMENT: '/estimate/add/otherRequirement',
   ADD_EXTERNAL_ACTIVITY: '/estimate/add/externalActivity',
+  GET_CLIENT_BY_ID: '/clients/get/:id',
+  GET_ESTIMATION_BY_CLIENT_ID: '/order/get/client/:id',
 }
