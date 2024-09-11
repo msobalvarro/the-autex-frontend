@@ -9,7 +9,7 @@ export const StatusOrder = ({ status }: Props) => {
     <div className={`px-2 uppercase text-sm border rounded-xl ${clsx({
       'border-yellow-400 text-yellow-400': status === 'pending',
       'border-blue-400 text-blue-400': status === 'process',
-      'border-green-400 text-green-400': status === 'finished',
+      'border-green-600 text-green-600': status === 'finished',
       'border-rose-400 text-rose-400': status === 'canceled',
     })}`}>
       <p className={`font-bold`}>

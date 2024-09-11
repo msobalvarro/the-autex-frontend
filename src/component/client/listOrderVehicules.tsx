@@ -17,7 +17,7 @@ export const ClientVehiculeList = ({ vehicules }: Props) => {
 
       <div className='flex flex-col'>
         {vehicules.map(vehicule => (
-          <div className='flex gap-2 flex-col cursor-pointer p-2 transition hover:bg-gray-100' key={crypto.randomUUID()}>
+          <div className='flex rounded gap-2 flex-col cursor-pointer p-2 transition hover:bg-gray-100' key={crypto.randomUUID()}>
             <div className='flex justify-between items-center'>
               <p className='text-xl'>
                 {`

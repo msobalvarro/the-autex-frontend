@@ -32,6 +32,9 @@ export const NavbarComponent = () => {
                 {auth?.isRoot && (
                   <Link to={routes.WORKSHOPS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.WORKSHOPS) })}`}>Talleres</Link>
                 )}
+                {auth?.isAdmin && (
+                  <Link to={routes.WORKSHOP} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.WORKSHOP) })}`}>Mi Taller</Link>
+                )}
                 <Link to={routes.REPORTS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.REPORTS) })}`}>Reportes</Link>
                 <Link to={routes.DIAGNOSTIC} className={`${itemClassName}  ${clsx({ 'bg-gray-700': isActive(routes.DIAGNOSTIC) })}`}>Diagnóstico</Link>
               </div>

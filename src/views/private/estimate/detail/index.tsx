@@ -21,7 +21,7 @@ export const DetailEstimateView = () => {
 
   const estimate: EstimatePropierties = data ? data?.['estimate'] : {}
 
-  const order: OrderServicePropierties = data ? data?.['order'] : {}
+  const order: OrderServicePropierties = data ? data?.['order'] : { status: 'pending' }
 
   if (error) {
     return (

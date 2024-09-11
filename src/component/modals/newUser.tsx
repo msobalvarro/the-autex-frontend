@@ -19,6 +19,7 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
     name: defaultData ? defaultData.name : '',
     email: defaultData ? defaultData.email : '',
     password: '',
+    isAdmin: false
   })
 
   const submit = async () => {
@@ -108,8 +109,9 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
           </label>
         )}
 
-        <label>
-
+        <label className='flex gap-1 pl-2'>
+          <input type='checkbox' checked={data.isAdmin} onChange={() => setData({ ...data, isAdmin: !data.isAdmin })} />
+          <span className='ml-2'>Usuario Administrador</span>
         </label>
 
         <button disabled={isLoading} onClick={submit} className='py-2 px-3 mt-4 rounded bg-gray-600 text-white text-bold self-end'>

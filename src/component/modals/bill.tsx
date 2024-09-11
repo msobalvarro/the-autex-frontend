@@ -169,11 +169,6 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
             <p>{formatNumber(_.sum(Object.values(sums)))}</p>
           </div>
         </div>
-
-        <div className='mt-6 text-sm text-muted-foreground'>
-          <p>Términos y condiciones de pago:</p>
-          <p>Pago neto a 30 días. Se aplicarán intereses por mora en caso de pago atrasado.</p>
-        </div>
       </div>
     </CustomModal>
   )

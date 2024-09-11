@@ -89,6 +89,7 @@ export interface EstimatePropierties {
   partsCost?: number
   inputCost?: number
   createdAt?: Date | string
+  activitiesGroupCost?: number
   total?: number
 }
 
@@ -276,6 +277,7 @@ export interface CreateUserProps {
   name: string
   email: string
   password: string
+  isAdmin: boolean
 }
 
 export interface ActivitiesGroupPropierties {

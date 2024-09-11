@@ -9,6 +9,7 @@ export const routes = {
   LOGIN: '/login',
   MAIN: '/',
   WORKSHOPS: '/workshops',
+  WORKSHOP: '/workshop',
   REPORTS: '/reports',
   CLIENT_DETAIL: '/clients/detail/:id',
 }
