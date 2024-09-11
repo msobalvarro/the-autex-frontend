@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { LayoutComponent } from '@/component/ui/layout'
 import { Loader } from '@/component/ui/loader'
 import { useAxios } from '@/hooks/fetch'
@@ -9,7 +10,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Resume } from '@/component/estimate/resume'
 import { Tables } from '@/component/estimate/tables'
-import dayjs from 'dayjs'
 import { ResumeTotal } from '@/component/estimate/resumeTotal'
 
 export const DetailEstimateView = () => {
@@ -18,9 +18,7 @@ export const DetailEstimateView = () => {
   const { data, loading, error, refetch } = useAxios({
     endpoint: Endpoints.GET_ESTIMATION_ORDER_DETAIL_BY_ID + queryParams.id
   })
-
   const estimate: EstimatePropierties = data ? data?.['estimate'] : {}
-
   const order: OrderServicePropierties = data ? data?.['order'] : { status: 'pending' }
 
   if (error) {

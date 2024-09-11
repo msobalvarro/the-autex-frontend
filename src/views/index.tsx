@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { NavbarComponent } from '../component/ui/navbar'
+import { NavbarComponent } from '@/component/ui/navbar'
 import { routes } from '../router'
 import { NotFoundView } from './public/notFound'
 import { EstimateServiceView } from './private/estimate'
@@ -13,6 +13,7 @@ import { OrderServiceView } from './private/order'
 import { OrderDetailView } from './private/order/detail'
 import { WorkshopsView } from './private/workshops'
 import { DetailClientView } from './private/clients/detail'
+import { WorkshopView } from './private/workshop'
 
 export const App = () => {
   const { auth } = useAuth()
@@ -32,6 +33,7 @@ export const App = () => {
               <Route path={routes.ORDER_SERVICE} element={<OrderServiceView />} />
               <Route path={routes.ORDER_DETAIL} element={<OrderDetailView />} />
               <Route path={routes.WORKSHOPS} element={<WorkshopsView />} />
+              <Route path={routes.WORKSHOP} element={<WorkshopView />} />
             </>)}
 
             {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}
