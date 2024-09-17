@@ -10,8 +10,8 @@ export const data = [
 ];
 
 export const options = {
-  title: 'My Daily Activities',
-  pieHole: 0.4,
+  title: 'Ordenes de servicio',
+  pieHole: 0.3,
   is3D: false,
 };
 

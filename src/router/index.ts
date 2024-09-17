@@ -55,4 +55,5 @@ export const Endpoints = {
   GET_CLIENT_BY_ID: '/clients/get/:id',
   GET_ESTIMATION_BY_CLIENT_ID: '/estimate/get/client/:id',
   GET_ORDER_BY_CLIENT_ID: '/order/get/client/:id',
+  GET_ESTIMATE_REPORT: '/estimate/all/report',
 }

@@ -18,7 +18,7 @@ export const LayoutComponent = ({ children, renderBack }: AuxProps) => {
         </button>
       )}
 
-      <div className='bg-white rounded-md p-8 flex-1 shadow-xl flex flex-col gap-8'>
+      <div className='bg-white rounded-md p-8 flex-1 shadow flex flex-col gap-8'>
         {children}
       </div>
     </div>

@@ -295,3 +295,8 @@ export interface PropsResume {
 export interface PropsQueryId {
   id?: string
 }
+
+export interface EstimateChartDataResponse {
+  date: Date
+  count: number
+}

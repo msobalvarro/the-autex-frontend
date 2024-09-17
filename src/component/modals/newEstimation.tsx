@@ -169,11 +169,11 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
     ) ||
     currentSteps === 3 && (
       acitivities.length === 0
-    ) ||
-    currentSteps === 3 && (
-      partsRequired.length === 0
-      || otherRequirements.length === 0
     )
+    // currentSteps === 3 && (
+    //   partsRequired.length === 0
+    //   || otherRequirements.length === 0
+    // )
   )
 
   const renderSubtitle = (): string => {
