@@ -5,6 +5,7 @@ import { ReportChartDataResponse } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
 import { Chart } from 'react-google-charts'
+import { chartColorList } from '@/helpers'
 
 export const EstimationChart = () => {
   const [data, setData] = useState<Array<any> | null>(null)
@@ -17,7 +18,7 @@ export const EstimationChart = () => {
   useEffect(() => {
     if (Array.isArray(dataEstimate)) {
       const newData: ReportChartDataResponse[] = [...dataEstimate]
-      
+
       setData([
         [
           { type: 'date', label: 'Day' },
@@ -30,9 +31,6 @@ export const EstimationChart = () => {
 
   return (
     <div className='p-4 flex relative flex-col flex-1 bg-white overflow-auto rounded shadow'>
-      <div className='flex-1'>
-        {/* <DateRangePicker.Pioc /> */}
-      </div>
 
       {data && (
         <Chart
@@ -40,7 +38,10 @@ export const EstimationChart = () => {
           width='100%'
           height='400px'
           data={data}
-          options={{title: 'Presupuesto'}}
+          options={{
+            title: 'Presupuesto',
+            colors: chartColorList
+          }}
         />
       )}
 

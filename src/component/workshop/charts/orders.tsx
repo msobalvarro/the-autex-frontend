@@ -5,12 +5,7 @@ import { OrderDataReportResponsePropierties } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
 import { Chart } from 'react-google-charts'
-
-export const options = {
-  title: 'Tipos de Ordenes',
-  pieHole: 0.3,
-  is3D: false,
-}
+import { chartColorList } from '@/helpers'
 
 export const OrdersChart = () => {
   const [data, setData] = useState<Array<any> | null>(null)
@@ -43,7 +38,10 @@ export const OrdersChart = () => {
           width='100%'
           height='400px'
           data={data}
-          options={options}
+          options={{
+            title: 'Tipos de Ordene',
+            colors: chartColorList
+          }}
         />
       )}
 
