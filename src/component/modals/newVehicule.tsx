@@ -21,13 +21,17 @@ export const typeRegister = {
   MOTORCYCLE: 'motorcycle',
 }
 
-export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
+interface Props extends ModalMinimalProps {
+  defaulUserId?: string
+}
+
+export const NewVehicule = ({ setOpen, onUpdate, defaulUserId }: Props) => {
   const [modelList, setModelList] = useState<SelectionProps[]>([])
   const { validateNumber } = useValidation()
   const { data: dataBrands, loading: loadingBrand } = useAxios({ endpoint: Endpoints.GET_ALL_BRAND_MODEL })
   const { data: dataClient, loading: loadingClient } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
   const [data, setData] = useState<NewVehiculeProps>({
-    clientId: null,
+    clientId: defaulUserId || null,
     brandId: null,
     modelId: null,
     color: '',
@@ -102,6 +106,7 @@ export const NewVehicule = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                 onChange={(e) => setData(x => ({ ...x, typeSelections: String(e?.value) }))}
                 placeholder='Seleccione el tipo de unidad'
                 className='flex-1'
+                isDisabled={Boolean(defaulUserId)}
                 data={[
                   {
                     label: 'Vehiculo',

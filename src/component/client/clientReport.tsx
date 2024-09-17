@@ -7,14 +7,13 @@ import { Loader } from '../ui/loader'
 import { ListOrderClient } from './listOrderClient'
 import { ClientVehiculeList } from './listOrderVehicules'
 import { ListEstimateClient } from './listEstimate'
+import { BackButton } from '../ui/back'
 
 interface Props {
   client: Client
 }
 
 export const ClientReporter = ({ client }: Props) => {
-  const navigate = useNavigate()
-  const onBack = () => navigate(-1)
   const { data: orders, loading: loadingOrders } = useAxios({
     endpoint: Endpoints.GET_ORDER_BY_CLIENT_ID.replace(':id', client._id)
   })
@@ -26,10 +25,8 @@ export const ClientReporter = ({ client }: Props) => {
   if (loadingOrders || loadingEstimations) return <Loader active />
 
   return (
-    <div className='flex flex-1 flex-col'>
-      <button onClick={onBack} className='flex items-center self-start gap-2 p-2 rounded hover:underline'>
-        <IoChevronBack /> Volver
-      </button>
+    <div className='flex flex-1 flex-col relative'>
+      <BackButton />
 
       <div className='flex flex-col gap-4 flex-1 bg-white p-4 py-8 rounded shadow-md'>
         <div className='flex gap-4'>

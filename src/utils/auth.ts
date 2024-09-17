@@ -1,17 +1,17 @@
-import { ResponseAuth } from '@/interfaces'
+import { AuthStore, ResponseAuth } from '@/interfaces'
 import { sessionSlice } from '@/redux/reducers/auth'
 import store from '@/redux'
 
 export const LOCAL_KEY = 'session'
 
-export const getSession = async (): Promise<ResponseAuth | null> => {
+export const getSession = async (): Promise<AuthStore | null> => {
   const auth = localStorage.getItem(LOCAL_KEY)
 
   if (!auth) {
     return null
   }
 
-  const response: ResponseAuth = JSON.parse(auth)
+  const response: AuthStore = JSON.parse(auth)
   return response
 }
 

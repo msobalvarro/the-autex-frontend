@@ -1,21 +1,27 @@
-import { ResponseAuth } from '@/interfaces'
+import { AuthStore } from '@/interfaces'
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState: ResponseAuth = {
+const initialState: AuthStore = {
   _id: null,
   email: null,
   token: null,
+  name: null,
+  workshop: null,
+  isAdmin: false,
+  isRoot: false,
 }
 
 export const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setSessionReducer: (state: ResponseAuth, action) => {
-      state.token = action.payload.token
-      state.email = action.payload.email
-      state.name = action.payload.name
+    setSessionReducer: (state: AuthStore, action) => {
       state._id = action.payload._id
+      state.email = action.payload.email
+      state.token = action.payload.token
+      state.isRoot = action.payload.isRoot
+      state.isAdmin = action.payload.isAdmin
+      state.workshop = action.payload.workshop
     },
     clearSessionReducer: (state) => {
       state = initialState

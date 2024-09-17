@@ -171,7 +171,18 @@ export interface ResponseAuth {
   token: string | null
   isRoot?: boolean
   isAdmin?: boolean
-  workshop: WorkshopPropierties
+  workshop?: WorkshopPropierties
+}
+
+
+export interface AuthStore {
+  _id: string | null
+  name: string | null
+  email: string | null
+  token: string | null
+  isRoot?: boolean
+  isAdmin?: boolean
+  workshop: WorkshopPropierties | null
 }
 
 export interface AttentionsProperties {
@@ -241,13 +252,14 @@ export interface DistanceTraveledPropierties {
   type: string | null
 }
 
-export interface User {
+export interface UserPropierties {
   _id: string
   name: string
   email: string
   password?: string
   isAdmin: boolean
   isRoot: boolean
+  createdAt: Date
   status: 'active' | 'inactive' | 'blocked'
 }
 
@@ -260,8 +272,8 @@ export interface WorkshopPropierties {
   ruc: string
   phoneNumber: string,
   pictureUrl: string | null
-  administrators?: User[]
-  users?: User[]
+  administrators?: UserPropierties[]
+  users?: UserPropierties[]
   createdAt?: Date
 }
 

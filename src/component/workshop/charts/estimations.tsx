@@ -32,6 +32,7 @@ export const EstimationChart = () => {
 
   return (
     <div className='p-4 flex relative flex-col flex-1 bg-white overflow-auto rounded shadow'>
+      <p className='text-xl text-gray-600 mb-6'>Presupuesto</p>
 
       {data && (
         <Chart
@@ -40,7 +41,6 @@ export const EstimationChart = () => {
           height='400px'
           data={data}
           options={{
-            title: 'Presupuesto',
             colors: chartColorList
           }}
         />

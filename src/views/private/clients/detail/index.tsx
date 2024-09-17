@@ -8,11 +8,13 @@ import { useParams } from 'react-router-dom'
 
 export const DetailClientView = () => {
   const { id }: PropsQueryId = useParams()
-  const { data, loading } = useAxios({ endpoint: Endpoints.GET_CLIENT_BY_ID.replace(':id', String(id)) })
+  const { data, loading } = useAxios({
+    endpoint: Endpoints.GET_CLIENT_BY_ID.replace(':id', String(id))
+  })
 
   if (loading) return <Loader active />
   if (!data && !loading) {
-    <p className='text-xl text-hray-400'>No se encontraron resultados</p>
+    return <p className='text-xl text-hray-400'>No se encontraron resultados</p>
   }
 
   if (data) {

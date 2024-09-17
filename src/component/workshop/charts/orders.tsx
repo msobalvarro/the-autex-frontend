@@ -33,16 +33,15 @@ export const OrdersChart = () => {
 
   return (
     <div className='p-4 flex relative flex-col flex-1 bg-white overflow-auto rounded shadow'>
+      <p className='text-xl text-gray-600 mb-6'>Tipos de Ordenes (Total de ordenes: {total})</p>
+      
       {data && (
         <Chart
           chartType='PieChart'
           width='100%'
           height='400px'
           data={data}
-          options={{
-            title: `Tipos de Ordenes (Total de ordenes: ${total})`,
-            colors: chartColorList,
-          }}
+          options={{ colors: chartColorList }}
         />
       )}
 

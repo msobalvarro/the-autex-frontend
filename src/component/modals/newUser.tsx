@@ -1,4 +1,4 @@
-import { CreateUserProps, User, WorkshopPropierties } from '@/interfaces'
+import { CreateUserProps, UserPropierties, WorkshopPropierties } from '@/interfaces'
 import { ModalMinimalProps, CustomModal } from './layout'
 import { useState } from 'react'
 import { Loader } from '../ui/loader'
@@ -10,7 +10,7 @@ import { Endpoints } from '@/router'
 
 interface Props extends ModalMinimalProps {
   workshop: WorkshopPropierties | null
-  defaultData?: User | null
+  defaultData?: UserPropierties | null
 }
 export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData }: Props) => {
   const { validateEmail } = useValidation()
@@ -58,7 +58,7 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
             throw new Error(dataResponse.response.data)
           }
         } catch (error: any) {
-          console.log(error)
+          throw new Error(error)
         }
       }
 

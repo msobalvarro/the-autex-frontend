@@ -6,13 +6,13 @@ import { NewWorkshopModal } from '@/component/modals/newWorkshop'
 import { ConfirmAtiveToggleModal } from '@/component/workshop/confirm'
 import { WorkShopItem } from '@/component/workshop/workshopItem'
 import { useAxios } from '@/hooks/fetch'
-import { User, WorkshopPropierties } from '@/interfaces'
+import { UserPropierties, WorkshopPropierties } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { useState } from 'react'
 
 export const RootView = () => {
   const [workshopSelected, setWorkshop] = useState<WorkshopPropierties | null>(null)
-  const [userSelected, setUser] = useState<User | null>(null)
+  const [userSelected, setUser] = useState<UserPropierties | null>(null)
   const [isOpenConfirToggleActive, setToggleActiveUser] = useState<boolean>(false)
   const [isOpenNewUser, toggleNewUser] = useState<boolean>(false)
   const [isOpenNewWokshop, toggleNewWokshop] = useState<boolean>(false)
@@ -26,12 +26,12 @@ export const RootView = () => {
     setUser(null)
   }
 
-  const onUpdateUserAndOpenModal = (user: User) => {
+  const onUpdateUserAndOpenModal = (user: UserPropierties) => {
     setUser(user)
     toggleNewUser(true)
   }
 
-  const onUpdateUserStatus = (user: User) => {
+  const onUpdateUserStatus = (user: UserPropierties) => {
     setUser(user)
     setToggleActiveUser(true)
   }

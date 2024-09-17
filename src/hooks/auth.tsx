@@ -1,15 +1,16 @@
-import { ResponseAuth } from '@/interfaces'
-import { useEffect, useState } from 'react'
-import { getSession, setSession } from '@/utils/auth'
 import store from '@/redux'
+import { AuthStore } from '@/interfaces'
+import { useEffect, useState } from 'react'
+import { getSession } from '@/utils/auth'
+import { sessionSlice } from '@/redux/reducers/auth'
 
 export const useAuth = () => {
-  const [auth, setAuth] = useState<ResponseAuth | null>(null)
+  const [auth, setAuth] = useState<AuthStore | null>(null)
 
   const getSomeSession = async () => {
-    const session: ResponseAuth | null = await getSession()
+    const session: AuthStore | null = await getSession()
     if (session) {
-      await setSession(session)
+      store.dispatch(sessionSlice.actions.setSessionReducer(session))
       setAuth(session)
     }
   }

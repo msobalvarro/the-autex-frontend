@@ -1,10 +1,10 @@
-import { User } from '@/interfaces'
+import { UserPropierties } from '@/interfaces'
 import { UserStatusText } from './statusUser'
 
 interface UserItemProps {
-  user: User
-  onEdit?: (user: User) => void
-  onStatusToggle?: (user: User) => void
+  user: UserPropierties
+  onEdit?: (user: UserPropierties) => void
+  onStatusToggle?: (user: UserPropierties) => void
 }
 
 export const UserItem = ({ user, onStatusToggle, onEdit }: UserItemProps) => {

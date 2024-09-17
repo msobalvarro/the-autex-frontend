@@ -39,7 +39,7 @@ export const Endpoints = {
   CLOSE_ORDER_SERVICE: '/order/closeOrder',
   GET_ALL_WORKSHOPS: 'root/workshop/get/All',
   CREATE_WORKSHOP: '/root/workshop/create',
-  CREATE_USER_ASSIGN_WORKSHOP: '/user/create/workshop/',
+  CREATE_USER_ASSIGN_WORKSHOP: '/user/create/assignWorkshop/',
   UPDATE_USER_STATUS: '/user/update/status',
   UPDATE_USER: '/user/update',
   CREATE_ACTIVITIES_GROUP_ESTIMATION: '/estimate/create/activitiesGroup',
@@ -57,4 +57,5 @@ export const Endpoints = {
   GET_ORDER_BY_CLIENT_ID: '/order/get/client/:id',
   GET_ESTIMATE_REPORT: '/estimate/all/report',
   GET_ORDER_REPORT: '/order/all/report',
+  GET_ALL_USERS: '/user/get/all',
 }

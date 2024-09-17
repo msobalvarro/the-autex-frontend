@@ -1,4 +1,4 @@
-import { User } from '@/interfaces'
+import { UserPropierties } from '@/interfaces'
 import { CustomModal, ModalMinimalProps } from '../modals/layout'
 import { MdDelete } from 'react-icons/md'
 import { FaTrashRestore } from 'react-icons/fa'
@@ -9,7 +9,7 @@ import { Endpoints } from '@/router'
 
 
 interface Props extends ModalMinimalProps {
-  user: User
+  user: UserPropierties
 }
 
 export const ConfirmAtiveToggleModal = ({ user, setOpen, onUpdate }: Props) => {

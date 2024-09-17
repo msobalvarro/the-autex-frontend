@@ -1,12 +1,12 @@
-import { User, WorkshopPropierties } from '@/interfaces'
+import { UserPropierties, WorkshopPropierties } from '@/interfaces'
 import { FaPlus } from 'react-icons/fa6'
 import { UserItem } from './userItem'
 
 interface Props {
   workshop: WorkshopPropierties
   onNewUser: (workshop: WorkshopPropierties) => void
-  onUpdateUser?: (user: User) => void
-  onActiveOrInactive?: (user: User) => void
+  onUpdateUser?: (user: UserPropierties) => void
+  onActiveOrInactive?: (user: UserPropierties) => void
 }
 
 export const WorkShopItem = ({ workshop, onNewUser, onActiveOrInactive, onUpdateUser }: Props) => {
