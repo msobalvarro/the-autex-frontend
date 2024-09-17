@@ -35,14 +35,14 @@ export const useAxios = ({ endpoint, data: dataBody }: Props) => {
       setData(response.data)
     } catch (err) {
       if (err instanceof AxiosError) {
-        if (err.code === 'ERR_CONNECTION_REFUSED') {
-          toast.warning(`Connection refused`)
+        if (err.code === 'ERR_NETWORK') {
+          toast.error(`Connection refused`)
         } else {
           toast.warning(`${err?.response?.data}`)
         }
-      }
 
-      setError(String(err))
+        setError(String(err?.response?.data))
+      }
     } finally {
       setLoading(false)
     }

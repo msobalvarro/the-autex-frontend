@@ -1,28 +1,53 @@
+import dayjs from 'dayjs'
+import { Loader } from '@/component/ui/loader'
+import { useAxios } from '@/hooks/fetch'
+import { OrderDataReportResponsePropierties } from '@/interfaces'
+import { Endpoints } from '@/router'
+import { useEffect, useState } from 'react'
 import { Chart } from 'react-google-charts'
 
-export const data = [
-  ['Task', 'Hours per Day'],
-  ['Work', 11],
-  ['Eat', 2],
-  ['Commute', 2],
-  ['Watch TV', 2],
-  ['Sleep', 7], // CSS-style declaration
-];
-
 export const options = {
-  title: 'Ordenes de servicio',
+  title: 'Tipos de Ordenes',
   pieHole: 0.3,
   is3D: false,
-};
+}
 
 export const OrdersChart = () => {
+  const [data, setData] = useState<Array<any> | null>(null)
+  const from = dayjs().startOf('month').format('MM-DD-YYYY').toString()
+  const to = dayjs().endOf('month').format('MM-DD-YYYY').toString()
+  const { data: dataOrder, loading } = useAxios({
+    endpoint: `${Endpoints.GET_ORDER_REPORT}?from=${from}&to=${to}`,
+  })
+
+  useEffect(() => {
+    if (dataOrder) {
+      const props: OrderDataReportResponsePropierties = dataOrder
+
+      setData([
+        ['Tipo de Actividad', 'Cantidad'],
+        ['Correctivos', props.corrective],
+        ['Preventivos', props.preventive],
+        ['Predictivos', props.predictive],
+        ['Service', props.service],
+        ['Matenimientos', props.maintenance],
+      ])
+    }
+  }, [dataOrder])
+
   return (
-    <Chart
-      chartType='PieChart'
-      width='100%'
-      height='400px'
-      data={data}
-      options={options}
-    />
-  );
+    <div className='p-4 flex relative flex-col flex-1 bg-white overflow-auto rounded shadow'>
+      {data && (
+        <Chart
+          chartType='PieChart'
+          width='100%'
+          height='400px'
+          data={data}
+          options={options}
+        />
+      )}
+
+      <Loader active={loading} />
+    </div>
+  )
 }

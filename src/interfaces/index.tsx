@@ -296,7 +296,17 @@ export interface PropsQueryId {
   id?: string
 }
 
-export interface EstimateChartDataResponse {
+export interface ReportChartDataResponse {
   date: Date
   count: number
 }
+
+export interface OrderDataReportResponsePropierties {
+  maintenance: number
+  service: number
+  minorMantenance: number
+  predictive: number
+  preventive: number
+  corrective: number  
+}
+

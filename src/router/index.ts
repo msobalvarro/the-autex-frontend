@@ -30,7 +30,7 @@ export const Endpoints = {
   GET_ESTIMATION_DETAIL_BY_ID: '/estimate/detail/',
   GET_ESTIMATION_ORDER_DETAIL_BY_ID: '/estimate/detailWithOrder/',
   GET_ORDER_DETAIL_SERVICE: '/order/detail/',
-  GET_ALL_ORDERS: '/order/getAll',
+  GET_ALL_ORDERS: '/order/all',
   CREATE_ORDER_SERVICE: '/order/create/',
   UPDATE_FINDINGS_LIST: '/order/update/findings',
   UPDATE_OBSERVATIONS_LIST: '/order/update/observations',
@@ -56,4 +56,5 @@ export const Endpoints = {
   GET_ESTIMATION_BY_CLIENT_ID: '/estimate/get/client/:id',
   GET_ORDER_BY_CLIENT_ID: '/order/get/client/:id',
   GET_ESTIMATE_REPORT: '/estimate/all/report',
+  GET_ORDER_REPORT: '/order/all/report',
 }
