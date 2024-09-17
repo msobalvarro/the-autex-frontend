@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { ActionsComponent } from '@/component/ui/actions'
 import { LayoutComponent } from '@/component/ui/layout'
 import { TableComponent } from '@/component/table'
@@ -5,17 +6,12 @@ import { Client } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
-import { AssignVehiculeToClient } from '@/component/modals/assignVehiculeToClient'
 import { Loader } from '@/component/ui/loader'
 import { NewClient } from '@/component/modals/newClient'
-import dayjs from 'dayjs'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export const ClientView = () => {
-  const navigate = useNavigate()
   const [isOpenModalNewClient, setOpenModalCient] = useState<boolean>(false)
-  const [isOpenModalAssignVehicule, setOpenModalVehicule] = useState<boolean>(false)
-  const [clientSelected, setClient] = useState<Client | null>(null)
   const [filter, setFilter] = useState<string>('')
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
 
@@ -25,6 +21,7 @@ export const ClientView = () => {
         textButton='Nuevo Cliente'
         title='Clientes'
         subtitle='Visualiza y gestiona todos clientes registrados'
+        searchTextPlaceholder='Buscar cliente'
         onClickButton={() => setOpenModalCient(true)}
         onChangeFilterValue={setFilter} />
 
@@ -32,20 +29,9 @@ export const ClientView = () => {
         <TableComponent
           filter={filter}
           renderEnum
-          renderOptions
-          onClickItem={(client: Client) => navigate(routes.CLIENT_DETAIL.replace(':id', String(client._id)))}
-          options={[
-            {
-              label: 'Asignar vehículo',
-              onClick: (e: Client) => {
-                setClient(e)
-                setOpenModalVehicule(true)
-              }
-            }
-          ]}
           data={
             (Array.isArray(data) ? [...data] : []).map((item: Client) => ({
-              'Nombre': item.name,
+              'Nombre': <Link className='text-blue-500 hover:underline' to={routes.CLIENT_DETAIL.replace(':id', String(item._id))}>{item.name}</Link> ,
               'Correo Electrónico': item.email,
               'Numero Telefónico': item.phoneNumber,
               'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),
@@ -55,17 +41,8 @@ export const ClientView = () => {
           } />
       </div>
 
-      {(isOpenModalAssignVehicule && clientSelected) && (
-        <AssignVehiculeToClient
-          onUpdate={refetch}
-          client={clientSelected}
-          setOpen={setOpenModalVehicule} />
-      )}
-
       {isOpenModalNewClient && <NewClient onUpdate={refetch} setOpen={setOpenModalCient} />}
-
       <Loader active={loading} />
-
     </LayoutComponent>
   )
 }

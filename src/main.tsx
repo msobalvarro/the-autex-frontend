@@ -10,12 +10,14 @@ import tz from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/es-mx'
 
 dayjs.extend(tz)
 dayjs.extend(utc)
 dayjs.extend(updateLocale)
 dayjs.extend(localizedFormat)
+dayjs.extend(relativeTime)
 dayjs.locale('es-mx')
 
 createRoot(document.getElementById('root')!).render(

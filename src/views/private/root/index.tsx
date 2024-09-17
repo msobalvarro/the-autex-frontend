@@ -10,7 +10,7 @@ import { User, WorkshopPropierties } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { useState } from 'react'
 
-export const WorkshopsView = () => {
+export const RootView = () => {
   const [workshopSelected, setWorkshop] = useState<WorkshopPropierties | null>(null)
   const [userSelected, setUser] = useState<User | null>(null)
   const [isOpenConfirToggleActive, setToggleActiveUser] = useState<boolean>(false)

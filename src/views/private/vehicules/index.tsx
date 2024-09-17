@@ -24,6 +24,7 @@ export const VehiculesView = () => {
       <ActionsComponent
         textButton='Nuevo Vehiculo'
         title='Vehiculos'
+        searchTextPlaceholder='Buscar vehiculo, marca..'
         secondaryButtons={[
           {
             label: 'Crear Marca',

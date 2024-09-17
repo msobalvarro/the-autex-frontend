@@ -8,7 +8,8 @@ export const ActionsComponent = ({
   textButton,
   onChangeFilterValue,
   secondaryButtons,
-  hiddeButton
+  hiddeButton,
+  searchTextPlaceholder
 }: ActionsComponentProps) => {
   return (
     <div className='flex flex-row flex-1 items-center'>
@@ -29,7 +30,7 @@ export const ActionsComponent = ({
 
       <div className='flex flex-row gap-4'>
         <InputSearch
-          placeholder='buscar'
+          placeholder={searchTextPlaceholder || 'buscar'}
           onChange={({ currentTarget }) => onChangeFilterValue(currentTarget.value)} />
 
         {!hiddeButton && (

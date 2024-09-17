@@ -8,6 +8,7 @@ export interface ActionsComponentProps {
   onClickButton: () => void
   onChangeFilterValue: (value: string) => void
   secondaryButtons?: SecondaryButtons[]
+  searchTextPlaceholder?: string
 }
 
 export interface SecondaryButtons {

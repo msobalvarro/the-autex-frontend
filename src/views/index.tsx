@@ -11,7 +11,7 @@ import { WelcomeScreen } from './private/welcome'
 import { DetailEstimateView } from './private/estimate/detail'
 import { OrderServiceView } from './private/order'
 import { OrderDetailView } from './private/order/detail'
-import { WorkshopsView } from './private/workshops'
+import { RootView } from './private/root'
 import { DetailClientView } from './private/clients/detail'
 import { WorkshopView } from './private/workshop'
 
@@ -20,7 +20,7 @@ export const App = () => {
   return (
     <>
       {auth?.token && <NavbarComponent />}
-      <main className='flex flex-col flex-1 items-center pt-10 pb-10'>
+      <main className='flex flex-col flex-1 items-center pb-10'>
         <Routes>
           <Route path={routes.MAIN}>
             {auth?.token && (<>
@@ -32,7 +32,7 @@ export const App = () => {
               <Route path={routes.ESTIMATE_DETAIL} element={<DetailEstimateView />} />
               <Route path={routes.ORDER_SERVICE} element={<OrderServiceView />} />
               <Route path={routes.ORDER_DETAIL} element={<OrderDetailView />} />
-              <Route path={routes.ROOT} element={<WorkshopsView />} />
+              <Route path={routes.ROOT} element={<RootView />} />
               <Route path={routes.WORKSHOP} element={<WorkshopView />} />
             </>)}
 
