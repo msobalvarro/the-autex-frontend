@@ -307,6 +307,7 @@ export interface OrderDataReportResponsePropierties {
   minorMantenance: number
   predictive: number
   preventive: number
-  corrective: number  
+  corrective: number
+  total: number
 }
 

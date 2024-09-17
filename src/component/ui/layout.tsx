@@ -11,7 +11,7 @@ export const LayoutComponent = ({ children, renderBack }: AuxProps) => {
   const onBack = () => navigate(-1)
 
   return (
-    <div className='w-3/4 flex flex-col gap-4 mt-10 pb-10'>
+    <div className={`w-3/4 flex flex-col gap-4 relative`}>
       {renderBack && (
         <button onClick={onBack} className='flex items-center self-start gap-2 p-2 rounded hover:underline'>
           <IoChevronBack /> Volver

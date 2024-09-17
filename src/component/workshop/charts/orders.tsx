@@ -9,6 +9,7 @@ import { chartColorList } from '@/helpers'
 
 export const OrdersChart = () => {
   const [data, setData] = useState<Array<any> | null>(null)
+  const [total, setTotal] = useState<number | null>(null)
   const from = dayjs().startOf('month').format('MM-DD-YYYY').toString()
   const to = dayjs().endOf('month').format('MM-DD-YYYY').toString()
   const { data: dataOrder, loading } = useAxios({
@@ -18,7 +19,7 @@ export const OrdersChart = () => {
   useEffect(() => {
     if (dataOrder) {
       const props: OrderDataReportResponsePropierties = dataOrder
-
+      setTotal(props.total)
       setData([
         ['Tipo de Actividad', 'Cantidad'],
         ['Correctivos', props.corrective],
@@ -39,8 +40,8 @@ export const OrdersChart = () => {
           height='400px'
           data={data}
           options={{
-            title: 'Tipos de Ordene',
-            colors: chartColorList
+            title: `Tipos de Ordenes (Total de ordenes: ${total})`,
+            colors: chartColorList,
           }}
         />
       )}

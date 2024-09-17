@@ -20,7 +20,7 @@ export const App = () => {
   return (
     <>
       {auth?.token && <NavbarComponent />}
-      <main className='flex flex-col flex-1 items-center'>
+      <main className='flex flex-col flex-1 items-center pt-10 pb-10'>
         <Routes>
           <Route path={routes.MAIN}>
             {auth?.token && (<>
@@ -32,7 +32,7 @@ export const App = () => {
               <Route path={routes.ESTIMATE_DETAIL} element={<DetailEstimateView />} />
               <Route path={routes.ORDER_SERVICE} element={<OrderServiceView />} />
               <Route path={routes.ORDER_DETAIL} element={<OrderDetailView />} />
-              <Route path={routes.WORKSHOPS} element={<WorkshopsView />} />
+              <Route path={routes.ROOT} element={<WorkshopsView />} />
               <Route path={routes.WORKSHOP} element={<WorkshopView />} />
             </>)}
 

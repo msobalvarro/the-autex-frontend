@@ -23,7 +23,7 @@ export const VehiculesView = () => {
     <LayoutComponent>
       <ActionsComponent
         textButton='Nuevo Vehiculo'
-        title='Vehiculo'
+        title='Vehiculos'
         secondaryButtons={[
           {
             label: 'Crear Marca',

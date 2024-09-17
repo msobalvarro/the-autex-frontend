@@ -8,7 +8,7 @@ export const routes = {
   CLIENTS: '/clients',
   LOGIN: '/login',
   MAIN: '/',
-  WORKSHOPS: '/workshops',
+  ROOT: '/root',
   WORKSHOP: '/workshop',
   REPORTS: '/reports',
   CLIENT_DETAIL: '/clients/detail/:id',

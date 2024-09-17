@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import dayjs from 'dayjs'
 import { Loader } from '@/component/ui/loader'
 import { useAxios } from '@/hooks/fetch'
@@ -22,7 +23,7 @@ export const EstimationChart = () => {
       setData([
         [
           { type: 'date', label: 'Day' },
-          'Total'
+          `Total: ${_.sumBy(newData, v => v.count)}`
         ],
         ...newData.map(value => ([new Date(value.date), value.count]))
       ])

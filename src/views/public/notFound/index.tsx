@@ -4,7 +4,7 @@ import { FcSearch } from 'react-icons/fc'
 
 export const NotFoundView = () => {
   return (
-    <div className='min-h-screen w-full flex flex-col items-center justify-center bg-gray-900 text-white'>
+    <div className='min-h-screen absolute top-0 z-0 w-full flex flex-col items-center justify-center bg-gray-900 text-white'>
       <FcSearch className='text-9xl mt-10' />
       
       <h1 className='text-6xl font-bold mb-4'>404</h1>

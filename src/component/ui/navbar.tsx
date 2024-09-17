@@ -16,7 +16,7 @@ export const NavbarComponent = () => {
   const isActive = (route: string): boolean => `${location.pathname}`.search(route) > -1
 
   return (
-    <nav className='bg-gray-800'>
+    <nav className='bg-gray-800 z-10 relative'>
       <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
         <div className='relative flex h-16 items-center justify-between'>
           <div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
@@ -25,12 +25,12 @@ export const NavbarComponent = () => {
             </div>
             <div className='hidden sm:ml-6 sm:block'>
               <div className='flex space-x-4'>
-                <Link to={routes.CLIENTS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.CLIENTS) })}`}>Clientes</Link>
-                <Link to={routes.VEHICULES} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.VEHICULES) })}`}>Vehiculos</Link>
+                {/* <Link to={routes.CLIENTS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.CLIENTS) })}`}>Clientes</Link> */}
+                {/* <Link to={routes.VEHICULES} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.VEHICULES) })}`}>Vehiculos</Link> */}
                 <Link to={routes.ESTIMATE_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ESTIMATE_SERVICE) })}`}>Presupuesto</Link>
                 <Link to={routes.ORDER_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ORDER_SERVICE) })}`}>Orden de Servicio</Link>
                 {auth?.isRoot && (
-                  <Link to={routes.WORKSHOPS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.WORKSHOPS) })}`}>Talleres</Link>
+                  <Link to={routes.ROOT} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ROOT) })}`}>Perfil Root</Link>
                 )}
                 {auth?.isAdmin && (
                   <Link to={routes.WORKSHOP} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.WORKSHOP) })}`}>Mi Taller</Link>
