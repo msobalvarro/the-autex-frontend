@@ -25,7 +25,7 @@ export const OrdersChart = () => {
         ['Correctivos', props.corrective],
         ['Preventivos', props.preventive],
         ['Predictivos', props.predictive],
-        ['Service', props.service],
+        ['Servicio', props.service],
         ['Matenimientos', props.maintenance],
       ])
     }

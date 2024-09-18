@@ -149,7 +149,7 @@ export const NewVehicule = ({ setOpen, onUpdate, client }: Props) => {
 
             {client && (
               <label className='flex flex-col w-1/2'>
-                <p className='text-xl text-gray-500 p-3 bg-gray-100 border rounded'>{client.name}</p>
+                <p className='text-lg text-gray-500 p-3 bg-gray-100 border rounded'>{client.name}</p>
                 {/* <span className='ml-2 text-gray-500'>Cliente</span> */}
               </label>
             )}

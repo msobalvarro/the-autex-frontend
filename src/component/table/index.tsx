@@ -45,9 +45,7 @@ export const TableComponent = ({
           <tr>
             {renderEnum && (<th />)}
             {Object.keys(firstRow).map((key) => key !== '__item' && (
-              <th
-                key={key}
-                className='py-4 px-6 text-left uppercase tracking-wider text-xs font-semibold'>
+              <th className='p-4 text-left uppercase tracking-wider text-xs text-gray-600 font-semibold' key={crypto.randomUUID()}>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </th>
             ))}

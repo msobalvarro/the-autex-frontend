@@ -9,6 +9,7 @@ import { NewVehicule } from '@/component/modals/newVehicule'
 import { Loader } from '@/component/ui/loader'
 import { NewbrandAndModel } from '@/component/modals/newBrand'
 import { NewModel } from '@/component/modals/newModel'
+import { VehiculePlate } from '@/component/vehicule/plate'
 
 export const VehiculesView = () => {
   const [isOpenModal, setOpen] = useState({
@@ -43,13 +44,13 @@ export const VehiculesView = () => {
         <TableComponent
           filter={filter}
           data={(Array.isArray(data) ? [...data] : []).map(
-          (item: Vehicule) => ({
-            'Tipo': <b className='uppercase'>{item?.type}</b>,
-            'Vehicule': `${item?.year} ${item.brand?.description} ${item.model?.description}`,
-            'Color': item?.color,
-            'Placa': item?.plate,
-          }))
-        } />
+            (item: Vehicule) => ({
+              'Tipo': <b className='uppercase'>{item?.type}</b>,
+              'Unidad': `${item?.year} ${item.brand?.description} ${item.model?.description}`,
+              'Color': item?.color,
+              'Placa': <div className='flex'><VehiculePlate plate={String(item?.plate)} /></div>,
+            }))
+          } />
       </div>
 
       {isOpenModal.newVehicule && <NewVehicule setOpen={(is) => setOpen(e => ({ ...e, newVehicule: is }))} onUpdate={refetch} />}

@@ -30,9 +30,9 @@ export const VehiculeItemClient = ({ vehicule, onCreateEstimate }: Props) => {
           </div>
         </div>
       </PopoverTrigger>
-      <PopoverContent>
-        <div className='bg-white p-4 flex flex-col gap-2 border shadow-xl rounded'>
-          <div className='text-small text-gray-500 font-bold'>Selecciona una Opción</div>
+      <PopoverContent className='bg-white p-0 rounded'>
+        <div className='flex p-4 flex-col gap-2 shadow-xl'>
+          <div className='text-small text-gray-500 px-4'>Selecciona una Opción</div>
           <hr />
           <div onClick={onCreateEstimate} className='flex gap-2 cursor-pointer items-center rounded p-2 hover:bg-gray-100'>
             <RiCalculatorFill className='text-gray-600' size={24} />

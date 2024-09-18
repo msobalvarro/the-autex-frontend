@@ -40,6 +40,7 @@ export const Endpoints = {
   GET_ALL_WORKSHOPS: 'root/workshop/get/All',
   CREATE_WORKSHOP: '/root/workshop/create',
   CREATE_USER_ASSIGN_WORKSHOP: '/user/create/assignWorkshop/',
+  CREATE_USER: '/user/create',
   UPDATE_USER_STATUS: '/user/update/status',
   UPDATE_USER: '/user/update',
   CREATE_ACTIVITIES_GROUP_ESTIMATION: '/estimate/create/activitiesGroup',

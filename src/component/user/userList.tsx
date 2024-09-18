@@ -9,11 +9,13 @@ import { UserPropierties } from '@/interfaces'
 import { StatusUser } from './statusUser'
 import dayjs from 'dayjs'
 import { useAuth } from '@/hooks/auth'
+import { NewAndUpdateUserModal } from '../modals/newUser'
 
 export const UserList = () => {
   const { auth } = useAuth()
   const [filter, setFilter] = useState<string>('')
-  const { data, loading, error } = useAxios({ endpoint: Endpoints.GET_ALL_USERS })
+  const [isOpenNewUser, setOpenUser] = useState<boolean>(false)
+  const { data, loading, error, refetch } = useAxios({ endpoint: Endpoints.GET_ALL_USERS })
 
   if (error) {
     return (
@@ -30,7 +32,7 @@ export const UserList = () => {
         subtitle='Visualiza y gestiona todos tus usuarios registrados'
         searchTextPlaceholder='Buscar usuario, nombre..'
         textButton='Nuevo Usuario'
-        onClickButton={() => { }}
+        onClickButton={() => setOpenUser(true)}
         onChangeFilterValue={setFilter} />
 
       {data && (
@@ -45,6 +47,10 @@ export const UserList = () => {
         />
       )}
 
+      {isOpenNewUser && <NewAndUpdateUserModal
+        onUpdate={refetch}
+        workshop={auth?.workshop}
+        setOpen={setOpenUser} />}
       <Loader active={loading} />
     </LayoutComponent>
   )

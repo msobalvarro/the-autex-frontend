@@ -7,12 +7,15 @@ import { toast } from 'react-toastify'
 import { useValidation } from '@/hooks/validations'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
+import { UiCheckbox } from '../ui/checkbox'
+import { useAuth } from '@/hooks/auth'
 
 interface Props extends ModalMinimalProps {
-  workshop: WorkshopPropierties | null
+  workshop?: WorkshopPropierties | null
   defaultData?: UserPropierties | null
 }
 export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData }: Props) => {
+  const { auth } = useAuth()
   const { validateEmail } = useValidation()
   const [isLoading, setLoading] = useState<boolean>(false)
   const [data, setData] = useState<CreateUserProps>({
@@ -49,7 +52,11 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
 
       } else {
         try {
-          const { data: dataResponse, status } = await axiosInstance.post(Endpoints.CREATE_USER_ASSIGN_WORKSHOP, {
+          const url = auth?.isRoot
+            ? Endpoints.CREATE_USER_ASSIGN_WORKSHOP
+            : Endpoints.CREATE_USER
+
+          const { data: dataResponse, status } = await axiosInstance.post(url, {
             workshopId: workshop?._id,
             ...data,
           })
@@ -110,11 +117,11 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
         )}
 
         <label className='flex gap-1 pl-2'>
-          <input type='checkbox' checked={data.isAdmin} onChange={() => setData({ ...data, isAdmin: !data.isAdmin })} />
+          <UiCheckbox onChange={() => setData({ ...data, isAdmin: !data.isAdmin })} checked={data.isAdmin} />
           <span className='ml-2'>Usuario Administrador</span>
         </label>
 
-        <button disabled={isLoading} onClick={submit} className='py-2 px-3 mt-4 rounded bg-gray-600 text-white text-bold self-end'>
+        <button disabled={isLoading} onClick={submit} className='py-2 px-3 mt-4 rounded bg-gray-600 text-white text-bold self-end text-lg'>
           {defaultData ? 'Actualizar Usuario' : 'Crear Usuario'}
         </button>
 
