@@ -17,7 +17,6 @@ export const ListEstimateClient = ({ estimations }: Props) => {
           <IoDocumentTextSharp className='text-xl' />
           Presupuestos
         </p>
-        <button className='px-2 py-1 bg-gray-600 text-white rounded'>Generar Presupuesto</button>
       </div>
 
       <hr />

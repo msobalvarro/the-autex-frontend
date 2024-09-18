@@ -1,0 +1,45 @@
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover'
+import { Vehicule } from '@/interfaces'
+import { VehiculePlate } from '@/component/vehicule/plate'
+import { RiCalculatorFill } from 'react-icons/ri'
+
+interface Props {
+  vehicule: Vehicule
+  onCreateEstimate: () => void
+}
+
+export const VehiculeItemClient = ({ vehicule, onCreateEstimate }: Props) => {
+  return (
+    <Popover placement='right'>
+      <PopoverTrigger>
+        <div className='flex rounded gap-2 flex-col cursor-pointer p-2 transition hover:bg-gray-100' key={crypto.randomUUID()}>
+          <div className='flex justify-between items-center'>
+            <p className='text-xl text-gray-800'>
+              {`
+                ${vehicule?.year} 
+                ${vehicule?.brand?.description} 
+                ${vehicule?.model?.description}
+              `}
+            </p>
+
+            <VehiculePlate plate={String(vehicule?.plate)} />
+          </div>
+          <div className='flex justify-between gap-4 text-gray-500 uppercase text-sm'>
+            <span>Unidad de tipo {vehicule.type}</span>
+            <span>Color {vehicule.color}</span>
+          </div>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent>
+        <div className='bg-white p-4 flex flex-col gap-2 border shadow-xl rounded'>
+          <div className='text-small text-gray-500 font-bold'>Selecciona una Opción</div>
+          <hr />
+          <div onClick={onCreateEstimate} className='flex gap-2 cursor-pointer items-center rounded p-2 hover:bg-gray-100'>
+            <RiCalculatorFill className='text-gray-600' size={24} />
+            Generar Presupuesto
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}

@@ -28,8 +28,8 @@ export const ClientReporter = ({ client, refetch }: Props) => {
 
       <div className='flex flex-col gap-4 flex-1 bg-white p-4 py-8 rounded shadow-md'>        
         <div className='flex gap-4'>
-          <ClientVehiculeList refetch={refetch} client={client} vehicules={client.vehicules} />
           {estimations && <ListEstimateClient estimations={estimations} />}
+          <ClientVehiculeList refetch={refetch} client={client} vehicules={client.vehicules} />
         </div>
 
         <hr />

@@ -37,13 +37,18 @@ const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentation
 
 const Icon = <RiCalculatorFill size={24} />
 
-export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
+interface Props extends ModalMinimalProps {
+  vehicule?: Vehicule | null
+  client?: Client | null
+}
+
+export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
   const navigate = useNavigate()
   const { validateNumber } = useValidation()
   const [isLoading, setLoading] = useState<boolean>(false)
   const [currentSteps, setSteps] = useState<number>(1)
-  const [clientSelected, setClient] = useState<string | null>(null)
-  const [vehiculeSelected, setVehicule] = useState<string | null>(null)
+  const [clientSelected, setClient] = useState<string | null>(client?._id || null)
+  const [vehiculeSelected, setVehicule] = useState<string | null>(vehicule?._id || null)
   const [clientList, setClientList] = useState<SelectionProps[]>([])
   const [carsList, setCarsList] = useState<SelectionProps[]>([])
   const [acitivities, setAcitivities] = useState<ActivityWithCostToDoItemEstimate[]>([])
@@ -162,8 +167,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
   // validation for step 1
   const disabledValidationFirstStep = (
     currentSteps === 1 && (
-      vehiculeSelected === null
-      || clientSelected === null
+      (!vehicule && (vehiculeSelected === null || clientSelected === null))
       || traveled.distance === 0
       || traveled.type === null
     ) ||
@@ -178,7 +182,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
 
   const renderSubtitle = (): string => {
     switch (currentSteps) {
-      case 1: return 'Selecciona el cliente, vehículo'
+      case 1: return vehicule ? 'Ingresa los kilometros recoridos' : 'Selecciona el cliente, vehículo'
       case 2: return 'Igresa las actividades a realizar'
       case 3: return 'Ingresa las partes principales requiridas'
       case 4: return 'Confirme el valor total'
@@ -205,7 +209,7 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
       medium
       isOpen={true}
       setOpen={setOpen}
-      title={`Nuevo Presupuesto (Paso ${currentSteps} de 4)`}
+      title={vehicule ? `Nuevo Presupuesto: [${vehicule.plate}] (Paso ${currentSteps} de 4)` : `Nuevo Presupuesto (Paso ${currentSteps} de 4)`}
       subTitle={renderSubtitle()}
       containerClassesNames='flex flex-col gap-8'
       navButtonsOptions={{
@@ -222,34 +226,36 @@ export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
       <>
         {currentSteps === 1 && (
           <>
-            <div>
-              <div className='flex flex-row flex-1 gap-2 justify-stretch'>
-                <label className='flex-1 flex flex-col'>
-                  <CustomSelectOption
-                    onChange={(e) => setClient(String(e?.value))}
-                    value={clientList.filter(option => option.value === clientSelected)}
-                    placeholder='Cliente'
-                    className='flex-1'
-                    isLoading={loading}
-                    data={clientList} />
-                  <span className='text-gray-600 ml-2'>Seleccione el Cliente *</span>
-                </label>
+            {!vehicule && (
+              <div>
+                <div className='flex flex-row flex-1 gap-2 justify-stretch'>
+                  <label className='flex-1 flex flex-col'>
+                    <CustomSelectOption
+                      onChange={(e) => setClient(String(e?.value))}
+                      value={clientList.filter(option => option.value === clientSelected)}
+                      placeholder='Cliente'
+                      className='flex-1'
+                      isLoading={loading}
+                      data={clientList} />
+                    <span className='text-gray-600 ml-2'>Seleccione el Cliente *</span>
+                  </label>
 
-                <label className='flex-1 flex flex-col'>
-                  <CustomSelectOption
-                    isDisabled={!clientSelected}
-                    value={carsList.filter(option => option.value === vehiculeSelected)}
-                    placeholder='Unidad'
-                    onChange={(e) => setVehicule(String(e?.value))}
-                    className='flex-1'
-                    data={carsList} />
-                  <span className='text-gray-600 ml-2'>Seleccione la Unidad *</span>
-                </label>
+                  <label className='flex-1 flex flex-col'>
+                    <CustomSelectOption
+                      isDisabled={!clientSelected}
+                      value={carsList.filter(option => option.value === vehiculeSelected)}
+                      placeholder='Unidad'
+                      onChange={(e) => setVehicule(String(e?.value))}
+                      className='flex-1'
+                      data={carsList} />
+                    <span className='text-gray-600 ml-2'>Seleccione la Unidad *</span>
+                  </label>
+                </div>
+                {clientSelected && carsList.length === 0 && (
+                  <p className='text-red-400 text-sm mt-1 ml-2'>No se encontraron vehiculos a este cliente</p>
+                )}
               </div>
-              {clientSelected && carsList.length === 0 && (
-                <p className='text-red-400 text-sm mt-1 ml-2'>No se encontraron vehiculos a este cliente</p>
-              )}
-            </div>
+            )}
 
             <div className='flex flex-row flex-1 gap-2 justify-stretch'>
               <label className='flex-1 flex flex-col'>
