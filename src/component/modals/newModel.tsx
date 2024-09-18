@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { useAxios } from '@/hooks/fetch'
 import { ModalMinimalProps, CustomModal } from './layout'
 import { Endpoints } from '@/router'
@@ -9,14 +10,13 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { CustomSelectOption } from '../ui/selection'
 import { axiosInstance } from '@/utils/http'
-import _ from 'lodash'
 
-export const NewModel = ({ setOpen }: ModalMinimalProps) => {
+export const NewModel= ({ setOpen }: ModalMinimalProps) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [models, setModels] = useState<VehiculeModel[]>([])
   const [brandId, setBrand] = useState<string | null>(null)
   const [customModelName, setCustomModel] = useState<string>('')
-  const { data: dataBrands, loading: loadingBrands, refetch} = useAxios({
+  const { data: dataBrands, loading: loadingBrands, refetch } = useAxios({
     endpoint: Endpoints.GET_ALL_BRAND_MODEL
   })
 
@@ -153,7 +153,7 @@ export const NewModel = ({ setOpen }: ModalMinimalProps) => {
               className='flex-1'
               placeholder='ingresa una marca' />
 
-            <button onClick={addModel} className='p-2 rounded bg-gray-700 text-white'>
+            <button onClick={addModel} className='p-2 rounded bg-gray-600 text-white'>
               Agregar modelo
             </button>
           </div>

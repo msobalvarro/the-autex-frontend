@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import { Resume } from '@/component/estimate/resume'
 import { Tables } from '@/component/estimate/tables'
 import { ResumeTotal } from '@/component/estimate/resumeTotal'
+import { StatusOrder } from '@/component/order/statusOrder'
 
 export const DetailEstimateView = () => {
   const [isOpenModal, setOpen] = useState<boolean>(false)
@@ -67,7 +68,8 @@ export const DetailEstimateView = () => {
                 <Link to={routes.ORDER_DETAIL.replace(':id', String(order._id))} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
                   Ver Orden
                 </Link>
-                <p className='text-gray-400 text-xl uppercase'>[{order?.['status']}]</p>
+                
+                <StatusOrder status={order?.status} />
               </div>
             )}
           </div>

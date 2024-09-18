@@ -18,6 +18,7 @@ import { Comments } from '@/component/order/comments'
 import { axiosInstance } from '@/utils/http'
 import { toast } from 'react-toastify'
 import { BillOrderPreview } from '@/component/modals/bill'
+import { StatusOrder } from '@/component/order/statusOrder'
 
 interface PropsQuery {
   id?: string
@@ -197,14 +198,14 @@ export const OrderDetailView = () => {
           <p className='text-2xl text-gray-600'>
             Orden de Servicio
           </p>
+          <span className='text-ms text-gray-500'>Orden fecha de emisión {dayjs(String(customData.createdAt)).format('D, MMM YYYY h:mm A')}</span>
           <code className='text-gray-500'>{customData._id}</code>
         </div>
 
         <div className='flex flex-col items-end'>
-          <p className='text-md font-bold text-gray-600 uppercase'>
-            {dayjs(String(customData.createdAt)).format('D, MMM YYYY h:mm A')}
-          </p>
           <div className='flex items-center gap-4'>
+            <StatusOrder status={customData.status} />
+
             <Link className='hover:underline text-blue-500' to={routes.ESTIMATE_DETAIL.replace(':id', String(customData.estimateProps?._id))}>
               Ir a Presupuesto
             </Link>
@@ -216,16 +217,6 @@ export const OrderDetailView = () => {
             {customData.status === 'finished' && (
               <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Ver Factura</a>
             )}
-            <p className={`
-            text-lg uppercase font-bold
-            ${clsx({
-              'text-gray-500': customData.status === 'process',
-              'text-gray-400': customData.status === 'pending',
-              'text-green-700': customData.status === 'finished',
-              'text-red-700': customData.status === 'canceled',
-            })}`}>
-              [ESTADO: {customData.status}]
-            </p>
           </div>
         </div>
       </div>

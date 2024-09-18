@@ -9,6 +9,7 @@ import { Chart } from 'react-google-charts'
 import { chartColorList } from '@/helpers'
 
 export const EstimationChart = () => {
+  const [total, setTotal] = useState<number | null>(null)
   const [data, setData] = useState<Array<any> | null>(null)
   const from = dayjs().startOf('month').format('MM-DD-YYYY').toString()
   const to = dayjs().endOf('month').format('MM-DD-YYYY').toString()
@@ -19,11 +20,12 @@ export const EstimationChart = () => {
   useEffect(() => {
     if (Array.isArray(dataEstimate)) {
       const newData: ReportChartDataResponse[] = [...dataEstimate]
-
+      const sum = _.sumBy(newData, v => v.count)
+      setTotal(sum)
       setData([
         [
           { type: 'date', label: 'Day' },
-          `Total: ${_.sumBy(newData, v => v.count)}`
+          `Total: ${sum}`
         ],
         ...newData.map(value => ([new Date(value.date), value.count]))
       ])
@@ -31,8 +33,8 @@ export const EstimationChart = () => {
   }, [dataEstimate])
 
   return (
-    <div className='p-4 flex relative flex-col flex-1 bg-white overflow-auto rounded shadow'>
-      <p className='text-xl text-gray-600 mb-6'>Presupuesto</p>
+    <div className='p-4 flex relative gap-8 flex-col flex-1 bg-white overflow-auto rounded shadow'>
+      <p className='text-xl text-gray-600 text-center'>{total} Presupuestos creados en el mes de {dayjs().format('MMMM')}</p>
 
       {data && (
         <Chart
@@ -45,7 +47,6 @@ export const EstimationChart = () => {
           }}
         />
       )}
-
       <Loader active={loading} />
     </div>
   )

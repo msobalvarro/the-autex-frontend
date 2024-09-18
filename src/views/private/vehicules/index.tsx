@@ -44,9 +44,8 @@ export const VehiculesView = () => {
           filter={filter}
           data={(Array.isArray(data) ? [...data] : []).map(
           (item: Vehicule) => ({
-            'Marca': item.brand?.description,
-            'Modelo': item.model?.description,
-            'Año': item?.year,
+            'Tipo': <b className='uppercase'>{item?.type}</b>,
+            'Vehicule': `${item?.year} ${item.brand?.description} ${item.model?.description}`,
             'Color': item?.color,
             'Placa': item?.plate,
           }))

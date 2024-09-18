@@ -87,17 +87,19 @@ export const NewbrandAndModel = ({ setOpen }: ModalMinimalProps) => {
         <div className='flex flex-col'>
           <div className='pl-2'>
             <p className='text-lg text-gray-600 font-[600]'>Ingresa algunos modelos</p>
-            <p className='text-sm text-gray-400'>Minimo 1 modelo *</p>
           </div>
 
-          <div className='flex items-strech gap-2'>
-            <InputField
-              value={customModel}
-              onChange={({ currentTarget }) => setCustomModel(currentTarget.value)}
-              className='flex-1'
-              placeholder='ingresa una marca' />
+          <div className='flex items-start gap-2'>
+            <label className='flex-1 flex flex-col'>
+              <InputField
+                value={customModel}
+                onChange={({ currentTarget }) => setCustomModel(currentTarget.value)}
+                className='flex-1'
+                placeholder='ingresa una marca' />
+              <p className='text-sm text-gray-400'>Mīnimo 1 modelo *</p>
+            </label>
 
-            <button onClick={addModel} className='p-2 rounded bg-gray-200 hover:bg-gray-300'>
+            <button onClick={addModel} className='p-3 text-white rounded bg-gray-600'>
               Agregar modelo
             </button>
           </div>

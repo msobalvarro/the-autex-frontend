@@ -32,9 +32,8 @@ export const OrdersChart = () => {
   }, [dataOrder])
 
   return (
-    <div className='p-4 flex relative flex-col flex-1 bg-white overflow-auto rounded shadow'>
-      <p className='text-xl text-gray-600 mb-6'>Tipos de Ordenes (Total de ordenes: {total})</p>
-      
+    <div className='p-4 flex relative items-center flex-col flex-1 bg-white overflow-auto rounded shadow'>
+      <p className='text-xl text-gray-600 text-center'>{total} Totales de ordenes totales del mes de {dayjs().format('MMMM')}</p>
       {data && (
         <Chart
           chartType='PieChart'

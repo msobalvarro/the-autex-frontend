@@ -9,6 +9,7 @@ import { OrderServicePropierties } from '@/interfaces'
 import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { StatusOrder } from '@/component/order/statusOrder'
 
 export const OrderServiceView = () => {
   const navigate = useNavigate()
@@ -37,9 +38,10 @@ export const OrderServiceView = () => {
           data={(Array.isArray(data) ? [...data] : []).map(
             (item: OrderServicePropierties) => ({
               'Fecha': dayjs(item.createdAt).format('D, MMM YYYY h:mm A'),
-              'Orden ID': <code className='font-bold'>{item._id}</code>,
-              'Vehiculo': `${item.estimateProps?.vehicule?.brand?.description} ${item.estimateProps?.vehicule?.model?.description}`,
+              // 'Orden ID': <code className='font-bold'>{item._id}</code>,
+              'Vehiculo': `${item.estimateProps?.vehicule?.year} ${item.estimateProps?.vehicule?.brand?.description} ${item.estimateProps?.vehicule?.model?.description}`,
               'Placa': item.estimateProps?.vehicule?.plate,
+              'Estado': <StatusOrder status={item.status} />,
               '__item': item
             }))
           } />

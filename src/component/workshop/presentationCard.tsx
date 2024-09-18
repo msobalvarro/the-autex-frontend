@@ -1,8 +1,7 @@
-import { DateRangePicker } from '@nextui-org/date-picker'
 import { useAuth } from '@/hooks/auth'
 import { FaBuilding } from 'react-icons/fa'
 import { GrLocation } from 'react-icons/gr'
-import { getLocalTimeZone } from '@internationalized/date'
+import { IoIosSettings } from 'react-icons/io'
 
 export const PresentationWorkshopCard = () => {
   const { auth } = useAuth()
@@ -21,10 +20,19 @@ export const PresentationWorkshopCard = () => {
       </div>
 
 
-      <DateRangePicker
+      <div className='relative group'>
+        <button data-tooltip-target='tooltip-default' className='p-2 transition hover:rotate-12'>
+          <IoIosSettings className='text-6xl text-gray-600' />
+        </button>
+        <div className='absolute left-1/2 transform -translate-x-1/2 w-max bg-gray-600 text-white text-sm rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+          Configuraciones
+        </div>
+      </div>
+
+      {/* <DateRangePicker
         onChange={(value) => console.log(value.end.toDate(getLocalTimeZone()))}
         className='max-w-xs'
-      />
+      /> */}
     </div>
   )
 }

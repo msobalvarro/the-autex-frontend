@@ -1,4 +1,4 @@
-const {nextui} = require('@nextui-org/theme');
+const { nextui } = require('@nextui-org/theme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,7 +6,11 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/components/(date-input|date-picker|popover|skeleton|button|ripple|spinner|calendar).js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        multiple: "width , height , backgroundColor , border-radius"
+      }
+    },
   },
   plugins: [nextui()],
 }
