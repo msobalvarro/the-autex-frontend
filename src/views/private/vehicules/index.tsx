@@ -46,9 +46,9 @@ export const VehiculesView = () => {
           data={(Array.isArray(data) ? [...data] : []).map(
             (item: Vehicule) => ({
               'Tipo': <b className='uppercase'>{item?.type}</b>,
+              'Placa': <div className='flex'><VehiculePlate plate={String(item?.plate)} /></div>,
               'Unidad': `${item?.year} ${item.brand?.description} ${item.model?.description}`,
               'Color': item?.color,
-              'Placa': <div className='flex'><VehiculePlate plate={String(item?.plate)} /></div>,
             }))
           } />
       </div>

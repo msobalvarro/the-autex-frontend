@@ -200,7 +200,7 @@ export const OrderDetailView = () => {
 
         <div className='flex flex-col items-end'>
           <div className='flex items-center gap-4'>
-            <Link className='hover:underline text-blue-500' to={routes.ESTIMATE_DETAIL.replace(':id', String(customData.estimateProps?._id))}>
+            <Link className='hover:underline text-sky-600' to={routes.ESTIMATE_DETAIL.replace(':id', String(customData.estimateProps?._id))}>
               Ir a Presupuesto
             </Link>
 
@@ -209,7 +209,7 @@ export const OrderDetailView = () => {
             )}
 
             {customData.status === 'finished' && (
-              <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Ver Factura</a>
+              <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-sky-600'>Ver Factura</a>
             )}
 
             <StatusOrder status={customData.status} />

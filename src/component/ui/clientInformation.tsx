@@ -16,7 +16,7 @@ export const ClientInformation = ({ client }: Props) => {
 
         <hr className='my-2' />
         <p>
-          Correo: <a href={`mailto:${client.email}`} className='text-blue-500 hover:underline'>{client.email}</a>
+          Correo: <a href={`mailto:${client.email}`} className='text-sky-600 hover:underline'>{client.email}</a>
         </p>
         <p className=''>
           Numero de Celular: {client.phoneNumber}

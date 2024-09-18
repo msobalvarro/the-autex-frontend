@@ -7,7 +7,7 @@ export const Resume = ({ data }: PropsResume) => (
     <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
       <dt className='font-bold text-gray-600'>Cliente</dt>
       <dd className='mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-        <Link className='text-blue-500' to={routes.CLIENT_DETAIL.replace(':id', String(data.client?._id))}>{data.client?.name}</Link>
+        <Link className='text-sky-600' to={routes.CLIENT_DETAIL.replace(':id', String(data.client?._id))}>{data.client?.name}</Link>
       </dd>
     </div>
 

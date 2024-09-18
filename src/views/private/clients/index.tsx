@@ -31,7 +31,7 @@ export const ClientView = () => {
           renderEnum
           data={
             (Array.isArray(data) ? [...data] : []).map((item: Client) => ({
-              'Nombre': <Link className='text-blue-500 hover:underline' to={routes.CLIENT_DETAIL.replace(':id', String(item._id))}>{item.name}</Link> ,
+              'Nombre': <Link className='text-sky-600 hover:underline' to={routes.CLIENT_DETAIL.replace(':id', String(item._id))}>{item.name}</Link> ,
               'Correo Electrónico': item.email,
               'Numero Telefónico': item.phoneNumber,
               'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),

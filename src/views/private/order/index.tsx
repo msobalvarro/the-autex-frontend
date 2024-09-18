@@ -10,6 +10,7 @@ import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { StatusOrder } from '@/component/order/statusOrder'
+import { VehiculePlate } from '@/component/vehicule/plate'
 
 export const OrderServiceView = () => {
   const navigate = useNavigate()
@@ -24,6 +25,7 @@ export const OrderServiceView = () => {
         textButton='Nueva Orden'
         title='Orden de Servicio'
         subtitle='Visualiza y gestiona todas las ordenes creadas'
+        searchTextPlaceholder='Buscar orden, vehiculo..'
         onClickButton={() => setOpen(true)}
         onChangeFilterValue={setFilter} />
 
@@ -40,7 +42,7 @@ export const OrderServiceView = () => {
               'Fecha': dayjs(item.createdAt).format('D, MMM YYYY h:mm A'),
               // 'Orden ID': <code className='font-bold'>{item._id}</code>,
               'Vehiculo': `${item.estimateProps?.vehicule?.year} ${item.estimateProps?.vehicule?.brand?.description} ${item.estimateProps?.vehicule?.model?.description}`,
-              'Placa': item.estimateProps?.vehicule?.plate,
+              'Placa': <div className='flex'><VehiculePlate plate={String(item.estimateProps?.vehicule?.plate)} /></div>,
               'Estado': <StatusOrder status={item.status} />,
               '__item': item
             }))

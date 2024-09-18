@@ -60,7 +60,7 @@ export const TableComponent = ({
               key={crypto.randomUUID()}
               className={`${clsx({
                 'bg-gray-100': index % 2 === 0
-              })} hover:shadow-sm transition`}>
+              })} hover:shadow-sm transition rounded-lg`}>
               {renderEnum && (<td className='text-right text-gray-700 text-sm font-bold'>{index + 1}</td>)}
 
               {Object.keys(item).map((key) => key !== '__item' && (

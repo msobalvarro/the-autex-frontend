@@ -38,7 +38,7 @@ export const UserList = () => {
       {data && (
         <TableComponent
           data={[...data].map((user: UserPropierties) => ({
-            'Nombre': <p>{user.name} {auth?._id === user._id && <span className='text-blue-400'>(Usuario Actual)</span>}</p>,
+            'Nombre': <p>{user.name} {auth?._id === user._id && <span className='text-slate-400'>(Usuario Actual)</span>}</p>,
             'Correo': user.email,
             'Fecha Registro': dayjs(user.createdAt).format('lll'),
             'Estado': <StatusUser status={user.status} />

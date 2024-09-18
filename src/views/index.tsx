@@ -14,6 +14,7 @@ import { OrderDetailView } from './private/order/detail'
 import { RootView } from './private/root'
 import { DetailClientView } from './private/clients/detail'
 import { WorkshopView } from './private/workshop'
+import { ReportView } from './private/reports'
 
 export const App = () => {
   const { auth } = useAuth()
@@ -34,6 +35,7 @@ export const App = () => {
               <Route path={routes.ORDER_DETAIL} element={<OrderDetailView />} />
               <Route path={routes.ROOT} element={<RootView />} />
               <Route path={routes.WORKSHOP} element={<WorkshopView />} />
+              <Route path={routes.REPORTS} element={<ReportView />} />
             </>)}
 
             {!auth?.token && <Route path={routes.MAIN} element={<LoginView />} />}

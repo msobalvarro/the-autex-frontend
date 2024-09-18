@@ -65,7 +65,7 @@ export const DetailEstimateView = () => {
 
             {order && (
               <div className='flex items-center gap-4'>
-                <Link to={routes.ORDER_DETAIL.replace(':id', String(order._id))} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
+                <Link to={routes.ORDER_DETAIL.replace(':id', String(order._id))} className='font-medium text-sky-600 dark:text-sky-600 hover:underline'>
                   Ver Orden
                 </Link>
                 
