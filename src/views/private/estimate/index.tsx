@@ -8,23 +8,19 @@ import { Loader } from '@/component/ui/loader'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { formatNumber } from '@/utils/formatNumber'
 import { ActivitiesModal } from '@/component/modals/acitivitiesGroup'
 import { ActivitiesGroupPreviewModal } from '@/component/modals/activitiesGroupPreview'
+import { Link } from 'react-router-dom'
+import { VehiculePlate } from '@/component/vehicule/plate'
 
 
 export const EstimateServiceView = () => {
-  const navigate = useNavigate()
   const [isOpenGroupView, setOpenGroupView] = useState<boolean>(false)
   const [isOpenModal, setOpen] = useState<boolean>(false)
   const [isOpenNewGroup, toggleGroupModal] = useState<boolean>(false)
   const [filter, setFilter] = useState<string>('')
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_ESTIMATIONS })
-
-  const goDetails = (item: EstimatePropierties) => {
-    navigate(routes.ESTIMATE_DETAIL.replace(':id', `${item._id}`))
-  }
 
   return (
     <LayoutComponent>
@@ -49,12 +45,12 @@ export const EstimateServiceView = () => {
         {Array.isArray(data) && (
           <TableComponent
             filter={filter}
-            onClickItem={goDetails}
-            renderEnum
+            // onClickItem={goDetails}
+            // renderEnum
             data={[...data].map((item: EstimatePropierties) => ({
-              'Id': <code className='font-bold'>{item._id}</code>,
-              'Cliente': item.client?.name,
-              'Vehiculo': item.vehicule?.plate,
+              'Presupuesto ID': <Link className='text-blue-500 hover:underline' to={routes.ESTIMATE_DETAIL.replace(':id', `${item._id}`)}><code className='font-bold'>{item._id}</code></Link>,
+              'Cliente': <Link className='text-blue-500 hover:underline' to={routes.CLIENT_DETAIL.replace(':id', `${item.client?._id}`)}>{item.client?.name}</Link>,
+              'Vehiculo': <div className='flex'><VehiculePlate plate={String(item.vehicule?.plate)} /></div>,
               'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
               'Total': <p className='text-gray-600 font-bold'>{formatNumber(Number(item.total))}</p>,
               '__item': item,

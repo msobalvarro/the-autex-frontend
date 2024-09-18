@@ -1,13 +1,15 @@
 import { createPortal } from 'react-dom'
 import { CustomModal, ModalMinimalProps } from './layout'
 import { IoSettings } from 'react-icons/io5'
+import { UiCheckbox } from '../ui/checkbox'
 
-export const WorkshopSettingsModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
+export const WorkshopSettingsModal = ({ setOpen }: ModalMinimalProps) => {
   return (
     createPortal(
       (
         <CustomModal
           isOpen
+          small
           setOpen={setOpen}
           title='Configuraciones'
           subTitle='Administra las configuraciones de tu taller'
@@ -18,10 +20,10 @@ export const WorkshopSettingsModal = ({ setOpen, onUpdate }: ModalMinimalProps) 
             renderBack: false,
           }}
           iconComponent={<IoSettings size={24} />}>
-          <label>
-            <input type='checkbox' />
+          <label className='flex items-center gap-2 text-gray-600 text-lg'>
+            <UiCheckbox disabled checked onChange={() => { }} />
 
-            <p>Cuota Fija en la Factura</p>
+            <p>Taller de Cuota Fija</p>
           </label>
         </CustomModal>
       ),

@@ -38,7 +38,7 @@ export const CustomModal = ({
           <div className='flex flex-col gap-8'>
             <div className='flex gap-2 items-center'>
               {(iconComponent) && (
-                <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200  text-gray-800 sm:mx-0 sm:h-20 sm:w-20'>
+                <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200  text-gray-700 sm:mx-0 sm:h-12 sm:w-12'>
                   {iconComponent}
                 </div>
               )}

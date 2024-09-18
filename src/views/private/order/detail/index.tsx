@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import dayjs from 'dayjs'
 import _ from 'lodash'
 import { LayoutComponent } from '@/component/ui/layout'
@@ -32,10 +31,8 @@ export const OrderDetailView = () => {
   const [observations, setObservations] = useState<string[]>([])
   const [additionalTaskList, setAdditionalTaskList] = useState<ActivityWithCostToDoItemEstimate[]>([])
   const queryParams: PropsQuery = useParams()
-  const { data, loading, error, refetch } = useAxios({
-    endpoint: Endpoints.GET_ORDER_DETAIL_SERVICE + queryParams.id
-  })
-  const customData: OrderServicePropierties = data ? data : {}
+  const { data, loading, error, refetch } = useAxios({ endpoint: Endpoints.GET_ORDER_DETAIL_SERVICE + queryParams.id })
+  const customData: OrderServicePropierties = data ? data : { status: 'pending' }
 
   useEffect(() => {
     if (customData?.findings?.length) {
@@ -192,7 +189,6 @@ export const OrderDetailView = () => {
 
   return (
     <LayoutComponent renderBack>
-      {/* Header */}
       <div className='flex items-center justify-between'>
         <div className='flex flex-col'>
           <p className='text-2xl text-gray-600'>
@@ -204,8 +200,6 @@ export const OrderDetailView = () => {
 
         <div className='flex flex-col items-end'>
           <div className='flex items-center gap-4'>
-            <StatusOrder status={customData.status} />
-
             <Link className='hover:underline text-blue-500' to={routes.ESTIMATE_DETAIL.replace(':id', String(customData.estimateProps?._id))}>
               Ir a Presupuesto
             </Link>
@@ -217,6 +211,8 @@ export const OrderDetailView = () => {
             {customData.status === 'finished' && (
               <a href='#' onClick={() => toggleBill(true)} className='hover:underline text-blue-500'>Ver Factura</a>
             )}
+
+            <StatusOrder status={customData.status} />
           </div>
         </div>
       </div>

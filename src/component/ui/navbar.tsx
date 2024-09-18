@@ -26,7 +26,7 @@ export const NavbarComponent = () => {
             <div className='hidden sm:ml-6 sm:block'>
               <div className='flex space-x-4'>
                 {auth?.isRoot && (
-                  <Link to={routes.ROOT} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ROOT) })}`}>Perfil Root</Link>
+                  <Link to={routes.ROOT} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ROOT) })}`}>Administración</Link>
                 )}
                 <Link to={routes.WORKSHOP} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.WORKSHOP) })}`}>Mi Taller</Link>
                 <Link to={routes.ESTIMATE_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ESTIMATE_SERVICE) })}`}>Presupuesto</Link>
