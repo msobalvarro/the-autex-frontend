@@ -8,18 +8,17 @@ import { PresentationWorkshopCard } from '@/component/workshop/presentationCard'
 
 export const WorkshopView = () => {
   const { auth } = useAuth()
-  
+
   return (
     <div className='flex gap-4 flex-col items-center w-full px-10'>
       <PresentationWorkshopCard />
-      
-      {auth?.isAdmin && (
-        <UserList />
-      )}
       <div className='flex w-3/4 flex-1 gap-4 flex-1'>
         <EstimationChart />
         <OrdersChart />
       </div>
+      {auth?.isAdmin && (
+        <UserList />
+      )}
       <ClientView />
       <VehiculesView />
     </div>
