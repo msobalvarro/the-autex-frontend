@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom'
 
 export const DetailClientView = () => {
   const { id }: PropsQueryId = useParams()
-  const { data, loading } = useAxios({
+  const { data, loading, refetch } = useAxios({
     endpoint: Endpoints.GET_CLIENT_BY_ID.replace(':id', String(id))
   })
 
@@ -19,9 +19,9 @@ export const DetailClientView = () => {
 
   if (data) {
     return (
-      <div className='flex items-start gap-8 p-10 w-full'>
+      <div className='flex items-start gap-8 px-12 w-full'>
         <ClientInformation client={data} />
-        <ClientReporter client={data} />
+        <ClientReporter refetch={refetch} client={data} />
       </div>
     )
   }

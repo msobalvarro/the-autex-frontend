@@ -22,16 +22,16 @@ export const typeRegister = {
 }
 
 interface Props extends ModalMinimalProps {
-  defaulUserId?: string
+  client?: Client
 }
 
-export const NewVehicule = ({ setOpen, onUpdate, defaulUserId }: Props) => {
+export const NewVehicule = ({ setOpen, onUpdate, client }: Props) => {  
   const [modelList, setModelList] = useState<SelectionProps[]>([])
   const { validateNumber } = useValidation()
   const { data: dataBrands, loading: loadingBrand } = useAxios({ endpoint: Endpoints.GET_ALL_BRAND_MODEL })
   const { data: dataClient, loading: loadingClient } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS })
   const [data, setData] = useState<NewVehiculeProps>({
-    clientId: defaulUserId || null,
+    clientId: client?._id || null,
     brandId: null,
     modelId: null,
     color: '',
@@ -61,8 +61,6 @@ export const NewVehicule = ({ setOpen, onUpdate, defaulUserId }: Props) => {
     }
   }, [data.brandId])
 
-  console.log(data.brandId)
-
   const onSubmit = async () => {
     try {
       const respone = await axiosInstance.post(Endpoints.CREATE_VEHICULE, {
@@ -88,7 +86,7 @@ export const NewVehicule = ({ setOpen, onUpdate, defaulUserId }: Props) => {
       <CustomModal
         isOpen
         setOpen={setOpen}
-        title='Agrega un nuevo Vehículo'
+        title={client ? `Agrega un nuevo Vehículo a ${client.name}` :'Agrega un nuevo Vehículo'}
         subTitle='Agrega un nuevo vehiculo para asignarlo a un cliente y generar ordenes'
         containerClassesNames='flex flex-col gap-4'
         navButtonsOptions={{
@@ -98,7 +96,7 @@ export const NewVehicule = ({ setOpen, onUpdate, defaulUserId }: Props) => {
           renderBack: false,
           backText: 'Cerrar'
         }}
-        iconComponent={<FaCar />}>
+        iconComponent={<FaCar size={24}/>}>
         <>
           <div className='flex gap-4'>
             <label className='flex flex-col w-1/2'>
@@ -106,7 +104,6 @@ export const NewVehicule = ({ setOpen, onUpdate, defaulUserId }: Props) => {
                 onChange={(e) => setData(x => ({ ...x, typeSelections: String(e?.value) }))}
                 placeholder='Seleccione el tipo de unidad'
                 className='flex-1'
-                isDisabled={Boolean(defaulUserId)}
                 data={[
                   {
                     label: 'Vehiculo',
@@ -132,21 +129,30 @@ export const NewVehicule = ({ setOpen, onUpdate, defaulUserId }: Props) => {
               <span className='ml-2 text-gray-500'>Tipo de Unidad</span>
             </label>
 
-            <label className='flex flex-col w-1/2'>
-              {Array.isArray(dataClient) && (
-                <CustomSelectOption
-                  onChange={(e) => setData(x => ({ ...x, clientId: String(e?.value) }))}
-                  placeholder='Seleccione un Cliente'
-                  isLoading={loadingBrand}
-                  className='flex-1'
-                  data={[...dataClient].map((client: Client) => ({
-                    label: client.name,
-                    value: client._id
-                  }))} />
-              )}
+            {!Boolean(client) && (
+              <label className='flex flex-col w-1/2'>
+                {Array.isArray(dataClient) && (
+                  <CustomSelectOption
+                    onChange={(e) => setData(x => ({ ...x, clientId: String(e?.value) }))}
+                    placeholder='Seleccione un Cliente'
+                    isLoading={loadingBrand}
+                    className='flex-1'
+                    data={[...dataClient].map((client: Client) => ({
+                      label: client.name,
+                      value: client._id
+                    }))} />
+                )}
 
-              <span className='ml-2 text-gray-500'>Cliente</span>
-            </label>
+                <span className='ml-2 text-gray-500'>Cliente</span>
+              </label>
+            )}
+
+            {client && (
+              <label className='flex flex-col w-1/2'>
+                <p className='text-xl text-gray-500 p-3 bg-gray-100 border rounded'>{client.name}</p>
+                {/* <span className='ml-2 text-gray-500'>Cliente</span> */}
+              </label>
+            )}
           </div>
 
           <div className='flex gap-4'>

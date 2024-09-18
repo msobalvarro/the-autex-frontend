@@ -35,7 +35,7 @@ const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentation
   </div>
 )
 
-const Icon = <RiCalculatorFill className='text-gray-600 text-xl' />
+const Icon = <RiCalculatorFill size={24} />
 
 export const NewEstimation = ({ setOpen }: ModalMinimalProps) => {
   const navigate = useNavigate()

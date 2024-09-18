@@ -1,19 +1,18 @@
-import { IoChevronBack } from 'react-icons/io5'
 import { Client } from '@/interfaces'
-import { useNavigate } from 'react-router-dom'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
-import { Loader } from '../ui/loader'
 import { ListOrderClient } from './listOrderClient'
 import { ClientVehiculeList } from './listOrderVehicules'
 import { ListEstimateClient } from './listEstimate'
-import { BackButton } from '../ui/back'
+import { Loader } from '@/component/ui/loader'
+import { BackButton } from '@/component/ui/back'
 
 interface Props {
   client: Client
+  refetch: () => void
 }
 
-export const ClientReporter = ({ client }: Props) => {
+export const ClientReporter = ({ client, refetch }: Props) => {
   const { data: orders, loading: loadingOrders } = useAxios({
     endpoint: Endpoints.GET_ORDER_BY_CLIENT_ID.replace(':id', client._id)
   })
@@ -23,20 +22,20 @@ export const ClientReporter = ({ client }: Props) => {
   })
 
   if (loadingOrders || loadingEstimations) return <Loader active />
-
   return (
-    <div className='flex flex-1 flex-col relative'>
+    <div className='flex flex-1 flex-col'>
       <BackButton />
 
-      <div className='flex flex-col gap-4 flex-1 bg-white p-4 py-8 rounded shadow-md'>
+      <div className='flex flex-col gap-4 flex-1 bg-white p-4 py-8 rounded shadow-md'>        
         <div className='flex gap-4'>
-          <ClientVehiculeList vehicules={client.vehicules} />
-          {orders && <ListOrderClient orders={orders} />}
+          <ClientVehiculeList refetch={refetch} client={client} vehicules={client.vehicules} />
+          {estimations && <ListEstimateClient estimations={estimations} />}
         </div>
 
         <hr />
 
-        {estimations && <ListEstimateClient estimations={estimations} />}
+
+        {orders && <ListOrderClient orders={orders} />}
       </div>
 
       <Loader active={loadingOrders} />

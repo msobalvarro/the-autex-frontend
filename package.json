@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@mui/x-date-pickers": "^7.17.0",
+    "@nextui-org/date-picker": "^2.1.8",
+    "@nextui-org/skeleton": "^2.0.32",
     "@reduxjs/toolkit": "^2.2.7",
     "@types/axios": "^0.14.0",
     "@types/react-router-dom": "^5.3.3",

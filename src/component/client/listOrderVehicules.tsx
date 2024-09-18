@@ -1,19 +1,30 @@
-import { Vehicule } from '@/interfaces'
+import { Client, Vehicule } from '@/interfaces'
 import { VehiculePlate } from '../vehicule/plate'
 import { IoCarSportSharp } from 'react-icons/io5'
+import { useState } from 'react'
+import { NewVehicule } from '../modals/newVehicule'
 
 interface Props {
   vehicules: Vehicule[]
+  client: Client
+  refetch: () => void
 }
 
-export const ClientVehiculeList = ({ vehicules }: Props) => {
+export const ClientVehiculeList = ({ vehicules, client, refetch }: Props) => {
+  const [openNewVehicule, setOpen] = useState<boolean>(false)
 
   return (
     <div className='flex flex-col w-2/5 gap-2'>
-      <p className='text-xl text-gray-600 ml-4 flex items-center gap-4'>
-        <IoCarSportSharp className='text-xl' />
-        Vehículos
-      </p>
+      <div className='flex items-center justify-between'>
+        <p className='text-xl text-gray-600 ml-4 flex items-center gap-4'>
+          <IoCarSportSharp className='text-xl' />
+          Vehículos
+        </p>
+
+        <button onClick={() => setOpen(true)} className='px-2 py-1 bg-gray-600 text-white rounded'>Agregar vehiculo</button>
+      </div>
+
+      <hr />
 
       <div className='flex flex-col'>
         {vehicules.map(vehicule => (
@@ -40,6 +51,7 @@ export const ClientVehiculeList = ({ vehicules }: Props) => {
           <p className='text-gray-400 text-xl p-5'>No hay Ordenes</p>
         )}
       </div>
+      {openNewVehicule && <NewVehicule onUpdate={refetch} client={client} setOpen={setOpen} />}
     </div>
   )
 }

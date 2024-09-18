@@ -1,4 +1,4 @@
-import { FaUserCheck } from 'react-icons/fa'
+import { FaUserAstronaut } from 'react-icons/fa6'
 import { Client } from '@/interfaces'
 import dayjs from 'dayjs'
 
@@ -8,8 +8,8 @@ interface Props {
 
 export const ClientInformation = ({ client }: Props) => {
   return (
-    <article className='flex flex-col p-4 gap-8 bg-white rounded shadow-md w-1/4'>
-      <FaUserCheck color='#CCC' className='text-8xl text-gray--400 self-center' />
+    <article className='flex flex-col p-4 gap-8 bg-white rounded-xl mt-10 shadow-md w-1/4'>
+      <FaUserAstronaut className='text-8xl text-gray-300 self-center' />
 
       <div className='flex flex-col gap-2 text-gray-600 px-6'>
         <p className='text-xl font-bold text-center'>{client.name}</p>

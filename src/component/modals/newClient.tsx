@@ -48,7 +48,8 @@ export const NewClient = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   return createPortal(
     (
       <CustomModal
-        isOpen={true}
+        isOpen
+        small
         setOpen={setOpen}
         title={`Agrega un nuevo cliente`}
         subTitle='Agrega un nuevo cliente para generar ordenes o asignarle un vehículo'
@@ -60,9 +61,9 @@ export const NewClient = ({ setOpen, onUpdate }: ModalMinimalProps) => {
           renderBack: false,
           backText: 'Cerrar'
         }}
-        iconComponent={<FaUserGroup />}>
+        iconComponent={<FaUserGroup size={24} />}>
         <>
-          <div className='flex gap-4'>
+          <div className='flex flex-col gap-4'>
             <label className='flex flex-col flex-1'>
               <InputField
                 value={String(data.name)}
@@ -88,9 +89,6 @@ export const NewClient = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                   )} />
               <span className='ml-2 text-gray-500 font-[300]'>Apellido</span>
             </label>
-          </div>
-
-          <div className='flex gap-4'>
             <label className='flex flex-col flex-1'>
               <InputField
                 value={String(data.phoneNumber)}
@@ -117,9 +115,6 @@ export const NewClient = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                   )} />
               <span className='ml-2 text-gray-500 font-[300]'>Correo electrónico</span>
             </label>
-          </div>
-
-          <div className='flex gap-4'>
             <label className='flex flex-col flex-1'>
               <CustomSelectOption
                 onChange={(e) => setData(x => ({ ...x, type: String(e?.value) }))}
@@ -148,7 +143,7 @@ export const NewClient = ({ setOpen, onUpdate }: ModalMinimalProps) => {
                     })
                   )} />
               <span className='ml-2 text-gray-500 font-[300]'>
-                {data.type === valuesTypes.PERSON ? 'Número de Identidad' : 'Número Root'}
+                {data.type === valuesTypes.PERSON ? 'Identificación' : 'RUC'}
               </span>
             </label>
           </div>

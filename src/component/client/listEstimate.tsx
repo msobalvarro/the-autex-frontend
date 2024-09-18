@@ -12,14 +12,19 @@ interface Props {
 export const ListEstimateClient = ({ estimations }: Props) => {
   return (
     <div className='flex flex-col flex-1 gap-2 flex-1'>
-      <p className='text-xl text-gray-600 ml-4 flex items-center gap-2'>
-        <IoDocumentTextSharp className='text-xl' />
-        Presupuestos
-      </p>
+      <div className='flex items-center justify-between'>
+        <p className='text-xl text-gray-600 ml-4 flex items-center gap-2'>
+          <IoDocumentTextSharp className='text-xl' />
+          Presupuestos
+        </p>
+        <button className='px-2 py-1 bg-gray-600 text-white rounded'>Generar Presupuesto</button>
+      </div>
+
+      <hr />
 
       <div className='flex flex-col'>
         {estimations.map(estimate => (
-          <Link to={routes.ESTIMATE_DETAIL.replace(':id', String(estimate._id))} className='flex gap-4 items-center border-b border-gray-100 justify-between cursor-pointer p-4 transition hover:bg-gray-100 hover:border-gray-600' key={crypto.randomUUID()}>
+          <Link to={routes.ESTIMATE_DETAIL.replace(':id', String(estimate._id))} className='flex gap-4 items-center border-b border-gray-100 justify-between cursor-pointer px-4 py-2 transition hover:bg-gray-100 ' key={crypto.randomUUID()}>
             <div className='flex flex-col'>
               <div className='flex items-center gap-3 text-gray-600'>                <p>
                 {`
