@@ -3,13 +3,15 @@ import { FaUserGroup } from 'react-icons/fa6'
 import { createPortal } from 'react-dom'
 import { toast } from 'react-toastify'
 import { InputHTMLAttributes, useState } from 'react'
-import { DistanceTraveledPropierties, OrderStateProps } from '@/interfaces'
+import { DistanceTraveledPropierties, OrderServicePropierties, OrderStateProps } from '@/interfaces'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints, routes } from '@/router'
 import { InputField } from '../ui/input'
 import { useValidation } from '@/hooks/validations'
 import { CustomSelectOption } from '../ui/selection'
 import { useNavigate } from 'react-router-dom'
+import { UiDatePicker } from '../ui/datePicker'
+import { DateValue, getLocalTimeZone } from '@internationalized/date'
 
 interface ItemCheckPros {
   label: string
@@ -63,6 +65,7 @@ const initialState: OrderStateProps = {
     isCorrective: false,
     isMaintenance: true,
     isMinorMantenance: false,
+    isMajorMantenance: false,
     isPredictive: false,
     isPreventive: false,
     isService: false,
@@ -80,24 +83,23 @@ const initialState: OrderStateProps = {
 export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
   const navigate = useNavigate()
   const { validateNumber } = useValidation()
+  const [estimationDate, setEstimationDate] = useState<DateValue | null>(null)
   const [traveled, setTraveled] = useState<DistanceTraveledPropierties>({ distance: 0, type: 'km' })
   const [data, setData] = useState<OrderStateProps>(initialState)
 
   const submit = async () => {
     try {
-      const response = await axiosInstance.post(Endpoints.CREATE_ORDER_SERVICE, {
+      const response = await axiosInstance.post<OrderServicePropierties>(Endpoints.CREATE_ORDER_SERVICE, {
         estimateId,
-        ...data,
         traveled,
+        estimationDate: estimationDate?.toDate(getLocalTimeZone()),
+        ...data,
       })
-      if (response.status !== 200) {
-        throw new Error(response.data)
-      }
+
       setOpen(false)
       toast.info('Orden de Servicio Creada')
 
       navigate(routes.ORDER_DETAIL.replace(':id', String(response.data._id)))
-      // onUpdate?.()
     } catch (error: any) {
       toast.error(String(error.response.data || error))
     }
@@ -120,8 +122,8 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
         }}
         iconComponent={<FaUserGroup />}>
         <>
-          <div className='flex flex-row flex-1 gap-2 justify-stretch'>
-            <label className='flex flex-col'>
+          <div className='flex flex-row flex-1 justify-between gap-4'>
+            <label className='flex flex-col text-sm'>
               <span>KM/MILL Actuales.</span>
               <InputField
                 value={traveled.distance}
@@ -134,8 +136,8 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                 className='flex-1' />
             </label>
 
-            <label>
-              <span>Seleccione Kilometos / Millas</span>
+            <label className='flex-1'>
+              <span className='text-sm'>Seleccione Kilometos / Millas</span>
               <CustomSelectOption
                 placeholder='Kilometro y Millas'
                 onChange={(data) => setTraveled(e => ({ ...e, type: String(data?.value) }))}
@@ -144,6 +146,11 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                   { label: 'Kilómetros', value: 'km' },
                   { label: 'Millas', value: 'miles' },
                 ]} />
+            </label>
+
+            <label className='flex-1'>
+              <span className='text-sm'> Fecha estimada de entrega</span>
+              <UiDatePicker value={estimationDate} onChange={setEstimationDate} />
             </label>
           </div>
 
@@ -172,10 +179,10 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     attentionType: {
                       ...initialState.attentionType,
                       isExpress: !data?.attentionType?.isExpress
-                }
-                })
+                    }
+                  })
                 }}
-              label='Express'
+                label='Express'
                 name='attentionType' />
               <ItemRadioButton
                 propsInput={{
@@ -302,7 +309,8 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     ...data,
                     typesActivitiesToDo: {
                       ...data.typesActivitiesToDo,
-                      isService: !data.typesActivitiesToDo.isService
+                      isService: !data.typesActivitiesToDo.isService,
+                      isMaintenance: false,
                     }
                   })
                 }}
@@ -315,7 +323,8 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     ...data,
                     typesActivitiesToDo: {
                       ...data.typesActivitiesToDo,
-                      isMaintenance: !data.typesActivitiesToDo.isMaintenance
+                      isMaintenance: !data.typesActivitiesToDo.isMaintenance,
+                      isService: false
                     }
                   })
                 }}
@@ -328,7 +337,8 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     ...data,
                     typesActivitiesToDo: {
                       ...data.typesActivitiesToDo,
-                      isMinorMantenance: !data.typesActivitiesToDo.isMinorMantenance
+                      isMinorMantenance: !data.typesActivitiesToDo.isMinorMantenance,
+                      isMajorMantenance: false,
                     }
                   })
                 }}
@@ -336,12 +346,13 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
 
               <ItemCheck
                 propsInput={{
-                  checked: !data.typesActivitiesToDo.isMinorMantenance,
+                  checked: data.typesActivitiesToDo.isMajorMantenance,
                   onChange: () => setData({
                     ...data,
                     typesActivitiesToDo: {
                       ...data.typesActivitiesToDo,
-                      isMinorMantenance: !data.typesActivitiesToDo.isMinorMantenance
+                      isMajorMantenance: !data.typesActivitiesToDo.isMajorMantenance,
+                      isMinorMantenance: false
                     }
                   })
                 }}
@@ -354,7 +365,9 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     ...data,
                     typesActivitiesToDo: {
                       ...data.typesActivitiesToDo,
-                      isPredictive: !data.typesActivitiesToDo.isPredictive
+                      isPredictive: !data.typesActivitiesToDo.isPredictive,
+                      isPreventive: false,
+                      isCorrective: false,
                     }
                   })
                 }}
@@ -367,7 +380,9 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     ...data,
                     typesActivitiesToDo: {
                       ...data.typesActivitiesToDo,
-                      isPreventive: !data.typesActivitiesToDo.isPreventive
+                      isPreventive: !data.typesActivitiesToDo.isPreventive,
+                      isPredictive: false,
+                      isCorrective: false,
                     }
                   })
                 }}
@@ -380,7 +395,9 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     ...data,
                     typesActivitiesToDo: {
                       ...data.typesActivitiesToDo,
-                      isCorrective: !data.typesActivitiesToDo.isCorrective
+                      isCorrective: !data.typesActivitiesToDo.isCorrective,
+                      isPredictive: false,
+                      isPreventive: false,
                     }
                   })
                 }}
@@ -473,7 +490,7 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
             </div>
           </div>
         </>
-      </CustomModal>
+      </CustomModal >
     ),
     document.body
   )

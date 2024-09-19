@@ -208,6 +208,7 @@ export interface AcivitiesProperties {
   isMaintenance: boolean
   isService: boolean
   isMinorMantenance: boolean
+  isMajorMantenance: boolean
   isPredictive: boolean
   isPreventive: boolean
   isCorrective: boolean

@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom'
 import { logoutService } from '@/utils/auth'
 import { useAuth } from '@/hooks/auth'
 
-const itemClassName = 'rounded-md px-2 py-3 text-sm font-bold text-gray-300 hover:bg-gray-700 hover:text-white'
+const itemClassName = 'rounded-md px-2 py-3 text-sm font-semibold text-gray-300 hover:bg-gray-700 hover:text-white'
 
 export const NavbarComponent = () => {
   const { auth } = useAuth()

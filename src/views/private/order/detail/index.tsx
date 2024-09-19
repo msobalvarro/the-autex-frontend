@@ -160,13 +160,10 @@ export const OrderDetailView = () => {
 
   const closeOrder = async () => {
     try {
-      const response = await axiosInstance.put(Endpoints.CLOSE_ORDER_SERVICE, {
+      await axiosInstance.put(Endpoints.CLOSE_ORDER_SERVICE, {
         id: customData._id,
       })
 
-      if (response.status !== 200) {
-        throw new Error(response.data)
-      }
       refetch()
       toast.info('Orden Finalizada')
     } catch (error: any) {

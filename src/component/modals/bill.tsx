@@ -20,7 +20,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
   const { data, loading } = useAxios({
     endpoint: Endpoints.GET_ORDER_DETAIL_SERVICE + orderId
   })
-  const customData: OrderServicePropierties = data ? data : {}
+  const customData: OrderServicePropierties = data ? data : { status: 'pending' }
   const download = () => {
     html2pdf().from(inputRef.current).save()
   }
