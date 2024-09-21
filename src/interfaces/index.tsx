@@ -331,3 +331,6 @@ export interface OrderDataReportResponsePropierties {
   total: number
 }
 
+export interface WorkshopConfigurationsPropierties {
+  fee: boolean
+}

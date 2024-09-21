@@ -4,15 +4,29 @@ import { CustomModal, ModalMinimalProps } from './layout'
 import { IoSettings } from 'react-icons/io5'
 import { UiCheckbox } from '../ui/checkbox'
 import { axiosInstance } from '@/utils/http'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useAxios } from '@/hooks/fetch'
+import { Endpoints } from '@/router'
+import { WorkshopConfigurationsPropierties } from '@/interfaces'
+import { Loader } from '../ui/loader'
 
 interface Props extends ModalMinimalProps {
-  workshopId: String
+  workshopId: string
 }
 
-export const WorkshopSettingsModal = ({ setOpen }: Props) => {
-  const [configuration, setConfiguration] = useState<boolean>(false)
-  
+export const WorkshopSettingsModal = ({ setOpen, workshopId }: Props) => {
+  const { data, error, loading } = useAxios({ endpoint: Endpoints.GET_WORKSHOP_CONFIG_BY_ID.replace(':id', workshopId) })
+
+  const [configuration, setConfiguration] = useState<WorkshopConfigurationsPropierties>({
+    fee: true,
+  })
+
+  useEffect(() => {
+    if (data) {
+      setConfiguration(data)
+    }
+  }, [data])
+
   const updateConfiguration = async () => {
     try {
       // await axiosInstance.post()
@@ -23,6 +37,8 @@ export const WorkshopSettingsModal = ({ setOpen }: Props) => {
     }
   }
 
+  console.log(configuration !== data)
+
   return (
     createPortal(
       (
@@ -32,18 +48,32 @@ export const WorkshopSettingsModal = ({ setOpen }: Props) => {
           setOpen={setOpen}
           title='Configuraciones'
           subTitle='Administra las configuraciones de tu taller'
-          containerClassesNames='flex flex-col gap-4'
+          containerClassesNames='flex flex-col gap-4 relative'
           navButtonsOptions={{
             createText: 'Guardar',
             isFinally: true,
             renderBack: false,
+            nextDisabled: configuration !== data
           }}
           iconComponent={<IoSettings size={24} />}>
-          <label className='flex items-center gap-2 text-gray-600 text-lg'>
-            <UiCheckbox disabled checked onChange={() => { }} />
+          <>
+            {error && <p className='text-xl text-rose-400'>{error}</p>}
 
-            <p>Taller de Cuota Fija</p>
-          </label>
+            {data && (<>
+              <label className='flex items-center gap-2 text-gray-600 text-lg'>
+                <UiCheckbox
+                  checked={configuration.fee}
+                  onChange={() => setConfiguration({
+                    ...configuration,
+                    fee: !configuration.fee,
+                  })} />
+
+                <p>Taller de Cuota Fija</p>
+              </label>
+            </>)}
+
+            <Loader active={loading} />
+          </>
         </CustomModal>
       ),
       document.body
