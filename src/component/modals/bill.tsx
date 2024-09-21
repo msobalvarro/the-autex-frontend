@@ -1,4 +1,4 @@
-import html2pdf from 'html2pdf.js'
+import * as html2pdf from 'html2pdf.js'
 import dayjs from 'dayjs'
 import _ from 'lodash'
 import { CustomModal, ModalMinimalProps } from './layout'

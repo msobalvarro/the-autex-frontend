@@ -171,9 +171,13 @@ export interface ResponseAuth {
   token: string | null
   isRoot?: boolean
   isAdmin?: boolean
-  workshop?: WorkshopPropierties
+  workshop: WorkshopPropierties
+  configuration: WorkshopSettingsPropierties | null
 }
 
+export interface WorkshopSettingsPropierties {
+  fee: boolean
+}
 
 export interface AuthStore {
   _id: string | null
@@ -183,6 +187,7 @@ export interface AuthStore {
   isRoot?: boolean
   isAdmin?: boolean
   workshop: WorkshopPropierties | null
+  configuration: WorkshopSettingsPropierties | null
 }
 
 export interface AttentionsProperties {
@@ -285,6 +290,7 @@ export interface WorkshopStateProps {
   phoneNumber: string
   location: string
   ruc: string
+  fixedFee: boolean
 }
 
 export interface CreateUserProps {

@@ -1,9 +1,28 @@
+import { toast } from 'react-toastify'
 import { createPortal } from 'react-dom'
 import { CustomModal, ModalMinimalProps } from './layout'
 import { IoSettings } from 'react-icons/io5'
 import { UiCheckbox } from '../ui/checkbox'
+import { axiosInstance } from '@/utils/http'
+import { useState } from 'react'
 
-export const WorkshopSettingsModal = ({ setOpen }: ModalMinimalProps) => {
+interface Props extends ModalMinimalProps {
+  workshopId: String
+}
+
+export const WorkshopSettingsModal = ({ setOpen }: Props) => {
+  const [configuration, setConfiguration] = useState<boolean>(false)
+  
+  const updateConfiguration = async () => {
+    try {
+      // await axiosInstance.post()
+
+
+    } catch (error) {
+      toast.error(String(error))
+    }
+  }
+
   return (
     createPortal(
       (

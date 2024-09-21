@@ -6,6 +6,7 @@ import { Loader } from '../ui/loader'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 import { WorkshopStateProps } from '@/interfaces'
+import { UiCheckbox } from '../ui/checkbox'
 
 export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
   const [isLoading, setLoading] = useState<boolean>(false)
@@ -15,7 +16,8 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
     phoneNumber: '',
     representative: '',
     slogan: '',
-    ruc: ''
+    ruc: '',
+    fixedFee: true,
   })
 
   const submit = async () => {
@@ -34,15 +36,12 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
         throw new Error('Ingrese un numero telelónico correcto')
       }
 
-      const response = await axiosInstance.post(Endpoints.CREATE_WORKSHOP, data)
-      if (response.status !== 200) {
-        throw new Error(response.data)
-      }
+      await axiosInstance.post(Endpoints.CREATE_WORKSHOP, data)
 
       setOpen(false)
       onUpdate?.()
 
-      toast.success('Nuevo taller creado')
+      toast.info('Taller creado')
     } catch (error: any) {
       // console.log(error)
       toast.error(String(error))
@@ -93,12 +92,19 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
             onChange={({ currentTarget }) => setData({ ...data, ruc: currentTarget.value })}
             className='flex-1' />
           <p className='text-sm'>Nùmero RUC</p>
-        </label>        
+        </label>
         <label className='flex-1 flex flex-col'>
           <InputField
             value={data.slogan}
             onChange={({ currentTarget }) => setData({ ...data, slogan: currentTarget.value })}
             className='flex-1' />
+          <p className='text-sm'>Slogan</p>
+        </label>
+
+        <label className='flex-1 flex flex-col'>
+          <UiCheckbox
+            checked={data.fixedFee}
+            onChange={() => setData({ ...data, fixedFee: !data })} />
           <p className='text-sm'>Slogan</p>
         </label>
 

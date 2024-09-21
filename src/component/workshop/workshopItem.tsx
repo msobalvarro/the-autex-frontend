@@ -1,6 +1,10 @@
 import { UserPropierties, WorkshopPropierties } from '@/interfaces'
 import { FaPlus } from 'react-icons/fa6'
 import { UserItem } from './userItem'
+import { UiTooltip } from '../ui/tooltip'
+import { IoIosSettings } from 'react-icons/io'
+import { WorkshopSettingsModal } from '../modals/workshopSettings'
+import { useState } from 'react'
 
 interface Props {
   workshop: WorkshopPropierties
@@ -10,11 +14,19 @@ interface Props {
 }
 
 export const WorkShopItem = ({ workshop, onNewUser, onActiveOrInactive, onUpdateUser }: Props) => {
+  const [isOpenConfig, setOpenConfig] = useState<boolean>(false)
   return (
-    <div className='flex flex-col gap-8 p-5 rounded-lg border'>      
-      <div>
-        <p className='text-xl font-bold'>{workshop.name}</p>
-        <p className='text-sm text-gray-500'>{workshop.slogan}</p>
+    <div className='flex flex-col gap-8 p-5 rounded-lg border'>
+      <div className='flex items-center justify-between'>
+        <div>
+          <p className='text-xl font-bold'>{workshop.name}</p>
+          <p className='text-sm text-gray-500'>{workshop.slogan}</p>
+        </div>
+        <UiTooltip label='Configuraciones'>
+          <button onClick={() => setOpenConfig(true)} className='transition hover:rotate-12'>
+            <IoIosSettings className='text-2xl text-gray-700' />
+          </button>
+        </UiTooltip>
       </div>
       <div className='flex flex-col gap-4'>
         {workshop.users?.map(user => <UserItem onStatusToggle={onActiveOrInactive} onEdit={onUpdateUser} user={user} key={crypto.randomUUID()} />)}
@@ -24,7 +36,13 @@ export const WorkShopItem = ({ workshop, onNewUser, onActiveOrInactive, onUpdate
             <FaPlus />
             Nuevo Usuario
           </button>
+
+
         </div>
+
+        {isOpenConfig && (
+          <WorkshopSettingsModal setOpen={setOpenConfig} />
+        )}
       </div>
     </div>
   )
