@@ -59,5 +59,7 @@ export const Endpoints = {
   GET_ESTIMATE_REPORT: '/estimate/all/report',
   GET_ORDER_REPORT: '/order/all/report',
   GET_ALL_USERS: '/user/get/all',
-  GET_WORKSHOP_CONFIG_BY_ID: '/root/workshop/get/configuration/:id'
+  GET_WORKSHOP_CONFIG_BY_ID: '/root/workshop/get/configuration/:id',
+  GET_BILL_BY_ORDER_ID: '/bill/get/order/',
+  WORKSHOP_UPDATE_CONFIGURATION: '/root/workshop/updateSettings',
 }

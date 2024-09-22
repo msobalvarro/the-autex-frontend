@@ -17,7 +17,7 @@ export const StatusOrder = ({ status }: Props) => {
           {status === 'pending' && 'pendiente'}
           {status === 'finished' && 'finalizada'}
           {status === 'process' && 'en proceso'}
-          {status === 'pending' && 'pendiente'}
+          {status === 'canceled' && 'cancelada'}
         </p>
       </div>
     </div>

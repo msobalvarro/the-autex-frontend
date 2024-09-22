@@ -16,6 +16,7 @@ import { InputField } from '../ui/input'
 import { useValidation } from '@/hooks/validations'
 import { useNavigate } from 'react-router-dom'
 import { Loader } from '../ui/loader'
+import { useAuth } from '@/hooks/auth'
 
 
 interface ListRepresentationProps {
@@ -44,6 +45,7 @@ interface Props extends ModalMinimalProps {
 
 export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
   const navigate = useNavigate()
+  const { auth } = useAuth()
   const { validateNumber } = useValidation()
   const [isLoading, setLoading] = useState<boolean>(false)
   const [currentSteps, setSteps] = useState<number>(1)
@@ -202,7 +204,11 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
     { label: 'Millas', value: 'miles' },
   ]
 
-  const total = _.sum(Object.values(sums)) + activitiesGroupCost
+  const subTotal = _.sum(Object.values(sums)) + activitiesGroupCost
+  const tax = (subTotal * 0.15)
+  const total = auth?.workshop?.configuration?.fee
+    ? tax + subTotal
+    : subTotal
 
   return (
     <CustomModal
@@ -388,6 +394,15 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
                       Insumos <b>{formatNumber(sums.OTHER)}</b>
                     </p>
                   </div>
+
+                  {auth?.workshop?.configuration?.fee && (
+                    <div className='flex gap-2 items-center'>
+                      <IoCheckmarkSharp />
+                      <p>
+                        Impuesto <b>{formatNumber(tax)}</b>
+                      </p>
+                    </div>
+                  )}
 
                   {activitiesGroupId && (
                     <div className='flex gap-2 items-center'>

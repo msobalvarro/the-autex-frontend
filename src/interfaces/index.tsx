@@ -187,7 +187,6 @@ export interface AuthStore {
   isRoot?: boolean
   isAdmin?: boolean
   workshop: WorkshopPropierties | null
-  configuration: WorkshopSettingsPropierties | null
 }
 
 export interface AttentionsProperties {
@@ -281,6 +280,7 @@ export interface WorkshopPropierties {
   administrators?: UserPropierties[]
   users?: UserPropierties[]
   createdAt?: Date
+  configuration: WorkshopSettingsPropierties | null
 }
 
 export interface WorkshopStateProps {
@@ -333,4 +333,25 @@ export interface OrderDataReportResponsePropierties {
 
 export interface WorkshopConfigurationsPropierties {
   fee: boolean
+}
+
+export interface BillPropierties {
+  _id: string
+  order: OrderServicePropierties
+  workshop: WorkshopPropierties
+  subtotal: number
+  tax?: number
+  total: number
+  createdAt?: Date
+}
+
+
+export interface BillPropsResponse {
+  _id?: string
+  order: OrderServicePropierties
+  workshop?: WorkshopPropierties
+  subtotal?: number
+  tax?: number
+  total?: number
+  createdAt?: Date
 }

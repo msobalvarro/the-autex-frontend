@@ -7,18 +7,19 @@ import { axiosInstance } from '@/utils/http'
 import { useEffect, useState } from 'react'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
-import { WorkshopConfigurationsPropierties } from '@/interfaces'
+import { WorkshopConfigurationsPropierties, WorkshopPropierties } from '@/interfaces'
 import { Loader } from '../ui/loader'
+import { AxiosError } from 'axios'
 
 interface Props extends ModalMinimalProps {
-  workshopId: string
+  workshop: WorkshopPropierties
 }
 
-export const WorkshopSettingsModal = ({ setOpen, workshopId }: Props) => {
-  const { data, error, loading } = useAxios({ endpoint: Endpoints.GET_WORKSHOP_CONFIG_BY_ID.replace(':id', workshopId) })
+export const WorkshopSettingsModal = ({ setOpen, workshop }: Props) => {
+  const { data, error, loading } = useAxios({ endpoint: Endpoints.GET_WORKSHOP_CONFIG_BY_ID.replace(':id', workshop._id) })
 
   const [configuration, setConfiguration] = useState<WorkshopConfigurationsPropierties>({
-    fee: true,
+    fee: false,
   })
 
   useEffect(() => {
@@ -29,15 +30,22 @@ export const WorkshopSettingsModal = ({ setOpen, workshopId }: Props) => {
 
   const updateConfiguration = async () => {
     try {
-      // await axiosInstance.post()
+      await axiosInstance.post(Endpoints.WORKSHOP_UPDATE_CONFIGURATION, {
+        configuration,
+        workshopId: workshop._id
+      })
 
+      toast.info('Configuraciones actualizadas')
 
+      setOpen(false)
     } catch (error) {
-      toast.error(String(error))
+      if (error instanceof AxiosError) { 
+        toast.error(String(error.response?.data))
+      } else {
+        toast.error(String(error))
+      }      
     }
   }
-
-  console.log(configuration !== data)
 
   return (
     createPortal(
@@ -46,14 +54,15 @@ export const WorkshopSettingsModal = ({ setOpen, workshopId }: Props) => {
           isOpen
           small
           setOpen={setOpen}
-          title='Configuraciones'
-          subTitle='Administra las configuraciones de tu taller'
+          title={`Configuraciones`}
+          subTitle={workshop.name}
           containerClassesNames='flex flex-col gap-4 relative'
           navButtonsOptions={{
             createText: 'Guardar',
             isFinally: true,
             renderBack: false,
-            nextDisabled: configuration !== data
+            // nextDisabled: configuration !== data,
+            onSuccess: updateConfiguration
           }}
           iconComponent={<IoSettings size={24} />}>
           <>

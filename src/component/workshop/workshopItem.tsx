@@ -41,7 +41,7 @@ export const WorkShopItem = ({ workshop, onNewUser, onActiveOrInactive, onUpdate
         </div>
 
         {isOpenConfig && (
-          <WorkshopSettingsModal workshopId={workshop._id} setOpen={setOpenConfig} />
+          <WorkshopSettingsModal workshop={workshop} setOpen={setOpenConfig} />
         )}
       </div>
     </div>

@@ -56,6 +56,13 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
       small
       title='Nuevo Taller'
       subTitle='Agrega nuevo taller y administra sus usuarios'
+      navButtonsOptions={{
+        isFinally: true,
+        renderBack: false,
+        createText: 'Crear Taller',
+        onSuccess: submit,
+        nextDisabled: isLoading
+      }}
       setOpen={setOpen}>
       <div className='flex flex-col flex-1 gap-4'>
         <label className='flex-1 flex flex-col'>
@@ -101,14 +108,12 @@ export const NewWorkshopModal = ({ setOpen, onUpdate }: ModalMinimalProps) => {
           <p className='text-sm'>Slogan</p>
         </label>
 
-        <label className='flex-1 flex flex-col'>
+        <label className='flex-1 flex items-center gap-4'>
           <UiCheckbox
             checked={data.fixedFee}
             onChange={() => setData({ ...data, fixedFee: !data })} />
-          <p className='text-sm'>Slogan</p>
+          <p className='text-sm'>Cuota fíja</p>
         </label>
-
-        <button onClick={submit} className='p-2 font-bold uppercase bg-gray-700 rounded text-white mt-4'>Nuevo Taller</button>
         <Loader active={isLoading} />
       </div>
     </CustomModal>
