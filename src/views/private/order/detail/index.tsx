@@ -261,7 +261,7 @@ export const OrderDetailView = () => {
 
           <div className='flex flex-col gap-2'>
             <div className='flex items-center justify-between'>
-              <p className='text-lg text-gray-600 uppercase'>Tareas adicionales Registradas</p>
+              <p className='text-lg text-gray-600 uppercase'>Tareas adicionales / Otros Servicios</p>
               {additionalTaskList.length > 0 && (
                 <button onClick={pushAdditionalTask} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
               )}

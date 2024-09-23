@@ -364,4 +364,6 @@ export interface IncomeReportResponse {
   totalExternalCost: number
   totalLaborCost: number
   totalInputCost: number
+  totalTaxes: number
+  totalOtherServices: number
 }

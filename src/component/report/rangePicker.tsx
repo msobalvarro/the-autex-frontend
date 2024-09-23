@@ -25,9 +25,9 @@ export const RangePickerReport = ({ onChange }: Props) => {
   }
 
   return (
-    <div className='flex items-center gap-4'>
-      <UiDatePicker label='Desde' value={starDate} onChange={setStartDate} />
-      <UiDatePicker label='Hasta' value={endDate} onChange={setEndDate} />
+    <div className='flex items-center gap-4 p-4 border border-gray-200 bg-gray-50 rounded-md'>
+      <UiDatePicker hiddenBordered label='Desde' value={starDate} onChange={setStartDate} />
+      <UiDatePicker label='Hasta' hiddenBordered value={endDate} onChange={setEndDate} />
 
       <button className='p-2 bg-gray-700 text-white rounded' onClick={apply}>Aplicar</button>
     </div>
