@@ -5,10 +5,13 @@ export interface ActionsComponentProps {
   subtitle: string
   textButton: string
   hiddeButton?: boolean
-  onClickButton: () => void
-  onChangeFilterValue: (value: string) => void
+  hiddeSearch?: boolean
+  onClickButton?: () => void
+  onChangeFilterValue?: (value: string) => void
   secondaryButtons?: SecondaryButtons[]
   searchTextPlaceholder?: string
+  showRangePicker?: boolean
+  onChangeRangePicker?: (from: Date, to: Date) => void
 }
 
 export interface SecondaryButtons {
@@ -354,4 +357,11 @@ export interface BillPropsResponse {
   tax?: number
   total?: number
   createdAt?: Date
+}
+
+export interface IncomeReportResponse {
+  totalPartsCost: number
+  totalExternalCost: number
+  totalLaborCost: number
+  totalInputCost: number
 }

@@ -62,4 +62,5 @@ export const Endpoints = {
   GET_WORKSHOP_CONFIG_BY_ID: '/root/workshop/get/configuration/:id',
   GET_BILL_BY_ORDER_ID: '/bill/get/order/',
   WORKSHOP_UPDATE_CONFIGURATION: '/root/workshop/updateSettings',
+  INCOME_REPORT: '/report/income',
 }

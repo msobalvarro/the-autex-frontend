@@ -7,10 +7,12 @@ import { toast } from 'react-toastify'
 
 interface Props {
   endpoint: string
-  data?: object
+  data?: object,
+  params?: object
+  autoFetch?: boolean
 }
 
-export const useAxios = ({ endpoint, data: dataBody }: Props) => {
+export const useAxios = ({ endpoint, data: dataBody, autoFetch = true }: Props) => {
   const [data, setData] = useState(null)
   const [status, setStatus] = useState<number | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -49,7 +51,9 @@ export const useAxios = ({ endpoint, data: dataBody }: Props) => {
   }, [endpoint])
 
   useEffect(() => {
-    fetchData()
+    if (autoFetch) {
+      fetchData()
+    }
   }, [])
 
   return { data, loading, error, status, refetch: fetchData }

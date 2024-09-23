@@ -1,5 +1,6 @@
 import { ActionsComponentProps } from '@/interfaces';
 import { InputSearch } from '@/component/ui/input';
+import { RangePickerReport } from '../report/rangePicker';
 
 export const ActionsComponent = ({
   title,
@@ -9,7 +10,10 @@ export const ActionsComponent = ({
   onChangeFilterValue,
   secondaryButtons,
   hiddeButton,
-  searchTextPlaceholder
+  searchTextPlaceholder,
+  showRangePicker,
+  onChangeRangePicker,
+  hiddeSearch,
 }: ActionsComponentProps) => {
   return (
     <div className='flex flex-row flex-1 items-center'>
@@ -29,9 +33,13 @@ export const ActionsComponent = ({
       </div>
 
       <div className='flex flex-row gap-4'>
-        <InputSearch
-          placeholder={searchTextPlaceholder || 'buscar'}
-          onChange={({ currentTarget }) => onChangeFilterValue(currentTarget.value)} />
+        {!hiddeSearch && (
+          <InputSearch
+            placeholder={searchTextPlaceholder || 'buscar'}
+            onChange={({ currentTarget }) => onChangeFilterValue?.(currentTarget.value)} />
+        )}
+
+        {(showRangePicker && onChangeRangePicker) && <RangePickerReport onChange={onChangeRangePicker} />}
 
         {!hiddeButton && (
           <button className='py-3 px-6 outline-none bg-gray-700 text-white rounded-lg' onClick={onClickButton}>
