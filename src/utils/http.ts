@@ -1,8 +1,9 @@
+import 'dotenv'
 import axios from 'axios'
 import { getToken, logoutService } from './auth'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'

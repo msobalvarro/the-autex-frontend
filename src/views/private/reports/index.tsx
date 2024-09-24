@@ -47,7 +47,7 @@ export const ReportView = () => {
         {report && (
           <div className='flex gap-4 flex-col text-gray-700'>
             <div className='flex items p-8 center justify-between'>
-              <RowDetailItem label='Total Mano de obra' price={report.totalLaborCost} />
+            <RowDetailItem label='Total Mano de obra' price={report.totalLaborCost} />
               <RowDetailItem label='Partes / Repuestos' price={report.totalPartsCost} />
             </div>
 
