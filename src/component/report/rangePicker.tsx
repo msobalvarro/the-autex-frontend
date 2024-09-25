@@ -19,10 +19,10 @@ export const RangePickerReport = ({ onChange }: Props) => {
     }
   }
 
-  const clear = () => {
-    setStartDate(null)
-    setEndDate(null)
-  }
+  // const clear = () => {
+  //   setStartDate(null)
+  //   setEndDate(null)
+  // }
 
   return (
     <div className='flex items-center gap-4 p-4 border border-gray-200 bg-gray-50 rounded-md'>

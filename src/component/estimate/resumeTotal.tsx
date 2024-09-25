@@ -9,7 +9,7 @@ export const ResumeTotal = ({ data }: PropsResume) => {
         <div className='flex gap-4 justify-end'>
           <dt className='font-bold text-gray-600'>Mano de Obra</dt>
           <dd className='leading-6 w-60 text-gray-700 sm:col-span-2 sm:mt-0'>
-            {formatNumber(_.sumBy(data.activitiesToDo, a => Number(a.total) + data.activitiesGroupCost))}
+            {formatNumber(_.sumBy(data.activitiesToDo, a => Number(a.total) + Number(data?.activitiesGroupCost)))}
           </dd>
         </div>
 

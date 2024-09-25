@@ -1,7 +1,6 @@
 import { ActionsComponent } from '@/component/ui/actions'
 import { LayoutComponent } from '@/component/ui/layout'
-import { TableComponent } from '@/component/table'
-import { Vehicule } from '@/interfaces'
+import { VehiculeWithClient } from '@/interfaces'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { useState } from 'react'
@@ -9,12 +8,11 @@ import { NewVehicule } from '@/component/modals/newVehicule'
 import { Loader } from '@/component/ui/loader'
 import { NewbrandAndModel } from '@/component/modals/newBrand'
 import { NewModel } from '@/component/modals/newModel'
-import { VehiculePlate } from '@/component/vehicule/plate'
 import { VehiculeItemClient } from '@/component/client/vehiculeItem'
 import { NewEstimation } from '@/component/modals/newEstimation'
 
 export const VehiculesView = () => {
-  const [vehiculeForEstimation, setVehicule] = useState<Vehicule | null>(null)
+  const [vehiculeForEstimation, setVehicule] = useState<VehiculeWithClient | null>(null)
   const [openNewEstimation, setOpenEstimation] = useState<boolean>(false)
   const [isOpenModal, setOpen] = useState({
     newVehicule: false,
@@ -24,7 +22,7 @@ export const VehiculesView = () => {
   const [filter, setFilter] = useState<string>('')
   const { data, refetch, loading } = useAxios({ endpoint: Endpoints.GET_ALL_VEHICULE })
 
-  const openEstimation = (vehicule: Vehicule) => {
+  const openEstimation = (vehicule: VehiculeWithClient) => {
     setVehicule(vehicule)
     setOpenEstimation(true)
   }
@@ -61,15 +59,20 @@ export const VehiculesView = () => {
             }))
           } /> */}
 
-        {(Array.isArray(data) ? [...data] : []).map((item: Vehicule) => (
-          <VehiculeItemClient onCreateEstimate={() => { }} key={crypto.randomUUID()} vehicule={item} />
-        ))}
+        {(Array.isArray(data) ? [...data] : []).map((item: VehiculeWithClient) => {
+
+          const str = Object.values(item).toString()
+
+          if (str.search(filter.toLocaleLowerCase())) {
+            return (<VehiculeItemClient onCreateEstimate={() => openEstimation(item)} key={crypto.randomUUID()} vehicule={item} />)
+          }
+        })}
       </div>
 
       {isOpenModal.newVehicule && <NewVehicule setOpen={(is) => setOpen(e => ({ ...e, newVehicule: is }))} onUpdate={refetch} />}
       {isOpenModal.newBrand && <NewbrandAndModel setOpen={(is) => setOpen(e => ({ ...e, newBrand: is }))} onUpdate={refetch} />}
       {isOpenModal.newModel && <NewModel setOpen={(is) => setOpen(e => ({ ...e, newModel: is }))} onUpdate={refetch} />}
-      {openNewEstimation && <NewEstimation client={client} vehicule={vehiculeForEstimation} isOpen setOpen={setOpenEstimation} />}
+      {openNewEstimation && <NewEstimation client={vehiculeForEstimation?.client} vehicule={vehiculeForEstimation} isOpen setOpen={setOpenEstimation} />}
       <Loader active={loading} />
     </LayoutComponent>
   )

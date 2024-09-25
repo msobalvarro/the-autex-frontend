@@ -1,5 +1,6 @@
-import _ from 'lodash'
+// @ts-ignore
 import html2pdf from 'html2pdf.js'
+import _ from 'lodash'
 import dayjs from 'dayjs'
 import { CustomModal, ModalMinimalProps } from './layout'
 import { useRef } from 'react'

@@ -367,3 +367,7 @@ export interface IncomeReportResponse {
   totalTaxes: number
   totalOtherServices: number
 }
+
+export interface VehiculeWithClient extends Vehicule {
+  client?: Client | null
+}

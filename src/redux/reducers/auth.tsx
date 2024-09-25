@@ -9,7 +9,6 @@ const initialState: AuthStore = {
   workshop: null,
   isAdmin: false,
   isRoot: false,
-  configuration: null,
 }
 
 export const sessionSlice = createSlice({
@@ -23,8 +22,8 @@ export const sessionSlice = createSlice({
       state.isRoot = action.payload.isRoot
       state.isAdmin = action.payload.isAdmin
       state.workshop = action.payload.workshop
-      state.configuration = action.payload.configuration
     },
+    // @ts-ignore
     clearSessionReducer: (state) => {
       state = initialState
     },
