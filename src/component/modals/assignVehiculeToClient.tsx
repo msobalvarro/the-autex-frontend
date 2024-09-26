@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { useState } from 'react'
 import { InputField } from '../ui/input'
+import { v4 } from 'uuid'
 
 interface Props extends ModalMinimalProps {
   client: Client
@@ -70,7 +71,7 @@ export const AssignVehiculeToClient = ({ setOpen, client, onUpdate }: Props) => 
             const text = (`${vehicule.brand?.description} ${vehicule.model?.description} ${vehicule.plate}`).toLocaleLowerCase()
             if (text.search(filter.toLocaleLowerCase()) !== -1) {
               return (
-                <div className='flex space-between items-center justify-between p-2 hover:bg-gray-200 transition rounded-md' key={crypto.randomUUID()}>
+                <div className='flex space-between items-center justify-between p-2 hover:bg-gray-200 transition rounded-md' key={v4()}>
                   <p className='text-xl text-gray-700'>
                     {vehicule.brand?.description} {vehicule.model?.description} [{vehicule.plate}]
                   </p>

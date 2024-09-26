@@ -4,6 +4,7 @@ import { TableProps, ObjectPropsTable } from '@/interfaces'
 import { MenuOptions } from './option'
 import { isValidElement, useEffect, useState } from 'react'
 import { onlyText } from 'react-children-utilities'
+import { v4 } from 'uuid'
 
 export const TableComponent = ({
   data,
@@ -45,7 +46,7 @@ export const TableComponent = ({
           <tr>
             {renderEnum && (<th />)}
             {Object.keys(firstRow).map((key) => key !== '__item' && (
-              <th className='p-4 text-left uppercase tracking-wider text-xs text-gray-600 font-semibold' key={crypto.randomUUID()}>
+              <th className='p-4 text-left uppercase tracking-wider text-xs text-gray-600 font-semibold' key={v4()}>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </th>
             ))}
@@ -57,7 +58,7 @@ export const TableComponent = ({
           {filteredData?.map((item: ObjectPropsTable, index) => (
             <tr
               onClick={() => onClickItem?.(item.__item)}
-              key={crypto.randomUUID()}
+              key={v4()}
               className={`${clsx({
                 'bg-gray-100': index % 2 === 0
               })} hover:shadow-sm transition rounded-lg`}>
@@ -65,7 +66,7 @@ export const TableComponent = ({
 
               {Object.keys(item).map((key) => key !== '__item' && (
                 <td
-                  key={crypto.randomUUID()}
+                  key={v4()}
                   className='py-4 px-6 text-gray-700 text-sm cursor-pointer'>
                   {item?.[key]}
                 </td>

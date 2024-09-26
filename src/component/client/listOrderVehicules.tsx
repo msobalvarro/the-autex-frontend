@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { NewVehicule } from '../modals/newVehicule'
 import { VehiculeItemClient } from './vehiculeItem'
 import { NewEstimation } from '../modals/newEstimation'
+import { v4 } from 'uuid'
 
 interface Props {
   vehicules: Vehicule[]
@@ -37,7 +38,7 @@ export const ClientVehiculeList = ({ vehicules, client, refetch }: Props) => {
       <div className='flex flex-col'>
         {vehicules.map(vehicule => (
           <VehiculeItemClient
-            key={crypto.randomUUID()}
+            key={v4()}
             onCreateEstimate={() => openEstimation(vehicule)}
             vehicule={vehicule} />
         ))}

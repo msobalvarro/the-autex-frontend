@@ -10,6 +10,7 @@ import { NewbrandAndModel } from '@/component/modals/newBrand'
 import { NewModel } from '@/component/modals/newModel'
 import { VehiculeItemClient } from '@/component/client/vehiculeItem'
 import { NewEstimation } from '@/component/modals/newEstimation'
+import { v4 } from 'uuid'
 
 export const VehiculesView = () => {
   const [vehiculeForEstimation, setVehicule] = useState<VehiculeWithClient | null>(null)
@@ -64,7 +65,7 @@ export const VehiculesView = () => {
           const str = Object.values(item).toString()
 
           if (str.search(filter.toLocaleLowerCase())) {
-            return (<VehiculeItemClient onCreateEstimate={() => openEstimation(item)} key={crypto.randomUUID()} vehicule={item} />)
+            return (<VehiculeItemClient onCreateEstimate={() => openEstimation(item)} key={v4()} vehicule={item} />)
           }
         })}
       </div>

@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import { toast } from 'react-toastify'
+import { v4 } from 'uuid'
 
 
 interface InputsGroupAddNewDataProps {
@@ -24,7 +25,7 @@ export const InputsGroupAddNewData = ({ onAdd, small }: InputsGroupAddNewDataPro
 
   const handledClick = () => {
     if (String(dataForm.description)?.length > 6) {
-      const uuid = crypto.randomUUID()
+      const uuid = v4()
 
       // add data
       onAdd({

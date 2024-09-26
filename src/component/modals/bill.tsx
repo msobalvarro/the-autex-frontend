@@ -10,6 +10,7 @@ import { Loader } from '../ui/loader'
 import { ActivityWithCostToDoItemEstimate, BillPropsResponse } from '@/interfaces'
 import { formatNumber } from '@/utils/formatNumber'
 import { useAuth } from '@/hooks/auth'
+import { v4 } from 'uuid'
 
 interface Props extends ModalMinimalProps {
   orderId: string
@@ -113,7 +114,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
 
                 <tbody>
                   {bill.order.estimateProps?.activitiesToDo && bill.order.estimateProps?.activitiesToDo?.map(act => (
-                    <tr key={crypto.randomUUID()}>
+                    <tr key={v4()}>
                       <td className='border-b px-4 py-2'>{act.description}</td>
                       <td className='border-b px-4 py-2 text-right'>{act.quantity}</td>
                       <td className='border-b px-4 py-2 text-right'>{formatNumber(Number(act.unitCost))}</td>
@@ -121,7 +122,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
                     </tr>
                   ))}
                   {bill.order.estimateProps?.requiredParts?.map(act => (
-                    <tr key={crypto.randomUUID()}>
+                    <tr key={v4()}>
                       <td className='border-b px-4 py-2'>{act.description}</td>
                       <td className='border-b px-4 py-2 text-right'>{act.quantity}</td>
                       <td className='border-b px-4 py-2 text-right'>{formatNumber(Number(act.unitCost))}</td>
@@ -129,7 +130,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
                     </tr>
                   ))}
                   {bill.order.estimateProps?.otherRequirements?.map(act => (
-                    <tr key={crypto.randomUUID()}>
+                    <tr key={v4()}>
                       <td className='border-b px-4 py-2'>{act.description}</td>
                       <td className='border-b px-4 py-2 text-right'>{act.quantity}</td>
                       <td className='border-b px-4 py-2 text-right'>{formatNumber(Number(act.unitCost))}</td>
@@ -137,7 +138,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
                     </tr>
                   ))}
                   {bill.order.estimateProps?.externalActivities?.map(act => (
-                    <tr key={crypto.randomUUID()}>
+                    <tr key={v4()}>
                       <td className='border-b px-4 py-2'>{act.description}</td>
                       <td className='border-b px-4 py-2 text-right'>{act.quantity}</td>
                       <td className='border-b px-4 py-2 text-right'>{formatNumber(Number(act.unitCost))}</td>

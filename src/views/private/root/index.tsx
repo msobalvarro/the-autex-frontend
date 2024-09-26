@@ -9,6 +9,7 @@ import { useAxios } from '@/hooks/fetch'
 import { UserPropierties, WorkshopPropierties } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { useState } from 'react'
+import { v4 } from 'uuid'
 
 export const RootView = () => {
   const [workshopSelected, setWorkshop] = useState<WorkshopPropierties | null>(null)
@@ -53,7 +54,7 @@ export const RootView = () => {
             onActiveOrInactive={onUpdateUserStatus}
             onNewUser={onOpenNewUser}
             workshop={workshop}
-            key={crypto.randomUUID()} />)}
+            key={v4()} />)}
       </div>
 
       {isOpenNewWokshop &&
