@@ -46,7 +46,7 @@ export const ClientView = () => {
                   {item.phoneNumber}
                 </a>
               ),
-              'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),
+              'Fecha de Registro': dayjs(item.createdAt).format('lll'),
               'Vehiculos': item.vehicules.length,
               '__item': item
             }))
