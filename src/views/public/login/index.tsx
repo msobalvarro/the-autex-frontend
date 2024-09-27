@@ -56,6 +56,7 @@ export const LoginView = () => {
           <InputField
             value={password}
             type='password'
+            onEnter={submit}
             onChange={({ currentTarget }) => setPassword(currentTarget.value)}
             placeholder='Tu contraseña' />
         </label>
