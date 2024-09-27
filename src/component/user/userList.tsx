@@ -38,7 +38,17 @@ export const UserList = () => {
       {data && (
         <TableComponent
           data={[...data].map((user: UserPropierties) => ({
-            'Nombre': <p>{user.name} {auth?._id === user._id && <span className='text-slate-400'>(Usuario Actual)</span>}</p>,
+            'Nombre': (
+              <div className='flex gap-2'>
+                <p>{user.name}</p>
+                {user.isAdmin && (
+                  <span className='text-xs py-1 px-2 rounded-xl bg-gray-600 text-white'>ADMIN</span>
+                )}
+                {auth?._id === user._id && (
+                  <span className='text-slate-400'> (Usuario Actual)</span>
+                )}
+              </div>
+            ),
             'Correo': user.email,
             'Fecha Registro': dayjs(user.createdAt).format('lll'),
             'Estado': <StatusUser status={user.status} />

@@ -1,5 +1,5 @@
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover'
-import { Vehicule } from '@/interfaces'
+import { Client, Vehicule } from '@/interfaces'
 import { VehiculePlate } from '@/component/vehicule/plate'
 import { RiCalculatorFill } from 'react-icons/ri'
 import { v4 } from 'uuid'
@@ -7,9 +7,10 @@ import { v4 } from 'uuid'
 interface Props {
   vehicule: Vehicule
   onCreateEstimate: () => void
+  client?: Client | null
 }
 
-export const VehiculeItemClient = ({ vehicule, onCreateEstimate }: Props) => {
+export const VehiculeItemClient = ({ vehicule, onCreateEstimate, client }: Props) => {
   return (
     <Popover placement='right'>
       <PopoverTrigger>
@@ -26,7 +27,12 @@ export const VehiculeItemClient = ({ vehicule, onCreateEstimate }: Props) => {
             <VehiculePlate plate={String(vehicule?.plate)} />
           </div>
           <div className='flex justify-between gap-4 text-gray-500 uppercase text-sm'>
-            <span>Unidad de tipo {vehicule.type}</span>
+            <div className='flex'>
+              <span>Unidad de tipo {vehicule.type}</span>
+              {client && (
+                <span>Cliente {client.name}</span>
+              )}
+            </div>
             <span>Color {vehicule.color}</span>
           </div>
         </div>
