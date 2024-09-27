@@ -2,6 +2,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover'
 import { Vehicule } from '@/interfaces'
 import { VehiculePlate } from '@/component/vehicule/plate'
 import { RiCalculatorFill } from 'react-icons/ri'
+import { v4 } from 'uuid'
 
 interface Props {
   vehicule: Vehicule
@@ -12,7 +13,7 @@ export const VehiculeItemClient = ({ vehicule, onCreateEstimate }: Props) => {
   return (
     <Popover placement='right'>
       <PopoverTrigger>
-        <div className='flex rounded gap-2 flex-col cursor-pointer p-2 transition hover:bg-gray-100' key={crypto.randomUUID()}>
+        <div className='flex rounded gap-2 flex-col cursor-pointer p-2 transition hover:bg-gray-100' key={v4()}>
           <div className='flex justify-between items-center'>
             <p className='text-xl text-gray-800'>
               {`

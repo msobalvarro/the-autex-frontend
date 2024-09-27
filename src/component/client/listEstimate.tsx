@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import {v4} from 'uuid'
 import { EstimatePropierties } from '@/interfaces'
 import { IoDocumentTextSharp } from 'react-icons/io5'
 import { formatNumber } from '@/utils/formatNumber'
@@ -9,7 +10,7 @@ interface Props {
   estimations: EstimatePropierties[]
 }
 
-export const ListEstimateClient = ({ estimations }: Props) => {
+export const ListEstimateClient = ({ estimations }: Props) => {  
   return (
     <div className='flex flex-col flex-1 gap-2 flex-1'>
       <div className='flex items-center justify-between'>
@@ -23,7 +24,7 @@ export const ListEstimateClient = ({ estimations }: Props) => {
 
       <div className='flex flex-col'>
         {estimations.map(estimate => (
-          <Link to={routes.ESTIMATE_DETAIL.replace(':id', String(estimate._id))} className='flex gap-4 items-center border-b border-gray-100 justify-between cursor-pointer px-4 py-2 transition hover:bg-gray-100 ' key={crypto.randomUUID()}>
+          <Link to={routes.ESTIMATE_DETAIL.replace(':id', String(estimate._id))} className='flex gap-4 items-center border-b border-gray-100 justify-between cursor-pointer px-4 py-2 transition hover:bg-gray-100 ' key={v4()}>
             <div className='flex flex-col'>
               <div className='flex items-center gap-3 text-gray-600'>                <p>
                 {`

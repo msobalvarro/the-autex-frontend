@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 import { Loader } from '../ui/loader'
+import { v4 } from 'uuid'
 
 export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -84,7 +85,7 @@ export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
         {activities.length > 0 && (
           <ol className='my-2 p-5 bg-gray-50 rounded'>
             {activities.map(activity => (
-              <li className='flex items-center border-b border-gray-200 gap-2 py-2 my-1' key={crypto.randomUUID()}>
+              <li className='flex items-center border-b border-gray-200 gap-2 py-2 my-1' key={v4()}>
                 <MdTaskAlt className='text-xl text-gray-500' />
                 <p className='text-gray-600'>{activity}</p>
               </li>

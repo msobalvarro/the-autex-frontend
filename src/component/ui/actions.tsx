@@ -1,6 +1,7 @@
 import { ActionsComponentProps } from '@/interfaces';
 import { InputSearch } from '@/component/ui/input';
 import { RangePickerReport } from '../report/rangePicker';
+import { v4 } from 'uuid';
 
 export const ActionsComponent = ({
   title,
@@ -16,7 +17,7 @@ export const ActionsComponent = ({
   hiddeSearch,
 }: ActionsComponentProps) => {
   return (
-    <div className='flex flex-row flex-1 items-center'>
+    <div className='flex flex-row flex-1 lg:flex-row sm:flex-col sm:px-8 sm:gap-4 lg:items-center'>
       <div className='flex flex-col flex-1 gap-1'>
         <p className='text-4xl text-gray-700'>{title}</p>
         <p className='text-md text-gray-500 font-[300]'>{subtitle}</p>
@@ -24,7 +25,7 @@ export const ActionsComponent = ({
         {secondaryButtons && (
           <div className='flex gap-4'>
             {secondaryButtons.map(secondaryButton => (
-              <button className='p-2 rounded text-cyan-800 hover:bg-gray-200 transition' key={crypto.randomUUID()} onClick={secondaryButton.onClick}>
+              <button className='p-2 rounded text-cyan-800 hover:bg-gray-200 transition' key={v4()} onClick={secondaryButton.onClick}>
                 {secondaryButton.label}
               </button>
             ))}

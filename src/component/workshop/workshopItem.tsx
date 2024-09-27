@@ -5,6 +5,7 @@ import { UiTooltip } from '../ui/tooltip'
 import { IoIosSettings } from 'react-icons/io'
 import { WorkshopSettingsModal } from '../modals/workshopSettings'
 import { useState } from 'react'
+import { v4 } from 'uuid'
 
 interface Props {
   workshop: WorkshopPropierties
@@ -29,7 +30,7 @@ export const WorkShopItem = ({ workshop, onNewUser, onActiveOrInactive, onUpdate
         </UiTooltip>
       </div>
       <div className='flex flex-col gap-4'>
-        {workshop.users?.map(user => <UserItem onStatusToggle={onActiveOrInactive} onEdit={onUpdateUser} user={user} key={crypto.randomUUID()} />)}
+        {workshop.users?.map(user => <UserItem onStatusToggle={onActiveOrInactive} onEdit={onUpdateUser} user={user} key={v4()} />)}
         {workshop.users?.length == 0 && <p className='text-sm text-gray-400'>No hay usuarios</p>}
         <div className='flex'>
           <button onClick={() => onNewUser(workshop)} className='px-4 py-2 bg-gray-700 text-white rounded flex items-center gap-2'>

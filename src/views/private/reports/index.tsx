@@ -1,13 +1,15 @@
+import _ from 'lodash'
+import dayjs from 'dayjs'
 import { RowDetailItem } from '@/component/report/itemReportTable'
 import { ActionsComponent } from '@/component/ui/actions'
 import { LayoutComponent } from '@/component/ui/layout'
 import { Loader } from '@/component/ui/loader'
+import { EstimationChart } from '@/component/workshop/charts/estimations'
+import { OrdersChart } from '@/component/workshop/charts/orders'
 import { IncomeReportResponse } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { axiosInstance } from '@/utils/http'
 import { AxiosError } from 'axios'
-import dayjs from 'dayjs'
-import _ from 'lodash'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -47,7 +49,7 @@ export const ReportView = () => {
         {report && (
           <div className='flex gap-4 flex-col text-gray-700'>
             <div className='flex items p-8 center justify-between'>
-            <RowDetailItem label='Total Mano de obra' price={report.totalLaborCost} />
+              <RowDetailItem label='Total Mano de obra' price={report.totalLaborCost} />
               <RowDetailItem label='Partes / Repuestos' price={report.totalPartsCost} />
             </div>
 
@@ -73,6 +75,11 @@ export const ReportView = () => {
 
         <Loader active={isLoading} />
       </LayoutComponent>
+
+      <div className='flex md:flex-col lg:w-4/5 flex-1 gap-4 flex-1'>
+        <EstimationChart />
+        <OrdersChart />
+      </div>
     </div>
   )
 }

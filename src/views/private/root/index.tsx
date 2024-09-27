@@ -9,6 +9,7 @@ import { useAxios } from '@/hooks/fetch'
 import { UserPropierties, WorkshopPropierties } from '@/interfaces'
 import { Endpoints } from '@/router'
 import { useState } from 'react'
+import { v4 } from 'uuid'
 
 export const RootView = () => {
   const [workshopSelected, setWorkshop] = useState<WorkshopPropierties | null>(null)
@@ -45,7 +46,7 @@ export const RootView = () => {
         onClickButton={() => toggleNewWokshop(true)}
         onChangeFilterValue={setFilter} />
 
-      <div className='grid grid grid-cols-2 gap-4'>
+      <div className='grid grid lg:grid-cols-2 md:grid-cols-1 gap-4'>
         {customData.map(workshop =>
           workshop.name.toLocaleLowerCase().search(filter.toLocaleLowerCase()) > -1 &&
           <WorkShopItem
@@ -53,7 +54,7 @@ export const RootView = () => {
             onActiveOrInactive={onUpdateUserStatus}
             onNewUser={onOpenNewUser}
             workshop={workshop}
-            key={crypto.randomUUID()} />)}
+            key={v4()} />)}
       </div>
 
       {isOpenNewWokshop &&

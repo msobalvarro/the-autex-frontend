@@ -6,6 +6,7 @@ import { MdOutlineWork } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { routes } from '@/router'
 import { StatusOrder } from '../order/statusOrder'
+import { v4 } from 'uuid'
 
 interface Props {
   orders: OrderServicePropierties[]
@@ -22,7 +23,7 @@ export const ListOrderClient = ({ orders }: Props) => {
       </div>
       <div className='flex flex-col'>
         {orders.map(order => (
-          <Link to={routes.ORDER_DETAIL.replace(':id', String(order._id))} className='flex gap-4 border-b border-gray-100 justify-between cursor-pointer p-3 transition hover:bg-gray-100' key={crypto.randomUUID()}>
+          <Link to={routes.ORDER_DETAIL.replace(':id', String(order._id))} className='flex gap-4 border-b border-gray-100 justify-between cursor-pointer p-3 transition hover:bg-gray-100' key={v4()}>
             <div className='flex items-center gap-3 text-gray-600'>
               <FaCalendarCheck className='text-xl' />
               <p>{dayjs(order.createdAt).format('D MMMM YYYY')}</p>
