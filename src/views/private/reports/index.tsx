@@ -76,7 +76,7 @@ export const ReportView = () => {
         <Loader active={isLoading} />
       </LayoutComponent>
 
-      <div className='flex md:flex-col lg:w-4/5 flex-1 gap-4 flex-1'>
+      <div className='flex lg:flex-row sm:flex-col md:flex-col sm:w-full lg:w-4/5 flex-1 gap-4 flex-1'>
         <EstimationChart />
         <OrdersChart />
       </div>

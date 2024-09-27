@@ -17,7 +17,7 @@ export const ActionsComponent = ({
   hiddeSearch,
 }: ActionsComponentProps) => {
   return (
-    <div className='flex flex-row flex-1 lg:flex-row sm:flex-col sm:px-8 sm:gap-4 lg:items-center'>
+    <div className='flex flex-row flex-1 lg:flex-row md:flex-col sm:flex-col sm:px-8 sm:gap-4 lg:items-center'>
       <div className='flex flex-col flex-1 gap-1'>
         <p className='text-4xl text-gray-700'>{title}</p>
         <p className='text-md text-gray-500 font-[300]'>{subtitle}</p>
