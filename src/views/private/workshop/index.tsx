@@ -1,5 +1,3 @@
-import { EstimationChart } from '@/component/workshop/charts/estimations'
-import { OrdersChart } from '@/component/workshop/charts/orders'
 import { ClientView } from '@/views/private/clients'
 import { VehiculesView } from '@/views/private/vehicules'
 import { UserList } from '@/component/user/userList'
@@ -15,10 +13,7 @@ export const WorkshopView = () => {
       {auth?.isAdmin && (
         <UserList />
       )}
-      <div className='flex w-3/4 flex-1 gap-4 flex-1'>
-        <EstimationChart />
-        <OrdersChart />
-      </div>
+
       <ClientView />
       <VehiculesView />
     </div>
