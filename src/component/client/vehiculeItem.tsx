@@ -12,11 +12,11 @@ interface Props {
 
 export const VehiculeItemClient = ({ vehicule, onCreateEstimate, client }: Props) => {
   return (
-    <Popover placement='right'>
+    <Popover placement='top-end'>
       <PopoverTrigger>
         <div className='flex rounded gap-2 flex-col cursor-pointer p-2 transition hover:bg-gray-100' key={v4()}>
           <div className='flex justify-between items-center'>
-            <p className='text-xl text-gray-800'>
+            <p className='text-xl text-gray-600'>
               {`
                 ${vehicule?.year} 
                 ${vehicule?.brand?.description} 

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import {v4} from 'uuid'
+import { v4 } from 'uuid'
 import { EstimatePropierties } from '@/interfaces'
 import { IoDocumentTextSharp } from 'react-icons/io5'
 import { formatNumber } from '@/utils/formatNumber'
@@ -10,7 +10,7 @@ interface Props {
   estimations: EstimatePropierties[]
 }
 
-export const ListEstimateClient = ({ estimations }: Props) => {  
+export const ListEstimateClient = ({ estimations }: Props) => {
   return (
     <div className='flex flex-col flex-1 gap-2 flex-1'>
       <div className='flex items-center justify-between'>
@@ -41,7 +41,7 @@ export const ListEstimateClient = ({ estimations }: Props) => {
               </div>
             </div>
 
-            <p className='font-bold text-gray-600'>Total {formatNumber(Number(estimate.total))}</p>
+            <p className='font-bold text-gray-600'>{formatNumber(Number(estimate.total))}</p>
           </Link>
         ))}
 
