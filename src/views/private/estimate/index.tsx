@@ -28,6 +28,7 @@ export const EstimateServiceView = () => {
         textButton='Nuevo Presupuesto'
         title='Presupuesto'
         subtitle='Visualiza y gestiona todos los presupuestos registrados'
+        searchTextPlaceholder='Buscar Presupuesto, clientes..'
         onClickButton={() => setOpen(true)}
         secondaryButtons={[
           {
@@ -51,7 +52,7 @@ export const EstimateServiceView = () => {
               'Presupuesto ID': <Link className='text-sky-600 hover:underline' to={routes.ESTIMATE_DETAIL.replace(':id', `${item._id}`)}><code className='font-bold'>{item._id}</code></Link>,
               'Cliente': <Link className='text-sky-600 hover:underline' to={routes.CLIENT_DETAIL.replace(':id', `${item.client?._id}`)}>{item.client?.name}</Link>,
               'Vehiculo': <div className='flex'><VehiculePlate plate={String(item.vehicule?.plate)} /></div>,
-              'Fecha': dayjs(item.createdAt).format('DD/MM/YYYY hh:mm A'),
+              'Fecha': dayjs(item.createdAt).format('lll'),
               'Total': <p className='text-gray-600 font-bold'>{formatNumber(Number(item.total))}</p>,
               '__item': item,
             }))} />

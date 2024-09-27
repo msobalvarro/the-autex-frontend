@@ -49,23 +49,17 @@ export const VehiculesView = () => {
         onChangeFilterValue={setFilter} />
 
       <div className='flex-1 flex flex-col gap-2'>
-        {/* <TableComponent
-          filter={filter}
-          data={.map(
-            (item: Vehicule) => ({
-              'Tipo': <b className='uppercase'>{item?.type}</b>,
-              'Placa': <div className='flex'><VehiculePlate plate={String(item?.plate)} /></div>,
-              'Unidad': `${item?.year} ${item.brand?.description} ${item.model?.description}`,
-              'Color': item?.color,
-            }))
-          } /> */}
-
         {(Array.isArray(data) ? [...data] : []).map((item: VehiculeWithClient) => {
+          const str = `
+            ${item.brand?.description} 
+            ${item.model?.description} 
+            ${item.plate}
+            ${item.type}
+            ${item.year}
+          `.toLocaleLowerCase()
 
-          const str = Object.values(item).toString()
-
-          if (str.search(filter.toLocaleLowerCase())) {
-            return (<VehiculeItemClient onCreateEstimate={() => openEstimation(item)} key={v4()} vehicule={item} />)
+          if (str.search(filter.toLocaleLowerCase()) > -1) {
+            return (<VehiculeItemClient client={item?.client} onCreateEstimate={() => openEstimation(item)} key={v4()} vehicule={item} />)
           }
         })}
       </div>

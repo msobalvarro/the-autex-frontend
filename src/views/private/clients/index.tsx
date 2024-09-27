@@ -9,6 +9,8 @@ import { useState } from 'react'
 import { Loader } from '@/component/ui/loader'
 import { NewClient } from '@/component/modals/newClient'
 import { Link } from 'react-router-dom'
+import { MdEmail } from 'react-icons/md'
+import { IoCall } from 'react-icons/io5'
 
 export const ClientView = () => {
   const [isOpenModalNewClient, setOpenModalCient] = useState<boolean>(false)
@@ -31,10 +33,20 @@ export const ClientView = () => {
           renderEnum
           data={
             (Array.isArray(data) ? [...data] : []).map((item: Client) => ({
-              'Nombre': <Link className='text-sky-600 hover:underline' to={routes.CLIENT_DETAIL.replace(':id', String(item._id))}>{item.name}</Link> ,
-              'Correo Electrónico': item.email,
-              'Numero Telefónico': item.phoneNumber,
-              'Fecha de Registro': dayjs(item.createdAt).format('DD/MM/YYYY'),
+              'Nombre': <Link className='text-sky-600 hover:underline' to={routes.CLIENT_DETAIL.replace(':id', String(item._id))}>{item.name}</Link>,
+              'Correo Electrónico': (
+                <a href={`mailto:${item.email}`} className='flex text-sky-600 hover:underline items-center gap-2'>
+                  <MdEmail className='text-sm' />
+                  {item.email}
+                </a>
+              ),
+              'Numero Telefónico': (
+                <a href={`tel:${item.phoneNumber}`} className='flex text-green-600 hover:underline items-center gap-2'>
+                  <IoCall className='text-sm' />
+                  {item.phoneNumber}
+                </a>
+              ),
+              'Fecha de Registro': dayjs(item.createdAt).format('lll'),
               'Vehiculos': item.vehicules.length,
               '__item': item
             }))

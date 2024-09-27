@@ -7,7 +7,7 @@ export const SubMenuUser = () => {
 
   return (
     <div className='absolute inset-y-0 right-0 flex items-center'>
-      <Popover placement='right'>
+      <Popover placement='bottom-end'>
         <PopoverTrigger>
           <button type='button' className='relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800' id='user-menu-button' aria-expanded='false' aria-haspopup='true'>
             <img className='h-8 w-8 rounded-full' src='https://placehold.co/400' alt='' />

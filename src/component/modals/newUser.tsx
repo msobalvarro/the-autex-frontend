@@ -9,6 +9,7 @@ import { axiosInstance } from '@/utils/http'
 import { Endpoints } from '@/router'
 import { UiCheckbox } from '../ui/checkbox'
 import { useAuth } from '@/hooks/auth'
+import { AxiosError } from 'axios'
 
 interface Props extends ModalMinimalProps {
   workshop?: WorkshopPropierties | null
@@ -72,8 +73,12 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
       setOpen(false)
       onUpdate?.()
       toast.info(`${data.name} ${defaultData ? 'actualizado' : 'creado'}`)
-    } catch (error: any) {
-      toast.error(error?.response?.data || error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data)
+      } else {
+        toast.error(String(error))
+      }      
     } finally {
       setLoading(false)
     }
@@ -112,7 +117,10 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
               onChange={({ currentTarget }) => setData({ ...data, password: currentTarget.value })}
               placeholder='Ingrese una contraseña'
               type='password' />
+            <div className='flex items-center justify-between'>
             <span className='ml-2'>Contraseña *</span>
+            <span className='ml-2 text-gray-500 text-sm'>Mīnimo 6 carácteres</span>
+            </div>
           </label>
         )}
 
