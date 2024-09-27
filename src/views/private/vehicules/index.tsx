@@ -62,9 +62,14 @@ export const VehiculesView = () => {
 
         {(Array.isArray(data) ? [...data] : []).map((item: VehiculeWithClient) => {
 
-          const str = Object.values(item).toString()
+          const str = `
+            ${item.brand?.description} 
+            ${item.model?.description} 
+            ${item.plate}
+            ${item.type}
+          `.toLocaleLowerCase()
 
-          if (str.search(filter.toLocaleLowerCase())) {
+          if (str.search(filter.toLocaleLowerCase()) > -1) {
             return (<VehiculeItemClient onCreateEstimate={() => openEstimation(item)} key={v4()} vehicule={item} />)
           }
         })}
