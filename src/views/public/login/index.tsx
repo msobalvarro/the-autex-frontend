@@ -61,7 +61,7 @@ export const LoginView = () => {
             placeholder='Tu contraseña' />
         </label>
 
-        <button onClick={submit} className='p-2 rounded-md bg-gray-700 hover:bg-gray-900 text-white'>Sign in</button>
+        <button onClick={submit} className='p-2 rounded-md bg-gray-700 hover:bg-gray-900 text-white'>Inicio de Sesión</button>
 
         <Loader active={isLoading} />
       </div>
