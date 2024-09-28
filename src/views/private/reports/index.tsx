@@ -2,7 +2,7 @@ import { IncomeReport } from '@/component/report/icomeReport'
 import { EstimationChart } from '@/component/workshop/charts/estimations'
 import { OrdersChart } from '@/component/workshop/charts/orders'
 
-export const ReportView = () => {
+export const ReportView = () => {  
   return (
     <div className='flex gap-4 flex-col items-center w-full px-10'>
       <IncomeReport />

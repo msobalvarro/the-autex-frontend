@@ -11,7 +11,6 @@ import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 
-
 export const IncomeReport = () => {
   const [isLoading, setLoading] = useState<boolean>(false)
   const [report, setReport] = useState<IncomeReportResponse | null>(null)
