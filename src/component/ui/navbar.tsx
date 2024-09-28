@@ -29,7 +29,11 @@ export const NavbarComponent = () => {
                 <Link to={routes.ESTIMATE_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ESTIMATE_SERVICE) })}`}>Presupuesto</Link>
                 <Link to={routes.ORDER_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ORDER_SERVICE) })}`}>Orden de Servicio</Link>
                 <Link to={routes.REPORTS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.REPORTS) })}`}>Reportes</Link>
-                <Link to={routes.DIAGNOSTIC} className={`${itemClassName}  ${clsx({ 'bg-gray-700': isActive(routes.DIAGNOSTIC) })}`}>Diagnóstico</Link>
+
+                <button className={`${itemClassName} hover:bg-transparent relative flex items-center gap-4`} disabled>
+                  Diagnóstico <span className='right-100 rounded-xl p-1 bg-sky-800 text-white text-xs'>Proximamente</span>
+                </button>
+                {/* <Link aria-disabled to={routes.DIAGNOSTIC} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.DIAGNOSTIC) })}`}>Diagnóstico</Link> */}
               </div>
             </div>
           </div>
