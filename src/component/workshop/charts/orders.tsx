@@ -6,14 +6,17 @@ import { Endpoints } from '@/router'
 import { useEffect, useState } from 'react'
 import { Chart } from 'react-google-charts'
 import { chartColorList } from '@/helpers'
+import { RangePickerReport } from '@/component/report/rangePicker'
 
 export const OrdersChart = () => {
+  const fromDefault = dayjs().startOf('month').format('MM-DD-YYYY').toString()
+  const toDefault = dayjs().endOf('month').format('MM-DD-YYYY').toString()
+  const [from, setFrom] = useState<null | string>(null)
+  const [to, setTo] = useState<null | string>(null)
   const [data, setData] = useState<Array<any> | null>(null)
   const [total, setTotal] = useState<number | null>(null)
-  const from = dayjs().startOf('month').format('MM-DD-YYYY').toString()
-  const to = dayjs().endOf('month').format('MM-DD-YYYY').toString()
-  const { data: dataOrder, loading } = useAxios({
-    endpoint: `${Endpoints.GET_ORDER_REPORT}?from=${from}&to=${to}`,
+  const { data: dataOrder, loading, refetch } = useAxios({
+    endpoint: `${Endpoints.GET_ORDER_REPORT}?from=${from || fromDefault}&to=${to || toDefault}`,
   })
 
   useEffect(() => {
@@ -31,9 +34,22 @@ export const OrdersChart = () => {
     }
   }, [dataOrder])
 
+  const onChangeFilterRange = (from: Date, to: Date) => {
+    setFrom(dayjs(from).format('MM-DD-YYYY').toString())
+    setTo(dayjs(to).format('MM-DD-YYYY').toString())
+
+    refetch()
+  }
+
+  const clearFilter = () => {
+    setTo(null)
+    setFrom(null)
+  }
+
   return (
-    <div className='p-4 flex relative items-center flex-col flex-1 bg-white overflow-auto rounded shadow'>
-      <p className='text-xl text-gray-600 text-center'>{total} Totales de ordenes totales del mes de {dayjs().format('MMMM')}</p>
+    <div className='p-4 flex relative justify-between flex-col flex-1 bg-white overflow-auto rounded shadow'>
+      <RangePickerReport onClearFilter={clearFilter} onChange={onChangeFilterRange} />
+
       {data && (
         <Chart
           chartType='PieChart'
@@ -44,6 +60,7 @@ export const OrdersChart = () => {
         />
       )}
 
+      <p className='text-md text-gray-600'>{total} Totales de ordenes totales</p>
       <Loader active={loading} />
     </div>
   )

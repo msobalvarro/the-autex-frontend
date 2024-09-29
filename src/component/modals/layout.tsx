@@ -51,7 +51,7 @@ export const CustomModal = ({
                 {subTitle && <p className='text-sm text-gray-500'>{subTitle}</p>}
               </div>
 
-              <button className='text-2xl hover:bg-gray-100 rounded p-3' onClick={() => setOpen(false)}>
+              <button className='text-2xl hover:bg-gray-100 rounded-full transition p-3' onClick={() => setOpen(false)}>
                 <MdOutlineClose />
               </button>
             </div>

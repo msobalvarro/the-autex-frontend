@@ -63,4 +63,5 @@ export const Endpoints = {
   GET_BILL_BY_ORDER_ID: '/bill/get/order/',
   WORKSHOP_UPDATE_CONFIGURATION: '/root/workshop/updateSettings',
   INCOME_REPORT: '/report/income',
+  UPDATE_ACTIVITY_LIST: '/estimate/activitiesGroup/update',
 }
