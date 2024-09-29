@@ -4,7 +4,7 @@ import { CustomModal, ModalMinimalProps } from './layout'
 import { Loader } from '../ui/loader'
 import { ActivitiesGroupPropierties } from '@/interfaces'
 import { ActivityItem } from '../estimate/activityItem'
-import { FaList } from 'react-icons/fa'
+import { FaTasks } from 'react-icons/fa'
 
 export const ActivitiesGroupPreviewModal = ({ setOpen }: ModalMinimalProps) => {
   const { data, loading } = useAxios({ endpoint: Endpoints.GET_ACTIVITIES_GROUP })
@@ -13,14 +13,15 @@ export const ActivitiesGroupPreviewModal = ({ setOpen }: ModalMinimalProps) => {
   return (
     <CustomModal
       isOpen
+      small
       title='Grupos de Servicio'
       subTitle='Gestiona, imprime tus grupos de servicio'
       setOpen={setOpen}
       hiddenButtons
-      iconComponent={<FaList />}
+      iconComponent={<FaTasks />}
       containerClassesNames='flex flex-col gap-8'>
       <>
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 gap-4'>
           {customData !== null && customData.map(item => <ActivityItem activity={item} />)}
         </div>
 

@@ -21,7 +21,7 @@ export const NavbarComponent = () => {
               <img className='h-8 w-auto' src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500' alt='Your Company' />
             </div>
             <div className='hidden sm:ml-6 sm:block'>
-              <div className='flex space-x-4'>
+              <div className='flex items-center space-x-4'>
                 {auth?.isRoot && (
                   <Link to={routes.ROOT} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ROOT) })}`}>Administración</Link>
                 )}
@@ -30,7 +30,7 @@ export const NavbarComponent = () => {
                 <Link to={routes.ORDER_SERVICE} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.ORDER_SERVICE) })}`}>Orden de Servicio</Link>
                 <Link to={routes.REPORTS} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.REPORTS) })}`}>Reportes</Link>
 
-                <button className={`${itemClassName} hover:bg-transparent relative flex items-center gap-4`} disabled>
+                <button className={`${itemClassName} hover:bg-transparent relative flex items-center gap-2`} disabled>
                   Diagnóstico <span className='right-100 rounded-xl p-1 bg-sky-800 text-white text-xs'>Proximamente</span>
                 </button>
                 {/* <Link aria-disabled to={routes.DIAGNOSTIC} className={`${itemClassName} ${clsx({ 'bg-gray-700': isActive(routes.DIAGNOSTIC) })}`}>Diagnóstico</Link> */}

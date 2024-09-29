@@ -61,7 +61,6 @@ export const OrdersChart = () => {
       )}
 
       <p className='text-md text-gray-600'>{total} Totales de ordenes totales</p>
-
       <Loader active={loading} />
     </div>
   )
