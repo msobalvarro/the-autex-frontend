@@ -62,7 +62,7 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
   const [activitiesGroupCost, setAcitivitiesGroupCost] = useState<number>(0)
   const { data: dataActivities, loading: loadingActivities } = useAxios({ endpoint: Endpoints.GET_ACTIVITIES_GROUP })
   const { data: dataClients, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS_WITH_CARS })
-  const activitiesGroupData: ActivitiesGroupPropierties[] | null = Array.isArray(dataActivities) ? [...dataActivities] : null
+  const activitiesGroupData: ActivitiesGroupPropierties[] = Array.isArray(dataActivities) ? [...dataActivities] : []
 
   const addActivity = (activity: ActivityWithCostToDoItemEstimate) => {
     setAcitivities([...acitivities, activity])
@@ -288,7 +288,7 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
               </label>
             </div>
 
-            {(activitiesGroupData !== null) && (
+            {(activitiesGroupData.length > 0) && (
               <div className='flex flex-row flex-1 gap-2 justify-stretch'>
                 <label className='flex flex-col flex-1'>
                   <CustomSelectOption
@@ -319,6 +319,10 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
                   <span className='text-gray-600 ml-2'>Ingrese el Precio de la actividad</span>
                 </label>
               </div>
+            )}
+
+            {(activitiesGroupData.length === 0) && (
+              <p className='text-sm text-gray-400 my-2 text-center uppercase'>Puedes agregar un grupo de mantenimiento y agregarlo aquí</p>
             )}
           </>
         )}

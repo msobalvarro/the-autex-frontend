@@ -48,10 +48,10 @@ export const CustomModal = ({
 
               <div className='w-full'>
                 <p className='text-xl uppercase font-bold text-gray-600'>{title}</p>
-                {subTitle && <p className='text-sm text-gray-500'>{subTitle}</p>}
+                {subTitle && <p className='text-sm text-gray-500 print:hidden'>{subTitle}</p>}
               </div>
 
-              <button className='text-2xl hover:bg-gray-100 rounded-full transition p-3' onClick={() => setOpen(false)}>
+              <button className='text-2xl print:hidden hover:bg-gray-100 rounded-full transition p-3' onClick={() => setOpen(false)}>
                 <MdOutlineClose />
               </button>
             </div>
