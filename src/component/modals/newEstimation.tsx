@@ -2,8 +2,6 @@ import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { ActivitiesGroupPropierties, ActivityWithCostToDoItemEstimate, Client, DistanceTraveledPropierties, SelectionProps, Vehicule } from '@/interfaces'
 import { CustomModal, ModalMinimalProps } from '@/component/modals/layout'
-import { InputsGroupAddNewData } from '@/component/estimate/inputsGroupEstimate'
-import { TableRepresentation } from '@/component/estimate/tableRepresentation'
 import { CustomSelectOption } from '@/component/ui/selection'
 import { useAxios } from '@/hooks/fetch'
 import { Endpoints, routes } from '@/router'
@@ -17,26 +15,7 @@ import { useValidation } from '@/hooks/validations'
 import { useNavigate } from 'react-router-dom'
 import { Loader } from '../ui/loader'
 import { useAuth } from '@/hooks/auth'
-
-
-interface ListRepresentationProps {
-  onAdd: (e: ActivityWithCostToDoItemEstimate) => void
-  onRemove: (e: ActivityWithCostToDoItemEstimate) => void
-  list: ActivityWithCostToDoItemEstimate[]
-  title: string
-}
-
-const ListRepresentation = ({ list, onAdd, title, onRemove }: ListRepresentationProps) => (
-  <div className='flex flex-col gap-4'>
-    <p className='text-lg text-gray-600 uppercase'>{title}</p>
-    {list.length > 0 && (
-      <TableRepresentation onRemoveItems={onRemove} list={list} />
-    )}
-    <InputsGroupAddNewData small onAdd={onAdd} />
-  </div>
-)
-
-const Icon = <RiCalculatorFill size={24} />
+import { ListRepresentation } from '../estimate/listRepresentation'
 
 interface Props extends ModalMinimalProps {
   vehicule?: Vehicule | null
@@ -184,7 +163,7 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
 
   const renderSubtitle = (): string => {
     switch (currentSteps) {
-      case 1: return vehicule ? 'Ingresa los kilometros recoridos' : 'Selecciona el cliente, vehículo'
+      case 1: return vehicule ? 'Ingresa la distancia recorrida' : 'Selecciona el cliente, vehículo'
       case 2: return 'Igresa las actividades a realizar'
       case 3: return 'Ingresa las partes principales requiridas'
       case 4: return 'Confirme el valor total'
@@ -228,7 +207,7 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
         nextDisabled: (disabledValidationFirstStep || isLoading),
         renderBack: currentSteps > 1,
       }}
-      iconComponent={Icon}>
+      iconComponent={<RiCalculatorFill size={24} />}>
       <>
         {currentSteps === 1 && (
           <>
@@ -332,16 +311,14 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
             <ListRepresentation
               title='Actividades Previstas a Realizar'
               list={acitivities}
-              onRemove={removeActivity}
-              onAdd={addActivity} />
+              onUpdate={setAcitivities} />
 
             <hr />
 
             <ListRepresentation
               title='Actividades Externas'
               list={externalActivities}
-              onRemove={removeExternalActivity}
-              onAdd={addExternalActivity} />
+              onUpdate={setExternalActivities} />
 
           </>
         )}
@@ -351,86 +328,82 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
             <ListRepresentation
               title='Partes Principales Requeridas'
               list={partsRequired}
-              onRemove={removeParts}
-              onAdd={addParts} />
+              onUpdate={setPartRequires} />
 
             <hr />
 
             <ListRepresentation
               title='Otros Requerimientos'
               list={otherRequirements}
-              onRemove={removeRequirements}
-              onAdd={addOtherRequirements} />
+              onUpdate={setOtherRequirements} />
           </>
         )}
 
         {currentSteps === 4 && (
-          <>
-            <div className='flex flex-col gap-4'>
-              <p className='text-lg text-gray-600 uppercase'>Resumen Total</p>
+          <div className='flex flex-col gap-4'>
+            <p className='text-lg text-gray-600 uppercase'>Resumen Total</p>
 
-              <div className='flex'>
-                <div className='flex flex-col gap-4'>
-                  <div className='flex gap-2 items-center'>
-                    <IoCheckmarkSharp />
-                    <p>
-                      Mano de obra <b>{formatNumber(sums.ACTIVITY)}</b>
-                    </p>
-                  </div>
-
-                  <div className='flex gap-2 items-center'>
-                    <IoCheckmarkSharp />
-                    <p>
-                      Mano de obra Externa <b>{formatNumber(sums.EXTERNAL)}</b>
-                    </p>
-                  </div>
-
-                  <div className='flex gap-2 items-center'>
-                    <IoCheckmarkSharp />
-                    <p>
-                      Repuestos <b>{formatNumber(sums.PARTS)}</b>
-                    </p>
-                  </div>
-
-                  <div className='flex gap-2 items-center'>
-                    <IoCheckmarkSharp />
-                    <p>
-                      Insumos <b>{formatNumber(sums.OTHER)}</b>
-                    </p>
-                  </div>
-
-                  {auth?.workshop?.configuration?.fee && (
-                    <div className='flex gap-2 items-center'>
-                      <IoCheckmarkSharp />
-                      <p>
-                        Impuesto <b>{formatNumber(tax)}</b>
-                      </p>
-                    </div>
-                  )}
-
-                  {activitiesGroupId && (
-                    <div className='flex gap-2 items-center'>
-                      <IoCheckmarkSharp />
-                      <p>
-                        Mantenimiento: <b>
-                          {_.find(activitiesGroupData,
-                            (e: ActivitiesGroupPropierties) => e._id == activitiesGroupId
-                          )?.name} {formatNumber(activitiesGroupCost)}
-                        </b>
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                <div className='text-right flex-1'>
-                  <p className='text-4xl text-gray-800 font-bold'>
-                    {formatNumber(total)}
+            <div className='flex'>
+              <div className='flex flex-col gap-4'>
+                <div className='flex gap-2 items-center'>
+                  <IoCheckmarkSharp />
+                  <p>
+                    Mano de obra <b>{formatNumber(sums.ACTIVITY)}</b>
                   </p>
-                  <p className='text-xl font-bold text-gray-400'>Precio total</p>
                 </div>
+
+                <div className='flex gap-2 items-center'>
+                  <IoCheckmarkSharp />
+                  <p>
+                    Mano de obra Externa <b>{formatNumber(sums.EXTERNAL)}</b>
+                  </p>
+                </div>
+
+                <div className='flex gap-2 items-center'>
+                  <IoCheckmarkSharp />
+                  <p>
+                    Repuestos <b>{formatNumber(sums.PARTS)}</b>
+                  </p>
+                </div>
+
+                <div className='flex gap-2 items-center'>
+                  <IoCheckmarkSharp />
+                  <p>
+                    Insumos <b>{formatNumber(sums.OTHER)}</b>
+                  </p>
+                </div>
+
+                {auth?.workshop?.configuration?.fee && (
+                  <div className='flex gap-2 items-center'>
+                    <IoCheckmarkSharp />
+                    <p>
+                      Impuesto <b>{formatNumber(tax)}</b>
+                    </p>
+                  </div>
+                )}
+
+                {activitiesGroupId && (
+                  <div className='flex gap-2 items-center'>
+                    <IoCheckmarkSharp />
+                    <p>
+                      Mantenimiento: <b>
+                        {_.find(activitiesGroupData,
+                          (e: ActivitiesGroupPropierties) => e._id == activitiesGroupId
+                        )?.name} {formatNumber(activitiesGroupCost)}
+                      </b>
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className='text-right flex-1'>
+                <p className='text-4xl text-gray-800 font-bold'>
+                  {formatNumber(total)}
+                </p>
+                <p className='text-xl font-bold text-gray-400'>Precio total</p>
               </div>
             </div>
-          </>
+          </div>
         )}
 
         <Loader active={loading || loadingActivities || isLoading} />
