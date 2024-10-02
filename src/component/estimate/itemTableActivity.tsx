@@ -20,6 +20,16 @@ export const ItemTableActivity = ({ activity, onUpdateActivity, onDelete }: Prop
   const [unitCost, setUnitCost] = useState<number>(Number(activity?.unitCost))
   const [isEditMode, toggleEditMode] = useState<boolean>(false)
 
+  const update = () => {
+    onUpdateActivity({
+      ...activity,
+      quantity,
+      description,
+      unitCost,
+      total: quantity * unitCost,
+    })
+  }
+
   return (
     <tr className='text-gray-700'>
       <td className='text-center'>
@@ -63,7 +73,7 @@ export const ItemTableActivity = ({ activity, onUpdateActivity, onDelete }: Prop
           isEditMode
             ? (
               <div className='flex text-lg gap-1 justify-end'>
-                <button className='p-2 rounded hover:bg-gray-100'>
+                <button onClick={update} className='p-2 rounded hover:bg-gray-100'>
                   <IoIosSave />
                 </button>
               </div>

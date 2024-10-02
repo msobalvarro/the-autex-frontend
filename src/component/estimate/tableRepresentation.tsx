@@ -25,22 +25,26 @@ const TableHeader = ({ columns }: TableHeaderProps) => {
   )
 }
 
-
-interface TableBodyProps {
-  data: ActivityWithCostToDoItemEstimate[]
-}
-
-
 export const TableRepresentation = ({ list, onUpdateList }: TableProps) => {
 
   const deleteItem = (activity: ActivityWithCostToDoItemEstimate) => {
     const data = [...list]
     const i = data.findIndex(item => item.description === activity.description)
-    
+
     if (i >= 0) {
       onUpdateList(data.filter(act => act !== activity))
     }
-}
+  }
+
+  const updateItem = (activity: ActivityWithCostToDoItemEstimate) => {    
+    const data = [...list]
+    const i = data.findIndex(item => item.uuid === activity.uuid)
+
+    if (i >= 0) {
+      data[i] = activity
+      onUpdateList(data)
+    }
+  }
 
   if (list.length) {
     return (
@@ -53,7 +57,7 @@ export const TableRepresentation = ({ list, onUpdateList }: TableProps) => {
                 key={v4()}
                 activity={act}
                 onDelete={() => deleteItem(act)}
-                onUpdateActivity={() => { }} />
+                onUpdateActivity={updateItem} />
             ))}
           </tbody>
         </table>
