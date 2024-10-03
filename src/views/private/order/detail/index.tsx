@@ -49,9 +49,6 @@ export const OrderDetailView = () => {
 
   }, [customData])
 
-  const removeResume = (resume: ActivityWithCostToDoItemEstimate) => {
-    setAdditionalTaskList(resumes => _.remove(resumes, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === resume.uuid))
-  }
 
   const updateFindingsList = async () => {
     setLoading(true)
@@ -269,15 +266,13 @@ export const OrderDetailView = () => {
 
             {(customData.additionalTask) && (
               <TableRepresentation
-                renderOptions={isProceessOrPending}
-                onRemoveItems={removeResume}
+                onUpdateList={setAdditionalTaskList}
                 list={customData?.additionalTask || []} />
             )}
 
             {(additionalTaskList.length > 0) && (
               <TableRepresentation
-                renderOptions={isProceessOrPending}
-                onRemoveItems={removeResume}
+                onUpdateList={setAdditionalTaskList}
                 list={additionalTaskList} />
             )}
 

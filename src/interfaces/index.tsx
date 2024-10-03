@@ -51,7 +51,6 @@ export interface Client {
 }
 
 export interface NewClientProps {
-  lastName: string
   name: string
   type: string
   phoneNumber: string

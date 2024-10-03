@@ -52,7 +52,7 @@ export const ItemTableActivity = ({ activity, onUpdateActivity, onDelete }: Prop
             : activity.description
         }
       </td>
-      <td className='text-center'>
+      <td className='text-sm'>
         {isEditMode
           ? <InputField
             className='w-20 text-center'
@@ -61,7 +61,7 @@ export const ItemTableActivity = ({ activity, onUpdateActivity, onDelete }: Prop
           : formatNumber(Number(activity.unitCost))
         }
       </td>
-      <td>
+      <td className='text-sm'>
         {
           isEditMode
             ? formatNumber(quantity * unitCost)
@@ -72,18 +72,18 @@ export const ItemTableActivity = ({ activity, onUpdateActivity, onDelete }: Prop
         {
           isEditMode
             ? (
-              <div className='flex text-lg gap-1 justify-end'>
-                <button onClick={update} className='p-2 rounded hover:bg-gray-100'>
+              <div className='flex text-lg gap-1 justify-center'>
+                <button onClick={update} className='p-2 rounded-full hover:bg-gray-100'>
                   <IoIosSave />
                 </button>
               </div>
             )
             : (
-              <div className='flex text-lg gap-1 justify-end'>
-                <button onClick={() => toggleEditMode(true)} className='p-2 rounded hover:bg-gray-100'>
+              <div className='flex text-lg gap-1 justify-center'>
+                <button onClick={() => toggleEditMode(true)} className='p-2 rounded-full hover:bg-gray-100'>
                   <MdModeEdit />
                 </button>
-                <button onClick={onDelete} className='p-2 rounded hover:bg-gray-100'>
+                <button onClick={onDelete} className='p-2 rounded-full hover:bg-gray-100'>
                   <FaTrash className='text-rose-700' />
                 </button>
               </div>
