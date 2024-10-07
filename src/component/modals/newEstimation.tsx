@@ -43,42 +43,6 @@ export const NewEstimation = ({ setOpen, vehicule, client }: Props) => {
   const { data: dataClients, loading } = useAxios({ endpoint: Endpoints.GET_ALL_CLIENTS_WITH_CARS })
   const activitiesGroupData: ActivitiesGroupPropierties[] = Array.isArray(dataActivities) ? [...dataActivities] : []
 
-  const addActivity = (activity: ActivityWithCostToDoItemEstimate) => {
-    setAcitivities([...acitivities, activity])
-  }
-
-  const addExternalActivity = (activity: ActivityWithCostToDoItemEstimate) => {
-    setExternalActivities([...externalActivities, activity])
-  }
-
-  const removeActivity = (activity: ActivityWithCostToDoItemEstimate) => {
-    setAcitivities(_.remove(acitivities, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid))
-  }
-
-  const removeExternalActivity = (activity: ActivityWithCostToDoItemEstimate) => {
-    setExternalActivities(_.remove(acitivities, ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid))
-  }
-
-  const addParts = (activity: ActivityWithCostToDoItemEstimate) => {
-    setPartRequires([...partsRequired, activity])
-  }
-
-  const removeParts = (activity: ActivityWithCostToDoItemEstimate) => {
-    setPartRequires(_.remove(partsRequired,
-      ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid
-    ))
-  }
-
-  const addOtherRequirements = (activity: ActivityWithCostToDoItemEstimate) => {
-    setOtherRequirements([...otherRequirements, activity])
-  }
-
-  const removeRequirements = (activity: ActivityWithCostToDoItemEstimate) => {
-    setOtherRequirements(_.remove(otherRequirements,
-      ({ uuid }: ActivityWithCostToDoItemEstimate) => uuid === activity.uuid
-    ))
-  }
-
   const onCreateEstimation = async () => {
     setLoading(true)
 
