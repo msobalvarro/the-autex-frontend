@@ -51,7 +51,6 @@ export interface Client {
 }
 
 export interface NewClientProps {
-  lastName: string
   name: string
   type: string
   phoneNumber: string
@@ -366,6 +365,9 @@ export interface IncomeReportResponse {
   totalInputCost: number
   totalTaxes: number
   totalOtherServices: number
+  totalBill: number
+  totalOrder: number
+  totalEstimate: number
 }
 
 export interface VehiculeWithClient extends Vehicule {

@@ -7,7 +7,7 @@ import { useAxios } from '@/hooks/fetch'
 import { Endpoints, routes } from '@/router'
 import { useState } from 'react'
 import { Loader } from '@/component/ui/loader'
-import { NewClient } from '@/component/modals/newClient'
+import { UpdateAndNewClient } from '@/component/modals/newClient'
 import { Link } from 'react-router-dom'
 import { MdEmail } from 'react-icons/md'
 import { IoCall } from 'react-icons/io5'
@@ -53,7 +53,7 @@ export const ClientView = () => {
           } />
       </div>
 
-      {isOpenModalNewClient && <NewClient onUpdate={refetch} setOpen={setOpenModalCient} />}
+      {isOpenModalNewClient && <UpdateAndNewClient onUpdate={refetch} setOpen={setOpenModalCient} />}
       <Loader active={loading} />
     </LayoutComponent>
   )

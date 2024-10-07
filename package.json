@@ -18,6 +18,7 @@
     "@nextui-org/popover": "^2.1.29",
     "@nextui-org/skeleton": "^2.0.32",
     "@nextui-org/system": "^2.2.6",
+    "@nextui-org/table": "^2.0.40",
     "@nextui-org/theme": "^2.2.11",
     "@reduxjs/toolkit": "^2.2.7",
     "@types/axios": "^0.14.0",

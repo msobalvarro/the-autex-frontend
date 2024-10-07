@@ -39,11 +39,11 @@ export const WorkshopSettingsModal = ({ setOpen, workshop }: Props) => {
 
       setOpen(false)
     } catch (error) {
-      if (error instanceof AxiosError) { 
+      if (error instanceof AxiosError) {
         toast.error(String(error.response?.data))
       } else {
         toast.error(String(error))
-      }      
+      }
     }
   }
 
@@ -77,7 +77,10 @@ export const WorkshopSettingsModal = ({ setOpen, workshop }: Props) => {
                     fee: !configuration.fee,
                   })} />
 
-                <p>Taller de Cuota Fija</p>
+                <div className='flex flex-col'>
+                  <p className='font-bold'>Cobro IVA</p>
+                  <p className='text-gray-600 text-sm'>Agrega cobro de impuesto en factura</p>
+                </div>
               </label>
             </>)}
 

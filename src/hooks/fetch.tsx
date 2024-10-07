@@ -29,14 +29,16 @@ export const useAxios = ({ endpoint, data: dataBody, autoFetch = true }: Props) 
         method: 'GET',
         data: dataBody,
       })
-      if (response.status === 401) {
-        await logoutService()
-      }
 
       setStatus(response.status)
       setData(response.data)
     } catch (err) {
       if (err instanceof AxiosError) {
+        console.log(err)
+        if (err.response?.status === 401) {
+          await logoutService()
+        }
+        
         if (err.code === 'ERR_NETWORK') {
           toast.error(`Connection refused`)
         } else {

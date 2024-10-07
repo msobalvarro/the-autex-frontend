@@ -1,40 +1,67 @@
-import { TableComponent } from '@/component/table'
 import { ActivityWithCostToDoItemEstimate } from '@/interfaces'
-import { useEffect, useState } from 'react'
+import { ItemTableActivity } from './itemTableActivity'
+import { v4 } from 'uuid'
 
 interface TableProps {
   list: ActivityWithCostToDoItemEstimate[]
-  onRemoveItems: (item: ActivityWithCostToDoItemEstimate) => void
-  renderOptions?: boolean
+  onUpdateList: (activity: ActivityWithCostToDoItemEstimate[]) => void
 }
 
-export const TableRepresentation = ({ list, onRemoveItems, renderOptions }: TableProps) => {
-  const [dataFormated, setData] = useState<object[]>([])
+interface TableHeaderProps {
+  columns: string[]
+}
 
-  useEffect(() => {
-    if (list) {
-      setData(list.map(item => ({
-        'Descripción': item.description,
-        'Costo unitario': item.unitCost,
-        'Total': item.total,
-        '__item': item,
-      })))
+const TableHeader = ({ columns }: TableHeaderProps) => {
+  return (
+    <thead className='bg-gray-100 rounded'>
+      <tr>
+        {columns.map((column) => (
+          <th key={v4()} className='p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+            {column}
+          </th>
+        ))}
+      </tr>
+    </thead>
+  )
+}
+
+export const TableRepresentation = ({ list, onUpdateList }: TableProps) => {
+
+  const deleteItem = (activity: ActivityWithCostToDoItemEstimate) => {
+    const data = [...list]
+    const i = data.findIndex(item => item.description === activity.description)
+
+    if (i >= 0) {
+      onUpdateList(data.filter(act => act !== activity))
     }
-  }, [list])
+  }
 
+  const updateItem = (activity: ActivityWithCostToDoItemEstimate) => {    
+    const data = [...list]
+    const i = data.findIndex(item => item.uuid === activity.uuid)
 
-  if (dataFormated.length) {
+    if (i >= 0) {
+      data[i] = activity
+      onUpdateList(data)
+    }
+  }
+
+  if (list.length) {
     return (
-      <TableComponent
-        renderEnum
-        renderOptions={renderOptions}
-        options={[
-          {
-            label: 'Eliminar',
-            onClick: (e: ActivityWithCostToDoItemEstimate) => onRemoveItems(e)
-          }
-        ]}
-        data={dataFormated} />
+      <div className='flex flex-col'>
+        <table className='min-w-full'>
+          <TableHeader columns={['Cantidad', 'Descripción', 'Costo Unidad', 'Total', 'Opciones']} />
+          <tbody className='bg-white divide-y divide-gray-100'>
+            {list.map((act) => (
+              <ItemTableActivity
+                key={v4()}
+                activity={act}
+                onDelete={() => deleteItem(act)}
+                onUpdateActivity={updateItem} />
+            ))}
+          </tbody>
+        </table>
+      </div>
     )
   }
 

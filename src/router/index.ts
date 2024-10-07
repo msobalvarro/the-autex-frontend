@@ -23,6 +23,7 @@ export const Endpoints = {
   ASSIGN_VEHICULE_TO_CLIENT: 'vehicule/assignVehiculeToClient',
   CREATE_ESTIMATION: '/estimate/create',
   CREATE_CLIENT: 'clients/create',
+  UPDATE_CLIENT: 'clients/update',
   CREATE_VEHICULE: 'vehicule/create',
   CREATE_VEHICULE_BRAND: 'vehicule/create/brand',
   CREATE_MULTIPLE_BRANDS: 'vehicule/create/multiple/models',

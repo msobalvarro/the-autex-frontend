@@ -20,7 +20,7 @@ export const DetailClientView = () => {
   if (data) {
     return (
       <div className='flex items-start gap-8 px-12 w-full'>
-        <ClientInformation client={data} />
+        <ClientInformation refetch={refetch} client={data} />
         <ClientReporter refetch={refetch} client={data} />
       </div>
     )

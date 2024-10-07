@@ -29,7 +29,7 @@ export const CustomModal = ({
   return createPortal((
     <div className='fixed backdrop-blur-sm overflow-auto inset-0 z-10 w-full bg-[rgba(0,0,0,0.5)] '>
       <div className={
-          `sm:w-5/6 transform overflow-auto mx-auto rounded-lg bg-white shadow-xl transition-all sm:mt-8 md:mt-20 w-100 
+          `sm:w-5/6 transform overflow-auto mx-auto rounded-lg bg-white shadow-xl transition-all sm:my-8 md:my-20 w-100 
           ${clsx({
             'md:w-3/6': !small,
             'md:w-2/5': medium,

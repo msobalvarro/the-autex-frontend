@@ -23,7 +23,7 @@ export const InputsGroupAddNewData = ({ onAdd, small }: InputsGroupAddNewDataPro
     total: 0
   })
 
-  const handledClick = () => {
+  const onPush = () => {
     if (String(dataForm.description)?.length > 6) {
       const uuid = v4()
 
@@ -83,6 +83,7 @@ export const InputsGroupAddNewData = ({ onAdd, small }: InputsGroupAddNewDataPro
         <InputField
           value={String(dataForm.unitCost)}
           className='text-center'
+          onEnter={onPush}
           onChange={
             ({ currentTarget }) =>
               validateNumber(currentTarget.value) && setDataForm(
@@ -94,7 +95,7 @@ export const InputsGroupAddNewData = ({ onAdd, small }: InputsGroupAddNewDataPro
         <span className='ml-2 text-gray-500'>Costo Unidad</span>
       </label>
 
-      <button className='p-4 text-lg bg-gray-200 hover:bg-gray-400 rounded' onClick={handledClick}>
+      <button className='p-4 text-lg bg-gray-200 hover:bg-gray-400 rounded' onClick={onPush}>
         <MdAdd />
       </button>
     </div>
