@@ -56,12 +56,18 @@ export const IncomeReport = () => {
           </div>
 
           <div className='flex p-8 items-center justify-between border-b-1'>
+            <RowDetailItem label='Total Facturado' price={report.totalBill} />
+            <RowDetailItem label='Total Presupuestado' price={report.totalEstimate} />
+          </div>
+
+          <div className='flex p-8 items-center justify-between border-b-1'>
             <RowDetailItem label='Otros Servicios' price={report.totalOtherServices} />
             <RowDetailItem label='Taxes' price={report.totalTaxes} />
           </div>
 
-          <div className='flex p-8 items-center justify-end border-b-1'>
-            <RowDetailItem label='Total' price={_.sum(Object.values(report))} />
+          <div className='flex p-8 items-center justify-between border-b-1'>
+            <RowDetailItem label='Total de orden' price={report.totalOrder} />
+            {/* <RowDetailItem label='Total' price={_.sum(Object.values(report))} /> */}
           </div>
         </div>
       )}

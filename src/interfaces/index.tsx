@@ -365,6 +365,9 @@ export interface IncomeReportResponse {
   totalInputCost: number
   totalTaxes: number
   totalOtherServices: number
+  totalBill: number
+  totalOrder: number
+  totalEstimate: number
 }
 
 export interface VehiculeWithClient extends Vehicule {
