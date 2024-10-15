@@ -183,7 +183,7 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
           {additionalTaskList.length > 0 && (
             <button onClick={onAddItemsActivitiesToDo} className='hover:bg-gray-500 bg-gray-600 text-white px-3 py-1 rounded'>Actualizar</button>
           )}
-          <p className='text-lg text-gray-600 uppercase'>Actividades Requiredas</p>
+          <p className='text-lg text-gray-600 uppercase'>Actividades Requeridas</p>
         </div>
 
         <TableComponent

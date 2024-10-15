@@ -39,7 +39,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
   const sums = {
     ACTIVITY: _.sumBy(bill.order.estimateProps?.activitiesToDo || [], (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
     PARTS: _.sumBy(bill.order.estimateProps?.requiredParts, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
-    EXTERNAL: _.sumBy(bill.order.estimateProps?.otherRequirements, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
+    EXTERNAL: _.sumBy(bill.order.estimateProps?.externalActivities, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
     OTHER: _.sumBy(bill.order.estimateProps?.otherRequirements, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
     ADITIONAL: _.sumBy(bill.order.additionalTask, (e: ActivityWithCostToDoItemEstimate) => Number(e.total)),
   }
@@ -145,6 +145,14 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
                       <td className='border-b px-4 py-2 text-right'>{formatNumber(Number(act?.total))}</td>
                     </tr>
                   ))}
+                  {bill.order.additionalTask?.map(act => (
+                    <tr key={v4()}>
+                      <td className='border-b px-4 py-2'>{act.description}</td>
+                      <td className='border-b px-4 py-2 text-right'>{act.quantity}</td>
+                      <td className='border-b px-4 py-2 text-right'>{formatNumber(Number(act.unitCost))}</td>
+                      <td className='border-b px-4 py-2 text-right'>{formatNumber(Number(act?.total))}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -155,6 +163,18 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
                 <p>{formatNumber(sums.ACTIVITY)}</p>
               </div>
 
+
+              <div className='flex gap-8'>
+                <p className='text-muted-foreground'>Mano de obra externa</p>
+                <p>{formatNumber(sums.EXTERNAL)}</p>
+              </div>
+
+              <div className='flex gap-8'>
+                <p className='text-muted-foreground'>Actividades Adicionales</p>
+                <p>{formatNumber(sums.ADITIONAL)}</p>
+              </div>
+
+
               <div className='flex gap-8'>
                 <p className='text-muted-foreground'>Repuestos</p>
                 <p>{formatNumber(sums.PARTS)}</p>
@@ -163,15 +183,6 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
               <div className='flex gap-8'>
                 <p className='text-muted-foreground'>Insumos</p>
                 <p>{formatNumber(sums.OTHER)}</p>
-              </div>
-
-              <div className='flex gap-8'>
-                <p className='text-muted-foreground'>Mano de obra externa</p>
-                <p>{formatNumber(sums.EXTERNAL)}</p>
-              </div>
-              <div className='flex gap-8'>
-                <p className='text-muted-foreground'>Actividades Adicionales</p>
-                <p>{formatNumber(sums.ADITIONAL)}</p>
               </div>
 
               {Boolean(bill?.tax) && (

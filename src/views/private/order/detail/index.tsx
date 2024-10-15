@@ -49,7 +49,6 @@ export const OrderDetailView = () => {
 
   }, [customData])
 
-
   const updateFindingsList = async () => {
     setLoading(true)
 
