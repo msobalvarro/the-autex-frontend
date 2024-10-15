@@ -6,7 +6,7 @@ export const BackButton = () => {
   const onBack = () => navigate(-1)
   
   return (
-    <button onClick={onBack} className='flex items-center self-start gap-2 p-2 rounded hover:underline'>
+    <button onClick={onBack} className='print:hidden flex items-center self-start gap-2 p-2 rounded hover:underline'>
       <IoChevronBack /> Volver
     </button>
   )

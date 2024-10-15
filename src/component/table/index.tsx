@@ -27,13 +27,13 @@ export const TableComponent = ({
   }, [data, filter])
 
   if ((Array.isArray(data) ? [...data] : []).length == 0) {
-    return <p className='text-2xl text-gray-400 text-center'>No se encotraron registros en la búsqueda</p>
+    return <p className='text-2xl text-gray-400 text-center'>No se encontraron registros en la búsqueda</p>
   }
 
   if (filteredData.length === 0) {
     return (
       <div>
-        <p className='text-2xl text-gray-400 text-center'>No se encotraron registros en la búsqueda</p>
+        <p className='text-2xl text-gray-400 text-center'>No se encontraron registros en la búsqueda</p>
       </div>
     )
   }

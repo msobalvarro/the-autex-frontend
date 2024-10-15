@@ -228,7 +228,7 @@ export const NewOrderService = ({ setOpen, estimateId }: CustomProps) => {
                     }
                   })
                 }}
-                label='Diganosticado' />
+                label='Diagnosticado' />
 
               <ItemCheck
                 propsInput={{

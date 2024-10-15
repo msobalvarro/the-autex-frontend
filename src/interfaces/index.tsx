@@ -373,3 +373,7 @@ export interface IncomeReportResponse {
 export interface VehiculeWithClient extends Vehicule {
   client?: Client | null
 }
+
+export interface EstimatesResponseGetAll extends EstimatePropierties {
+  order?: OrderServicePropierties | null
+}
