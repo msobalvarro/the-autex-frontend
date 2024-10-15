@@ -74,8 +74,8 @@ export const ActivitiesModal = ({ setOpen }: ModalMinimalProps) => {
         {activities.length === 0 && (
           <div className='flex items-center p-5 bg-gray-50 rounded justify-between'>
             <div className='flex flex-col'>
-              <p className='text-lg text-gray-700'>Aqui apareceran tus actividades</p>
-              <p className='text-sm text-gray-500'>Agrega nuevas actividades</p>
+              <p className='text-lg text-gray-700'>Agrega nuevas actividades</p>
+              <p className='text-xs text-gray-500'>Aqui apareceran tus actividades</p>
             </div>
 
             <MdTaskAlt className='text-4xl text-green-500' />
