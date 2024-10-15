@@ -1,6 +1,8 @@
 import { PropsResume } from '@/interfaces'
 import { routes } from '@/router'
 import { Link } from 'react-router-dom'
+import { VehiculePlate } from '../vehicule/plate'
+import { separateMiles } from '@/utils/formatNumber'
 
 export const Resume = ({ data }: PropsResume) => (
   <div className='grid grid-cols-2'>
@@ -13,15 +15,9 @@ export const Resume = ({ data }: PropsResume) => (
 
     <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
       <dt className='font-bold text-gray-600'>Vehiculo</dt>
-      <dd className='mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-        {data.vehicule?.brand?.description} {data.vehicule?.model?.description} {data.vehicule?.year}
-      </dd>
-    </div>
-
-    <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-      <dt className='font-bold text-gray-600'>Placa Unidad</dt>
-      <dd className='mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-        {data.vehicule?.plate}
+      <dd className='mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-2'>
+        <span>{data.vehicule?.year} {data.vehicule?.brand?.description} {data.vehicule?.model?.description}</span>
+        <VehiculePlate plate={data.vehicule?.plate || ''} />
       </dd>
     </div>
 
@@ -29,6 +25,13 @@ export const Resume = ({ data }: PropsResume) => (
       <dt className='font-bold text-gray-600'>Color</dt>
       <dd className='mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
         {data.vehicule?.color}
+      </dd>
+    </div>
+
+    <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+      <dt className='font-bold text-gray-600'>Recorrido</dt>
+      <dd className='mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+        {separateMiles(data?.traveled?.distance || 0)} {data?.traveled?.type || ''}
       </dd>
     </div>
 

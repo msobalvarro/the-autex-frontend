@@ -13,6 +13,8 @@ import { NewAndUpdateUserModal } from '../modals/newUser'
 
 export const UserList = () => {
   const { auth } = useAuth()
+  const [showModalUserEdit, toggleModalUserEdit] = useState<boolean>(false)
+  const [userSelected, setUser] = useState<UserPropierties | null>(null)
   const [filter, setFilter] = useState<string>('')
   const [isOpenNewUser, setOpenUser] = useState<boolean>(false)
   const { data, loading, error, refetch } = useAxios({ endpoint: Endpoints.GET_ALL_USERS })
@@ -37,6 +39,10 @@ export const UserList = () => {
 
       {data && (
         <TableComponent
+          onClickItem={(user) => {
+            toggleModalUserEdit(true)
+            setUser(user)
+          }}
           data={[...data].map((user: UserPropierties) => ({
             'Nombre': (
               <div className='flex gap-2'>
@@ -51,10 +57,19 @@ export const UserList = () => {
             ),
             'Correo': user.email,
             'Fecha Registro': dayjs(user.createdAt).format('lll'),
-            'Estado': <StatusUser status={user.status} />
+            'Estado': <StatusUser status={user.status} />,
+            __item: user,
           }))}
           filter={filter}
         />
+      )}
+
+      {showModalUserEdit && (
+        <NewAndUpdateUserModal
+          defaultData={userSelected}
+          onUpdate={refetch}
+          workshop={auth?.workshop}
+          setOpen={toggleModalUserEdit} />
       )}
 
       {isOpenNewUser && <NewAndUpdateUserModal

@@ -2,3 +2,5 @@ export const formatNumber = (number: number): string => 'C$ ' + number.toLocaleS
   minimumFractionDigits: 2,
   maximumFractionDigits: 2
 })
+
+export const separateMiles = (number: number): string => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
