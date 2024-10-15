@@ -23,7 +23,7 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
     name: defaultData ? defaultData.name : '',
     email: defaultData ? defaultData.email : '',
     password: '',
-    isAdmin: false
+    isAdmin: defaultData?.isAdmin || false
   })
 
   const submit = async () => {
@@ -44,6 +44,7 @@ export const NewAndUpdateUserModal = ({ setOpen, workshop, onUpdate, defaultData
         const { data: dataResponse, status } = await axiosInstance.put(Endpoints.UPDATE_USER, {
           email: data.email,
           name: data.name,
+          isAdmin: data.isAdmin,
           _id: defaultData._id
         })
 

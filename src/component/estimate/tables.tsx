@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { useState } from 'react'
 import { ActivityWithCostToDoItemEstimate, PropsResume } from '@/interfaces'
 import { TableComponent } from '../table'
-import { formatNumber } from '@/utils/formatNumber'
+import { formatNumber, separateMiles } from '@/utils/formatNumber'
 import { InputsGroupAddNewData } from './inputsGroupEstimate'
 import { toast } from 'react-toastify'
 import { axiosInstance } from '@/utils/http'
@@ -198,8 +198,8 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
           data={
             data?.activitiesToDo?.map(a => ({
               'Descripción': a.description,
-              'Cantidad': a.quantity,
-              'Costo Unitario': a.unitCost,
+              'Cantidad': separateMiles(a.quantity || 0),
+              'Costo Unitario': formatNumber(a.unitCost || 0),
               'Total': formatNumber(Number(a.total)),
               '__item': a,
             })) || []
@@ -222,8 +222,8 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
               data={
                 additionalTaskList?.map(a => ({
                   'Descripción': a.description,
-                  'Cantidad': a.quantity,
-                  'Costo Unitario': a.unitCost,
+                  'Cantidad': separateMiles(a.quantity || 0),
+                  'Costo Unitario': formatNumber(a.unitCost || 0),
                   'Total': formatNumber(Number(a.total)),
                   '__item': a,
                 })) || []
@@ -284,8 +284,8 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
               data={
                 partsRequirements.map(a => ({
                   'Descripción': a.description,
-                  'Cantidad': a.quantity,
-                  'Costo Unitario': a.unitCost,
+                  'Cantidad': separateMiles(a.quantity || 0),
+                  'Costo Unitario': formatNumber(a.unitCost || 0),
                   'Total': formatNumber(Number(a.total)),
                   '__item': a,
                 })) || []
@@ -346,8 +346,8 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
               data={
                 otherRequirements.map(a => ({
                   'Descripción': a.description,
-                  'Cantidad': a.quantity,
-                  'Costo Unitario': a.unitCost,
+                  'Cantidad': separateMiles(a.quantity || 0),
+                  'Costo Unitario': formatNumber(a.unitCost || 0),
                   'Total': formatNumber(Number(a.total)),
                   '__item': a,
                 })) || []
@@ -408,8 +408,8 @@ export const Tables = ({ data, isEditMode, refetch }: PropsResume) => {
               data={
                 externalActivities.map(a => ({
                   'Descripción': a.description,
-                  'Cantidad': a.quantity,
-                  'Costo Unitario': a.unitCost,
+                  'Cantidad': separateMiles(a.quantity || 0),
+                  'Costo Unitario': formatNumber(a.unitCost || 0),
                   'Total': formatNumber(Number(a.total)),
                   '__item': a,
                 })) || []

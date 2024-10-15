@@ -8,7 +8,7 @@ import { useAxios } from '@/hooks/fetch'
 import { Endpoints } from '@/router'
 import { Loader } from '../ui/loader'
 import { ActivityWithCostToDoItemEstimate, BillPropsResponse } from '@/interfaces'
-import { formatNumber } from '@/utils/formatNumber'
+import { formatNumber, separateMiles } from '@/utils/formatNumber'
 import { useAuth } from '@/hooks/auth'
 import { v4 } from 'uuid'
 
@@ -96,7 +96,7 @@ export const BillOrderPreview = ({ setOpen, orderId }: Props) => {
                   </p>
                   <p className='text-muted-foreground'>{bill.order.estimateProps?.vehicule?.plate}</p>
                   <p className='text-muted-foreground'>Color {bill.order.estimateProps?.vehicule?.color}</p>
-                  <p className='text-muted-foreground'>KM / Millas Actual {bill.order.traveled?.distance?.toLocaleString()}</p>
+                  <p className='text-muted-foreground'>{separateMiles(bill.order.traveled?.distance || 0)} {bill.order.traveled?.type}</p>
                 </div>
               </div>
             </div>
